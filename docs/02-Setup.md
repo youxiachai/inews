@@ -14,9 +14,7 @@ export PAGON_ENV=production
 
 ```php
 return array(
-    /**
-     * 网站配置
-     */
+    // 网站配置
     'site'          => array(
         // 网站标题，会出现在标题和网站Home菜单
         'title'        => 'iNews',
@@ -37,34 +35,22 @@ return array(
         )
     ),
 
-    /**
-     * Google统计的配置
-     */
+    // Google统计的配置
     'ga'            => false,
 
-    /**
-     * 时区配置
-     */
+    // 时区配置
     'timezone'      => 'Asia/Shanghai',
 
-    /**
-     * 默认的模板目录，一般不需要修改
-     */
+    // 默认的模板目录，一般不需要修改
     'views'         => dirname(__DIR__) . '/views',
 
-    /**
-     * 自动加载路径，一般不需要修改
-     */
+    // 自动加载路径，一般不需要修改
     'autoload'      => dirname(__DIR__) . '/src',
 
-    /**
-     * 密码种子
-     */
+    // 密码种子
     'password_salt' => 'D#FA#!#%Nz',
 
-    /**
-     * COOKIE配置
-     */
+    // COOKIE配置
     'cookie'        => array(
         'path'     => '/',
         'domain'   => null,
@@ -76,34 +62,28 @@ return array(
         'encrypt'  => false,
     ),
 
-    /**
-     * 加密密钥配置
-     */
+    // 加密密钥配置
     'crypt'         => array(
         'key' => 'sdF!#$FDA'
     ),
 
-    /**
-     * 是否开启邮件验证，如果开始，需要配置邮件，否则将无法使用
-     */
+    // 是否开启邮件验证，如果开始，需要配置邮件，否则将无法使用
     'verify_user'   => false,
 
-    /**
-     * 管理员列表，使用用户名
-     */
+    // 管理员列表，使用用户名
     'admins'        => array(
         'admin'
     ),
 
-    /**
-     * 第三方登陆配置，目前仅支持Github和微博
-     */
+    // 第三方登陆配置，目前仅支持Github和微博
     /*'passport'      => array(
+        // 需要在open.weibo.com配置应用回调地址 "http://xxx/login/weibo/sina_callback"
         'weibo'  => array(
             'key'            => '4001143741',
             'secret'         => 'ae6c0c7599e22f2fe0eb7726666cee32',
             'strategy_class' => 'SinaWeibo'
         ),
+        // 需要在github应用设置中配置回调地址 "http://xxx/login/github/oauth2callback"
         'github' => array(
             'client_id'      => '48e6e90a1f919cbaeef5',
             'client_secret'  => 'a10c12531e6087ca056c3a9e50cb71c574f7c870',
@@ -111,9 +91,7 @@ return array(
         )
     ),*/
 
-    /**
-     * 邮件配置，需要服务器配置好sendmail
-     */
+    // 邮件配置，需要服务器配置好sendmail
     /*'mail'          => array(
         'from'     => 'hfcorriez@gmail.com',
         'fromName' => 'iNews.io'
