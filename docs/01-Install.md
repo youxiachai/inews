@@ -41,10 +41,17 @@ vim config/production.php
 
 ```
 ./bin/task db:init
+```
+
+> 用来初始化数据库
+
+## 升级数据库
+
+```
 ./bin/task db:migrate
 ```
 
-> 用来初始化和升级数据库表
+> 初始化和升级都需要执行，确保数据库是最新的版本
 
 ## 定时任务
 
