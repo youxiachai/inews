@@ -31,11 +31,12 @@ export PAGON_ENV=production
 
 ```
 cd 程序根目录
-cp config/default.php config/production.php
+cp config/develop.php config/production.php
 vim config/production.php
 ```
 
 > 具体说明可以参照 [配置说明](./02-Setup.md)
+> 正式环境需要删除debug配置
 
 ## 初始化
 
