@@ -2,7 +2,7 @@
 // 让 bio 里的链接可以点出去
 function make_url($text) {
     // cc http://css-tricks.com/snippets/php/find-urls-in-text-make-links/
-    $reg = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
+    $reg = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,6}(\/\S*)?/";
 
     return preg_match($reg, $text, $url) ?
         preg_replace($reg, "<a href='{$url[0]}' rel='nofollow'>{$url[0]}</a>", $text) : $text;
