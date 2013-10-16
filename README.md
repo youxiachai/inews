@@ -31,3 +31,7 @@ iNews是一套开源的极简社区程序，我们的目标是让开发者轻松
 - Linews - Linux / Opensource news http://news.wowubuntu.com/
 - 前端界 - http://qianduan.us/
 - GitTags - http://gittags.com
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/Trimidea/inews/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
