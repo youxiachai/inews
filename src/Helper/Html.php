@@ -3,6 +3,7 @@
 namespace Helper;
 
 use dflydev\markdown\MarkdownExtraParser;
+use Model\Article;
 use Voodoo\Paginator;
 
 class Html
@@ -40,5 +41,15 @@ class Html
             $url .= ' />';
         }
         return $url;
+    }
+
+    public static function makeShareText(Article $article)
+    {
+        $data = array(
+            '{site_title}' => config('site.title'),
+            '{title}'      => $article->title
+        );
+
+        return str_replace(array("\n", "'"), array("", "\\'"), strtr(config('site.share_text'), $data));
     }
 }

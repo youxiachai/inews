@@ -24,7 +24,9 @@ return array(
         'menus'        => array(
             array('Latest', '/latest', 'clock'),
             array('Leaders', '/leaders', 'user'),
-        )
+        ),
+        // 分享模板
+        'share_text'   => '我在 {site_title} 分享了 {title}'
     ),
 
     /**

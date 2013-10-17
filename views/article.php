@@ -37,7 +37,7 @@
 			type:'5',
 			count:'1',
 			appkey:'',
-			title:'',
+			title:'<?php echo \Helper\Html::makeShareText($article); ?>',
 			pic: img ? img.src : '',
 			ralateUid:'',
 			language:'zh_cn',
