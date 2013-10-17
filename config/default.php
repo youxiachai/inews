@@ -79,13 +79,6 @@ return array(
     'verify_user'   => false,
 
     /**
-     * 管理员列表，使用用户名
-     */
-    'admins'        => array(
-        'admin'
-    ),
-
-    /**
      * 第三方登陆配置，目前仅支持Github和微博
      */
     /*'passport'      => array(

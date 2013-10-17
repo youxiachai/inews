@@ -18,5 +18,12 @@ return array(
         'password' => '',
         'charset'  => 'utf8',
         'options'  => array()
-    )
+    ),
+
+    /**
+     * 管理员列表，使用用户名
+     */
+    'admins'        => array(
+        'admin', 'hfcorriez'
+    ),
 );

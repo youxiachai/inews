@@ -39,6 +39,7 @@ $app->all('/my/notice', '\Route\Web\Account\Notification');
 $app->post('/api/digg', '\Route\Api\Digg');
 $app->post('/api/notify/read', '\Route\Api\MarkRead');
 $app->get('/api/nick', '\Route\Api\Nick');
+$app->delete('/api/comments/:id', '\Route\Api\Comment');
 $app->get('/api/alfred/(:type)', '\Route\Api\Alfred');
 $app->get('/feed', '\Route\RssFeed');
 

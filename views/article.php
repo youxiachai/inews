@@ -74,7 +74,7 @@
     <div id="comments">
         <?php foreach ($comments as $comment): ?>
             <?php $author = $comment->user()->find_one(); ?>
-            <div class="comment" data-author="<?php echo $author->name; ?>">
+            <div class="comment" data-author="<?php echo $author->name; ?>" data-id="<?php echo $comment->id; ?>">
                 <div class="identical">
                     <a href="/u/<?php echo $author->id; ?>">
                         <img class="avatar" src="<?php echo \Helper\Html::gravatar($author->email, 30); ?>" />
@@ -82,6 +82,9 @@
                     </a>
                     <a href="#comment_<?php echo $comment->id ?>" class="identical-day"># <?php echo $comment->created_at; ?></a>
                     <a href="#respond" class="reply">reply</a>
+                    <?php if ($user && $user->isAdmin()):?>
+                    <a href="javascript:;" class="delete admin-text">delete</a>
+                    <?php endif; ?>
                 </div>
                 <div class="typo-p"><?php echo Helper\Html::fromMarkdown($comment->text); ?></div>
             </div>

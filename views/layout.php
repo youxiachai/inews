@@ -12,6 +12,7 @@
     <meta name="description" content="<?php echo str_replace("\n","", strip_tags($meta_des)); ?>"/>
     <meta name="keyword" content="<?php echo $config['site']['keywords']; ?>" />
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="<?php echo url('/feed', null, true); ?>" />
+    <link rel="stylesheet" href="/static/essage.css" />
     <link rel="stylesheet" href="/static/style.css" />
     <link rel="icon shortcut" href="/favicon.png"/>
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -118,7 +119,11 @@ endif; ?>
 <script type="text/javascript" src="/static/jquery.autosize-min.js"></script>
 <script type="text/javascript" src="/static/bootstrap.js"></script>
 <script type="text/javascript" src="/static/validator.js"></script>
+<script type="text/javascript" src="/static/essage.js"></script>
 <script type="text/javascript" src="/static/app.js"></script>
+<?php if ($user && $user->isAdmin()): ?>
+<script type="text/javascript" src="/static/admin.js"></script>
+<?php endif; ?>
 <?php if (!empty($config['ga'])): ?>
 <script type="text/javascript">
 var _gaq = _gaq || [];

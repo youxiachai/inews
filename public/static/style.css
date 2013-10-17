@@ -332,3 +332,5 @@ footer{background:none!important;padding:20px 0 30px;text-shadow: 0 1px 1px #FFF
     .user, footer{text-align:center;}
     .stamp, .extra{display:none;}
 }
+
+.admin-text {color:#f00 !important;}
