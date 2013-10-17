@@ -52,4 +52,9 @@ class Html
 
         return str_replace(array("\n", "'"), array("", "\\'"), strtr(config('site.share_text'), $data));
     }
+
+    public static function makeMetaText($meta)
+    {
+        return strip_tags(preg_replace('/[\s`#>]+/', ' ', $meta));
+    }
 }
