@@ -5,7 +5,7 @@
     <meta name="robots" content="all"/>
     <title><?php echo $title . ' ' . $config['site']['title_suffix']; ?></title>
     <meta name="viewport" content="initial-scale=1.0"/>
-    <meta name="description" content="<?php echo \Helper\Html::makeMetaText($article ? $article->title . ': ' . mb_substr($article->content, 0, 80) : $config['site']['default_meta']); ?>"/>
+    <meta name="description" content="<?php echo \Helper\Html::makeMetaText(!empty($article) ? $article->title . ': ' . mb_substr($article->content, 0, 80) : $config['site']['default_meta']); ?>"/>
     <meta name="keyword" content="<?php echo $config['site']['keywords']; ?>"/>
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="<?php echo url('/feed', null, true); ?>"/>
     <link rel="stylesheet" href="/static/essage.css"/>
