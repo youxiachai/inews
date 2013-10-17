@@ -5,16 +5,28 @@ use Pagon\App;
 define('APP_DIR', __DIR__);
 
 require __DIR__ . '/vendor/autoload.php';
-
 $app = new App(__DIR__ . '/config/default.php');
+
+/**
+ * Config
+ */
+$app->add(function ($req, $res, $next) use ($app) {
+    // Load env from file
+    if (is_file(__DIR__ . '/config/env')) {
+        $app->mode(file_get_contents(__DIR__ . '/config/env'));
+    }
+
+    // Load config by enviroment
+    if (!is_file($conf_file = __DIR__ . '/config/' . $app->mode() . '.php')) {
+        $app->handleError('exception');
+    } else {
+        $app->append(include($conf_file));
+        $next();
+    }
+});
 
 $app->add('Booster');
 $app->assisting();
-
-// Load config by enviroment
-if (is_file($conf_file = __DIR__ . '/config/' . $app->mode() . '.php')) {
-    $app->append(include($conf_file));
-}
 
 // Add pretty exception
 if ($app->mode() == 'develop') {
