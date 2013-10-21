@@ -148,8 +148,12 @@ $app->post('/setup', function ($req, $res) {
         echo "Install failed";
         return;
     }
-    echo "Install OK!<script type='text/javascript'>window.setTimeout(function(){window.location.href='/';}, 2000);</script>";
-    rmdir(__DIR__);
+    if (is_writable(__DIR__) && @rmdir(__DIR__)) {
+        echo "Install OK!";
+    } else {
+        echo "Install OK! but " . __DIR__ . ' is not delete, plz delete manually.';
+    }
+    echo " Redirecting... <script type='text/javascript'>window.setTimeout(function(){window.location.href='/';}, 3000);</script>";
 });
 
 $app->run();
