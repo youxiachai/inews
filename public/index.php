@@ -1,5 +1,11 @@
 <?php
 
+// Check if installed?
+if (is_dir(__DIR__ . '/install') && !is_file(dirname(__DIR__) . '/config/env')) {
+    require(__DIR__ . '/install/index.php');
+    exit;
+}
+
 /** @var $app \Pagon\App */
 $app = include dirname(__DIR__) . '/bootstrap.php';
 

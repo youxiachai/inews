@@ -10,20 +10,18 @@ $app = new App(__DIR__ . '/config/default.php');
 /**
  * Config
  */
-$app->add(function ($req, $res, $next) use ($app) {
-    // Load env from file
-    if (is_file(__DIR__ . '/config/env')) {
-        $app->mode(file_get_contents(__DIR__ . '/config/env'));
-    }
+// Load env from file
+if (is_file(__DIR__ . '/config/env')) {
+    $app->mode(file_get_contents(__DIR__ . '/config/env'));
+}
 
-    // Load config by enviroment
-    if (!is_file($conf_file = __DIR__ . '/config/' . $app->mode() . '.php')) {
-        $app->handleError('exception');
-    } else {
-        $app->append(include($conf_file));
-        $next();
-    }
-});
+// Load config by enviroment
+if (!is_file($conf_file = __DIR__ . '/config/' . $app->mode() . '.php')) {
+    echo "No config found! Plz add config/" . $app->mode() . ".php file";
+    exit;
+} else {
+    $app->append(include($conf_file));
+}
 
 $app->add('Booster');
 $app->assisting();
