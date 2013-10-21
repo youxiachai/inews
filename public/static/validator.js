@@ -78,7 +78,7 @@
     url: function(text){
       var protocols = '((https?|s?ftp|irc[6s]?|git|afp|telnet|smb):\\/\\/)?'
         , userInfo = '([a-z0-9]\\w*(\\:[\\S]+)?\\@)?'
-        , domain = '([a-z0-9]([\\w]*[a-z0-9])*\\.)?[a-z0-9]\\w*\\.[a-z]{2,}(\\.[a-z]{2,})?'
+        , domain = '(?:[a-z0-9]+(?:\-[\w]+)*\.)*[a-z]{2,}'
         , port = '(:\\d{1,5})?'
         , ip = '\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}'
         , address = '(\\/\\S*)?'
@@ -110,7 +110,7 @@
     _checker: function(type) {
       // TODO: a better way?!
       var form = this.$item.parents('form').eq(0)
-        , identifier = 'input:' + type + '[name="' + this.$item.attr('name') + '"g]'
+        , identifier = 'input:' + type + '[name="' + this.$item.attr('name') + '"]'
         , result = false
         , $items = $(identifier, form);
 
@@ -269,7 +269,7 @@
         var $items = $(this);
         if (reSpecialType.test(this.type)) {
           $items = $('input[type=' + this.type + '][name=' + this.name + ']',
-            $items.closest('form'));
+                     $items.closest('form'));
         }
         $items.each(function(){
           (field = validate.call(this, $(this), klass, parent)) && unvalidFields.push(field);
