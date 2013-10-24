@@ -9,7 +9,7 @@
             <div class="comment">
                 <?php $article = $comment->article()->find_one(); ?>
                 <div class="typo-small">
-                    <a href="/p/<?php echo $article->id; ?>"><?php echo $article->title; ?></a>
+                    <a href="<?php echo Url::to('/p/' . $article->id); ?>"><?php echo $article->title; ?></a>
                     <small>@ <?php echo $comment->created_at; ?></small>
                 </div>
                 <div class="typo-small"><?php echo Helper\Html::fromMarkdown($comment->text); ?></div>

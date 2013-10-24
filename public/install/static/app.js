@@ -18,3 +18,12 @@ $('#test').click(function () {
     }
   });
 });
+
+$.get('/ping', function(json) {
+  if (json.success) {
+    $('.base_uri').eq(0).attr('checked', true).closest('div').append('<b style="color:green;">Support</b>');
+  } else {
+    $('.base_uri').eq(0).attr('disabled', true);
+    $('.base_uri').eq(1).attr('checked', true).closest('div').append('<b style="color:red;">Not Support</b>');
+  }
+});

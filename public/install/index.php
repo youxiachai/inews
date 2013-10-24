@@ -3,6 +3,8 @@
 /** @var $app \Pagon\App */
 $app = include __DIR__ . '/bootstrap.php';
 
+$app->assisting();
+
 $app->get('/', function ($req, $res) {
     $checked = array();
 
@@ -49,7 +51,14 @@ $app->get('/', function ($req, $res) {
         if (!$check['web_pass'] || !$check['cli_pass']) $is_pass = false;
     }
 
-    $res->render('install.php', array('checked' => $checked, 'is_pass' => $is_pass));
+    $res->render('index.php', array('checked' => $checked, 'is_pass' => $is_pass));
+});
+
+/**
+ * 检测
+ */
+$app->get('/ping', function ($req, $res) {
+    $res->json(array('success' => true));
 });
 
 /**

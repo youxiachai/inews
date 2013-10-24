@@ -24,7 +24,7 @@ function make_url($text) {
     </ul>
 
     <?php if ($user && $user->id == $author->id): ?>
-        <a class="btn" href="/account/edit">Edit Profile</a>
+        <a class="btn" href="<?php echo Url::to('/account/edit'); ?>">Edit Profile</a>
     <?php endif; ?>
 </div>
 

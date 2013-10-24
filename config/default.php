@@ -103,4 +103,5 @@ return array(
         'from'     => 'hfcorriez@gmail.com',
         'fromName' => 'iNews.io'
     )*/
+    'base_uri'      => '/index.php'
 );

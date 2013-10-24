@@ -43,7 +43,7 @@
     </div>
 
     <div>
-        <form action="/setup" method="POST">
+        <form action="<?php echo url('/setup'); ?>" method="POST">
             <h2>Mysql Setup:</h2>
 
             <h3>Host:</h3>
@@ -75,6 +75,13 @@
             </div>
 
             <h2>Site Setup:</h2>
+
+            <h3>Rewrite:</h3>
+
+            <div>
+                <input name="config[base_uri]" type="radio" value="" class="base_uri" /> 开启
+                <input name="config[base_uri]" type="radio" value="/index.php" checked class="base_uri" /> 关闭
+            </div>
 
             <h3>Title:</h3>
 

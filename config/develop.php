@@ -26,4 +26,5 @@ return array(
     'admins'        => array(
         'admin', 'hfcorriez'
     ),
+    'site_url' => '/index.php'
 );

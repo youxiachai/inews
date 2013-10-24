@@ -5,6 +5,7 @@ namespace Route;
 use Pagon\Route\Rest;
 use Pagon\View;
 use Model\Model;
+use Pagon\Url;
 
 class Web extends Rest
 {
@@ -105,7 +106,7 @@ class Web extends Rest
      */
     protected function redirect($uri)
     {
-        $this->output->redirect($uri)->end();
+        $this->output->redirect(Url::to($uri))->end();
     }
 
     /**
