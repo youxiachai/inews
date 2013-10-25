@@ -8,9 +8,9 @@ use Pagon\Url;
  * 文章模型
  *
  * @package Model
- * @param string $title     标题
- * @param string $content   内容
- * @param string $link      外链
+ * @param string $title   标题
+ * @param string $content 内容
+ * @param string $link    外链
  */
 class Article extends Model
 {
@@ -44,9 +44,9 @@ class Article extends Model
         }
     }
 
-    public function permalink($full = false)
+    public function permalink()
     {
-        return ($full ? Url::site() : '') . '/p/' . $this->id;
+        return Url::to('/p/' . $this->id, null, true);
     }
 
     public function diggUsers()

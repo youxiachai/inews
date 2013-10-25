@@ -1,7 +1,7 @@
 <?php
 
 // Check if installed?
-if (is_dir(__DIR__ . '/install') && !is_file(__DIR__ . '/config/env')) {
+if (!getenv('PAGON_ENV') && is_dir(__DIR__ . '/install') && !is_file(__DIR__ . '/config/env')) {
     require(__DIR__ . '/install/index.php');
     exit;
 }
@@ -47,7 +47,9 @@ $app->post('/api/notify/read', '\Route\Api\MarkRead');
 $app->get('/api/nick', '\Route\Api\Nick');
 $app->delete('/api/comments/:id', '\Route\Api\Comment');
 $app->get('/api/alfred/(:type)', '\Route\Api\Alfred');
+
 $app->get('/feed', '\Route\RssFeed');
+$app->get('/sitemap.xml', '\Route\SiteMap');
 
 $app->get('/user/(:id)', function ($req, $res) {
     $res->redirect('/u/' . $req->param('id'));

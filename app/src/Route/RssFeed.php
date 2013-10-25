@@ -36,11 +36,12 @@ class RssFeed extends Rest
             $item
                 ->title($post->title)
                 ->description(Html::fromMarkdown($post->content))
-                ->url($post->permalink(true))
+                ->url($post->permalink())
                 ->pubDate(strtotime($post->created_at))
                 ->appendTo($channel);
         }
 
+        $this->output->contentType('xml');
         echo substr($feed, 0, -1);
     }
 }
