@@ -5,7 +5,7 @@
     <li class="leader">
         <div class="identical">
             <img class="avatar" src="<?php echo \Helper\Html::gravatar($leader->email, 30); ?>" />
-            <a href="<?php echo Url::to('/u/' . $leader->id); ?>"><?php echo $leader->name ?></a>
+            <a href="<?php echo url('/u/' . $leader->id); ?>"><?php echo $leader->name ?></a>
             <small><?php echo $leader->posts_count; ?> posts / <?php echo $leader->digged_count; ?> points</small>
         </div>
     </li>

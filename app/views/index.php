@@ -9,7 +9,7 @@
 
     <li class="news-item up">
         <h4>
-            <a href="<?php echo Url::to($item->link()); ?>" <?php echo !$item->content ? 'target="_blank"' : '' ?>>
+            <a href="<?php echo url($item->link()); ?>" <?php echo !$item->content ? 'target="_blank"' : '' ?>>
               <?php echo !$item->content ? '<sup class="font font-export"></sup>' : '' ?><?php echo $item->title; ?>
             </a>
             <small class="up-content">
@@ -20,11 +20,11 @@
             </small>
         </h4>
         <small class="meta">
-            <a href="<?php echo Url::to('/p/' . $item->id . '/#respond'); ?>">discuss (<?php echo $item->comments_count ?>)</a> /
-            <a href="<?php echo Url::to('/u/' . $author->id); ?>"><?php echo $author->name; ?></a> @ <?php echo $item->created_at; ?>
+            <a href="<?php echo url('/p/' . $item->id . '/#respond'); ?>">discuss (<?php echo $item->comments_count ?>)</a> /
+            <a href="<?php echo url('/u/' . $author->id); ?>"><?php echo $author->name; ?></a> @ <?php echo $item->created_at; ?>
             <?php if($user && ($user->name == $author->name || $user->isAdmin())): ?>
-                / <a class="highlight" href="<?php echo Url::to('/p/' . $item->id . '/destroy'); ?>">delete</a>
-                / <a class="highlight-ok" href="<?php echo Url::to('/p/' . $item->id . '/edit'); ?>">edit</a>
+                / <a class="highlight" href="<?php echo url('/p/' . $item->id . '/destroy'); ?>">delete</a>
+                / <a class="highlight-ok" href="<?php echo url('/p/' . $item->id . '/edit'); ?>">edit</a>
             <?php endif; ?>
         </small>
 

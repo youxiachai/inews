@@ -66,27 +66,27 @@ endif; ?>
     <?php if ($user):
         $message = $user->isUnVerified() ? 'please <span class="highlight">verify</span> your <addr title="' . $user->email . '">email</addr>(<a href="/account/resend">resend</a>)' :
             'glad to see u'; ?>
-        Hi <a href="<?php echo Url::to('/u/' . $user->id); ?>"><?php echo $user->name; ?></a>
-        <sup><a class="highlight-ok" title="it's not me" href="<?php echo Url::to('/account/logout'); ?>">leave</a></sup>, <?php echo $message; ?>! Here is your
-        <a href="<?php echo Url::to('/my/diggs'); ?>">diggs</a>,
-        <a href="<?php echo Url::to('/my/posts'); ?>">posts</a>,
-        <a href="<?php echo Url::to('/my/comments'); ?>">comments</a>,
-        <a href="<?php echo Url::to('/my/notice'); ?>">notifications
+        Hi <a href="<?php echo url('/u/' . $user->id); ?>"><?php echo $user->name; ?></a>
+        <sup><a class="highlight-ok" title="it's not me" href="<?php echo url('/account/logout'); ?>">leave</a></sup>, <?php echo $message; ?>! Here is your
+        <a href="<?php echo url('/my/diggs'); ?>">diggs</a>,
+        <a href="<?php echo url('/my/posts'); ?>">posts</a>,
+        <a href="<?php echo url('/my/comments'); ?>">comments</a>,
+        <a href="<?php echo url('/my/notice'); ?>">notifications
             <?php if ($unread_count = $user->unreadNotifyCount()): ?><span id="notice" class="badge"><?php echo $unread_count; ?></span><?php endif; ?>
         </a>.
     <?php else: ?>
-        Hi there. u can <a href="<?php echo Url::to('/account/login'); ?>">signin</a>
+        Hi there. u can <a href="<?php echo url('/account/login'); ?>">signin</a>
         <?php if ($passport = config('passport')): foreach (config('passport') as $key => $null): ?>
-            , with <a href="<?php echo Url::to('/login/' . $key); ?>"><?php echo $key; ?></a>
+            , with <a href="<?php echo url('/login/' . $key); ?>"><?php echo $key; ?></a>
         <?php endforeach;endif; ?>
-        or <a href="<?php echo Url::to('/account/register'); ?>">signup</a> as a member of the community.
+        or <a href="<?php echo url('/account/register'); ?>">signup</a> as a member of the community.
     <?php endif; ?>
 </div>
 
 <div class="wrapper list">
     <?php if (isset($articles)) { ?>
         <div class="tools news">
-            <form action="<?php echo Url::to('/search'); ?>" class="news-item">
+            <form action="<?php echo url('/search'); ?>" class="news-item">
                 <small class="pull-right">
                     <?php echo config('site.search_bar'); ?>
                     <a href="javascript:(function(d,s){ window.site_url = '<?php echo site_url(); ?>'; s = d.createElement('script');s.src=document.location.protocol + '//dn-inews.qbox.me/bml.js';d.head.appendChild(s);})(document);" class="tag tag-ok">分享到<?php echo config('site.title'); ?></a>

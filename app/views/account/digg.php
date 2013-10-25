@@ -14,7 +14,7 @@
 
         <li class="news-item up">
             <h4>
-                <a href="<?php echo Url::to($item->link()); ?>"><?php echo $item->title; ?></a>
+                <a href="<?php echo url($item->link()); ?>"><?php echo $item->title; ?></a>
                 <small class="up-content">
                 <span class="btn-up fontello <?php echo $user && $item->isDiggBy($user->id) ? 'on' : '' ?>"
                       data-id="<?php echo $item->id ?>"
@@ -23,7 +23,7 @@
                 </small>
             </h4>
             <small class="meta">
-                <a href="<?php echo Url::to('/p/' . $item->id); ?>/#respond">discuss (<?php echo $item->comments_count ?>)</a> /
+                <a href="<?php echo url('/p/' . $item->id); ?>/#respond">discuss (<?php echo $item->comments_count ?>)</a> /
                 <?php echo $author ? $author->name : ''; ?> @ <?php echo $item->created_at; ?>
             </small>
 

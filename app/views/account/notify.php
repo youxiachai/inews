@@ -7,8 +7,8 @@
 
     <div class="typo-p tab tab-notify">
         <h2>Notifications: </h2>
-        <a class="tag tag-<?php echo $is_read ? 'info' : 'tips active'; ?>" href="<?php echo Url::to('/my/notice'); ?>">unread</a>
-        <a class="tag tag-<?php echo $is_read ? 'tips active' : 'info'; ?>" href="<?php echo Url::to('/my/notice?read'); ?>">read</a>
+        <a class="tag tag-<?php echo $is_read ? 'info' : 'tips active'; ?>" href="<?php echo url('/my/notice'); ?>">unread</a>
+        <a class="tag tag-<?php echo $is_read ? 'tips active' : 'info'; ?>" href="<?php echo url('/my/notice?read'); ?>">read</a>
     </div>
 
     <?php if($hasNotification && !$is_read): ?>
@@ -28,8 +28,8 @@
             ?>
             <div class="comment notify <?php echo $notify->status ? '' : 'on' ?>" data-id="<?php echo $notify->id; ?>">
                 <div class="typo-small">
-                    <a href="<?php echo Url::to('/p/' . $article->id); ?>"><?php echo $article->title; ?></a>:
-                    <a href="<?php echo Url::to('/u/' . $sender->id); ?>"><?php echo $sender->name; ?></a>
+                    <a href="<?php echo url('/p/' . $article->id); ?>"><?php echo $article->title; ?></a>:
+                    <a href="<?php echo url('/u/' . $sender->id); ?>"><?php echo $sender->name; ?></a>
                     <small class="identical-day"><?php switch ($notify->type) {
                         case Notify::REPLY:
                             echo 'reply to you';
