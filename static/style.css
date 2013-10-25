@@ -10,12 +10,6 @@ h1 small, h2 small, h3 small, h4 small, h5 small,
 embed,object{width:100%;}
 img, embed, object{max-width:100%;}
 
-@font-face {font-family: 'fontello';
-    src: url('/font/fontello.woff') format('woff'),
-    url('/font/fontello.ttf') format('truetype'),
-    url('/font/fontello.svg#fontello') format('svg');
-}
-
 .font{font-family:"fontello";font-size:16px;font-style:normal;}
 .font-appstore:before { content: '\41'; } /* 'A' */
 .font-play:before { content: '\25b6'; } /* '▶' */

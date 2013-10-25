@@ -8,10 +8,17 @@
     <meta name="description" content="<?php echo \Helper\Html::makeMetaText(!empty($article) ? $article->title . ': ' . mb_substr($article->content, 0, 80) : $config['site']['default_meta']); ?>"/>
     <meta name="keyword" content="<?php echo $config['site']['keywords']; ?>"/>
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="<?php echo url('/feed', null, true); ?>"/>
-    <link rel="stylesheet" href="/static/essage.css"/>
-    <link rel="stylesheet" href="/static/style.css"/>
-    <link rel="icon shortcut" href="/favicon.png"/>
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+    <link rel="stylesheet" href="<?php echo assert_url('/static/essage.css'); ?>"/>
+    <link rel="stylesheet" href="<?php echo assert_url('/static/style.css'); ?>"/>
+    <link rel="icon shortcut" href="<?php echo assert_url('/favicon.png'); ?>"/>
+    <link rel="apple-touch-icon" href="<?php echo assert_url('/apple-touch-icon.png'); ?>"/>
+    <style type="text/css">
+        @font-face {font-family: 'fontello';
+            src: url('<?php echo assert_url('static/font/fontello.woff'); ?>') format('woff'),
+            url('<?php echo assert_url('static/font/fontello.ttf'); ?>') format('truetype'),
+            url('<?php echo assert_url('static/font/fontello.svg#fontello'); ?>') format('svg');
+        }
+    </style>
 </head>
 <body>
 
@@ -28,7 +35,7 @@
         } endif;
         ?>
         <li<?php if (!$focus): ?> class="on"<?php endif; ?>>
-            <a href="/"><i class="font font-monitor"></i> <?php echo $config['site']['title']; ?></a></li>
+            <a href="<?php echo url('/'); ?>"><i class="font font-monitor"></i> <?php echo $config['site']['title']; ?></a></li>
         <?php if ($menus): foreach ($menus as $i => $menu): ?>
             <li<?php if ($focus == $menu[1]): ?> class="on"<?php endif; ?>>
                 <a href="<?php echo url($menu[1]); ?>"<?php if ($i > 0) {
@@ -120,15 +127,15 @@ endif; ?>
     </div>
 </div>
 
-<script type="text/javascript" src="/static/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="/static/mouse.js"></script>
-<script type="text/javascript" src="/static/jquery.autosize-min.js"></script>
-<script type="text/javascript" src="/static/bootstrap.js"></script>
-<script type="text/javascript" src="/static/validator.js"></script>
-<script type="text/javascript" src="/static/essage.js"></script>
-<script type="text/javascript" src="/static/app.js"></script>
+<script type="text/javascript" src="<?php echo assert_url('/static/jquery-1.9.1.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo assert_url('/static/mouse.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo assert_url('/static/jquery.autosize-min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo assert_url('/static/bootstrap.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo assert_url('/static/validator.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo assert_url('/static/essage.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo assert_url('/static/app.js'); ?>"></script>
 <?php if ($user && $user->isAdmin()): ?>
-    <script type="text/javascript" src="/static/admin.js"></script>
+    <script type="text/javascript" src="<?php echo assert_url('/static/admin.js'); ?>"></script>
 <?php endif; ?>
 <?php if (!empty($config['ga'])): ?>
     <script type="text/javascript">

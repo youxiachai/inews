@@ -5,11 +5,10 @@
     <meta name="robots" content="all"/>
     <title>安装iNews</title>
     <meta name="viewport" content="initial-scale=1.0"/>
-    <link rel="stylesheet" href="/static/essage.css"/>
-    <link rel="stylesheet" href="/static/style.css"/>
-    <link rel="stylesheet" href="/install/static/style.css"/>
-    <link rel="icon shortcut" href="/favicon.png"/>
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+    <link rel="stylesheet" href="<?php echo assert_url('/static/essage.css'); ?>"/>
+    <link rel="stylesheet" href="<?php echo assert_url('/static/style.css'); ?>"/>
+    <link rel="stylesheet" href="<?php echo assert_url('/install/static/style.css'); ?>"/>
+    <link rel="icon shortcut" href="<?php echo assert_url('/favicon.png'); ?>"/>
     <script type="text/javascript">
         var is_pass = <?php echo json_encode($is_pass); ?>;
     </script>
@@ -79,8 +78,9 @@
             <h3>Rewrite:</h3>
 
             <div>
-                <input name="config[base_uri]" type="radio" value="" class="base_uri" /> 开启
-                <input name="config[base_uri]" type="radio" value="/index.php" checked class="base_uri" /> 关闭
+                <input name="config[site_url]" type="radio" value="" class="base_uri"/> 开启
+                <input name="config[site_url]" type="radio" value="<?php echo Url::base(); ?>/index.php" checked class="base_uri"/> 关闭
+                <input name="config[asset_url]" type="hidden" value="<?php echo Url::base(); ?>" />
             </div>
 
             <h3>Title:</h3>
@@ -126,9 +126,9 @@
     Powered by <a href="http://inews.io" title="inews.io">iNews.io</a>.&nbsp;
 </footer>
 
-<script type="text/javascript" src="/static/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="/static/validator.js"></script>
-<script type="text/javascript" src="/static/essage.js"></script>
-<script type="text/javascript" src="/install/static/app.js"></script>
+<script type="text/javascript" src="<?php echo assert_url('/static/jquery-1.9.1.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo assert_url('/static/validator.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo assert_url('/static/essage.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo assert_url('/install/static/app.js'); ?>"></script>
 </body>
 </html>

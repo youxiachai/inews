@@ -1,13 +1,13 @@
 <?php
 
 // Check if installed?
-if (is_dir(__DIR__ . '/install') && !is_file(dirname(__DIR__) . '/config/env')) {
+if (is_dir(__DIR__ . '/install') && !is_file(__DIR__ . '/config/env')) {
     require(__DIR__ . '/install/index.php');
     exit;
 }
 
 /** @var $app \Pagon\App */
-$app = include dirname(__DIR__) . '/bootstrap.php';
+$app = include __DIR__ . '/app/bootstrap.php';
 
 $app->add('Session\Cookie', array('lifetime' => 86400 * 7));
 $app->add('OPAuth', array(

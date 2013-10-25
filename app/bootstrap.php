@@ -3,20 +3,27 @@
 use Pagon\App;
 
 define('APP_DIR', __DIR__);
+define('BASE_DIR', dirname(__DIR__));
 
-require __DIR__ . '/vendor/autoload.php';
-$app = new App(__DIR__ . '/config/default.php');
+require dirname(__DIR__) . '/vendor/autoload.php';
+
+$app = new App(
+    array(
+        'views'    => APP_DIR . '/views',
+        'autoload' => APP_DIR . '/src'
+    ) + include(BASE_DIR . '/config/default.php')
+);
 
 /**
  * Config
  */
 // Load env from file
-if (is_file(__DIR__ . '/config/env')) {
-    $app->mode(file_get_contents(__DIR__ . '/config/env'));
+if (is_file(BASE_DIR . '/config/env')) {
+    $app->mode(file_get_contents(BASE_DIR . '/config/env'));
 }
 
 // Load config by enviroment
-if (!is_file($conf_file = __DIR__ . '/config/' . $app->mode() . '.php')) {
+if (!is_file($conf_file = BASE_DIR . '/config/' . $app->mode() . '.php')) {
     echo "No config found! Plz add config/" . $app->mode() . ".php file";
     exit;
 } else {

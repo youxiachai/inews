@@ -22,7 +22,7 @@ $app->get('/', function ($req, $res) {
         'cli_pass' => version_compare($PHP_VERSION_CLI, '5.3.9') >= 0,
     );
 
-    $_conf_web_pass = is_writable(APP_DIR . '/config');
+    $_conf_web_pass = is_writable(BASE_DIR . '/config');
     $_conf_cli_pass = true;
 
     $checked['config dir'] = array(
@@ -138,13 +138,13 @@ $app->post('/setup', function ($req, $res) {
     $config['site'] += $default_site;
     $config['database'] = $db + $default_db;
     $config += $default_config;
-    file_put_contents(APP_DIR . '/config/env', 'production');
-    file_put_contents(APP_DIR . '/config/production.php', '<?php return ' . var_export($config, true) . ';');
+    file_put_contents(BASE_DIR . '/config/env', 'production');
+    file_put_contents(BASE_DIR . '/config/production.php', '<?php return ' . var_export($config, true) . ';');
 
     /**
      * 升级数据库
      */
-    $command = 'PAGON_ENV=production /usr/bin/env php ' . APP_DIR . '/bin/task db:migrate 2>&1';
+    $command = 'PAGON_ENV=production /usr/bin/env php ' . BASE_DIR . '/bin/task db:migrate 2>&1';
     shell_exec($command);
 
     /**
@@ -162,7 +162,7 @@ $app->post('/setup', function ($req, $res) {
     } else {
         echo "Install OK! but " . __DIR__ . ' is not delete, plz delete manually.';
     }
-    echo " Redirecting... <script type='text/javascript'>window.setTimeout(function(){window.location.href='/';}, 3000);</script>";
+    echo " Redirecting... <script type='text/javascript'>window.setTimeout(function(){window.location.href='" . url('/') . "';}, 3000);</script>";
 });
 
 $app->run();

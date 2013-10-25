@@ -5,7 +5,7 @@ use Pagon\Cli;
 use Pagon\Utility\ArgParser;
 
 /** @var $app Pagon\App */
-$app = include dirname(__DIR__) . '/bootstrap.php';
+$app = include dirname(__DIR__) . '/app/bootstrap.php';
 
 $app->buffer = false;
 
@@ -14,7 +14,7 @@ $app->cli('db\:init', '\Route\Cli\DB\Init');
 $app->cli('db\:(:command)', function ($req, $res) {
     chdir(APP_DIR);
     $args = array_slice($req->argv, 2);
-    echo shell_exec(APP_DIR . '/vendor/bin/phpmig ' . ($req->params['command'] != 'mig' ? $req->params['command'] . ' ' : '') . join(' ', $args));
+    echo shell_exec(BASE_DIR . '/vendor/bin/phpmig ' . ($req->params['command'] != 'mig' ? $req->params['command'] . ' ' : '') . join(' ', $args));
 });
 
 $app->cli('job\:point', '\Route\Cli\Job\AnalysisPoint');
