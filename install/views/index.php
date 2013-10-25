@@ -78,9 +78,8 @@
             <h3>Rewrite:</h3>
 
             <div>
-                <input name="config[site_url]" type="radio" value="" class="base_uri"/> 开启
-                <input name="config[site_url]" type="radio" value="<?php echo Url::base(); ?>/index.php" checked class="base_uri"/> 关闭
-                <input name="config[asset_url]" type="hidden" value="<?php echo Url::base(); ?>" />
+                <input name="config[url_rewrite]" type="radio" value="1" class="base_uri"/> 开启
+                <input name="config[url_rewrite]" type="radio" value="0" checked class="base_uri"/> 关闭
             </div>
 
             <h3>Title:</h3>

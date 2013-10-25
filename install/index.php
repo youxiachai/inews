@@ -3,6 +3,11 @@
 /** @var $app \Pagon\App */
 $app = include __DIR__ . '/bootstrap.php';
 
+if (is_file(BASE_DIR . '/config/env')) {
+    echo 'Application has been installed!';
+    die();
+}
+
 $app->assisting();
 
 $app->get('/', function ($req, $res) {
@@ -163,6 +168,10 @@ $app->post('/setup', function ($req, $res) {
         echo "Install OK! but " . __DIR__ . ' is not delete, plz delete manually.';
     }
     echo " Redirecting... <script type='text/javascript'>window.setTimeout(function(){window.location.href='" . url('/') . "';}, 3000);</script>";
+});
+
+$app->all('/^.+$/', function ($req, $res) {
+    $res->redirect(url('/'));
 });
 
 $app->run();
