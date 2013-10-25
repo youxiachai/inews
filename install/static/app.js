@@ -10,7 +10,7 @@ $('form').submit(function () {
 });
 
 $('#test').click(function () {
-  $.post('test', $('form').serializeArray(), function (msg) {
+  $.post('index.php/test', $('form').serializeArray(), function (msg) {
     if (msg.success) {
       Essage.show({message: msg.message, status: "success"}, 2000);
     } else {
@@ -19,11 +19,16 @@ $('#test').click(function () {
   });
 });
 
-$.get('ping', function(json) {
-  if (json.success) {
-    $('.base_uri').eq(0).attr('checked', true).closest('div').append('<b style="color:green;">Support</b>');
-  } else {
+$.ajax('ping1')
+  .done(function (json) {
+    if (json.success) {
+      $('.base_uri').eq(0).attr('checked', true).closest('div').append('<b style="color:green;">Support</b>');
+    } else {
+      $('.base_uri').eq(0).attr('disabled', true);
+      $('.base_uri').eq(1).attr('checked', true).closest('div').append('<b style="color:red;">Not Support</b>');
+    }
+  })
+  .fail(function (json) {
     $('.base_uri').eq(0).attr('disabled', true);
     $('.base_uri').eq(1).attr('checked', true).closest('div').append('<b style="color:red;">Not Support</b>');
-  }
-});
+  });
