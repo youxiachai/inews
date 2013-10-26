@@ -1,27 +1,23 @@
 <?php
 
-namespace Route;
+namespace Route\Service;
 
 use Helper\Html;
 use Model\Model;
-use Pagon\Route\Rest;
 use Pagon\Url;
+use Route\Service;
 use Route\Web;
 use Suin\RSSWriter\Channel;
-use Suin\RSSWriter\Feed;
+use Suin\RSSWriter\Feed as FeedFactory;
 use Suin\RSSWriter\Item;
 
-class RssFeed extends Rest
+class Feed extends Service
 {
-    protected $tpl = 'index.php';
-
     public function get()
     {
-        $this->app->loadOrm();
-
         $posts = Model::factory('Article')->where('status', '1')->order_by_desc('point')->limit(10)->find_many();
 
-        $feed = new Feed();
+        $feed = new FeedFactory();
 
         $channel = new Channel();
         $channel
@@ -41,7 +37,6 @@ class RssFeed extends Rest
                 ->appendTo($channel);
         }
 
-        $this->output->contentType('xml');
-        echo substr($feed, 0, -1);
+        $this->data = substr($feed, 0, -1);
     }
 }

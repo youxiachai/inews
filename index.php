@@ -48,8 +48,8 @@ $app->get('/api/nick', '\Route\Api\Nick');
 $app->delete('/api/comments/:id', '\Route\Api\Comment');
 $app->get('/api/alfred/(:type)', '\Route\Api\Alfred');
 
-$app->get('/feed', '\Route\RssFeed');
-$app->get('/sitemap.xml', '\Route\SiteMap');
+$app->get('/feed', '\Route\Service\Feed');
+$app->get('/sitemap.xml', '\Route\Service\SiteMap');
 
 $app->get('/user/(:id)', function ($req, $res) {
     $res->redirect('/u/' . $req->param('id'));

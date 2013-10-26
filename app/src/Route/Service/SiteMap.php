@@ -1,19 +1,15 @@
 <?php
 
-namespace Route;
+namespace Route\Service;
 
 use Model\Model;
-use Pagon\Route\Rest;
+use Route\Service;
 use Route\Web;
 
-class SiteMap extends Rest
+class SiteMap extends Service
 {
-    protected $tpl = 'index.php';
-
     public function get()
     {
-        $this->app->loadOrm();
-
         $posts = Model::factory('Article')->where('status', '1')->order_by_desc('point')->limit(100)->find_many();
 
         $xml = new \XMLWriter();
@@ -44,7 +40,6 @@ class SiteMap extends Rest
         }
         $xml->endElement();
 
-        $this->output->contentType('xml');
-        $this->output->write($xml->outputMemory());
+        $this->data = $xml->outputMemory();
     }
 }
