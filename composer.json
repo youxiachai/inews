@@ -20,7 +20,6 @@
     "j4mie/paris": "v1.3.0",
     "davedevelopment/phpmig": "v0.4.0",
     "phpmailer/phpmailer": "v5.2.6",
-    "sendgrid/sendgrid": "1.0.0",
     "suin/php-rss-writer": "1.2",
     "opauth/opauth": "0.4.4",
     "opauth/sinaweibo": "dev-master",
