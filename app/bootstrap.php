@@ -34,7 +34,7 @@ $app->add('Booster');
 $app->assisting();
 
 // Add pretty exception
-if ($app->mode() == 'develop') {
+if ($app->debug) {
     $app->add('PrettyException');
 } else {
     error_reporting(E_ALL & ~E_NOTICE);
