@@ -19,7 +19,7 @@ $app = new App(
  */
 // Load env from file
 if (is_file(BASE_DIR . '/config/env')) {
-    $app->mode(file_get_contents(BASE_DIR . '/config/env'));
+    $app->mode(trim(file_get_contents(BASE_DIR . '/config/env')));
 }
 
 // Load config by enviroment
