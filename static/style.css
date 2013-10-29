@@ -289,18 +289,18 @@ footer{background:none!important;padding:20px 0 30px;text-shadow: 0 1px 1px #FFF
 
 @media screen and (max-width: 480px) {
     .wrapper{width:100%;margin:0 auto;background:#fff;}
-    .wrapper-padding{width:90%;padding:10px 5%;}
+    .wrapper-padding{width:96%;padding:10px 2%;}
 
     header{margin-bottom:0;}
     menu a{padding:0 10px;}
     menu .topuser{display:none;}
 
-    .news-item{padding:5%px 20px;}
+    .news-item{padding:10px 20px;}
     .user{background:#fffdd1;border:20px solid #fffdd1;padding-bottom:20px;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;border-bottom:1px solid #ccc;line-height:1.3;}
     .user, footer{text-align:center;}
     .stamp, .extra{display:none;}
 
-    #comments{margin:-5%;width:auto;}
+    #comments{margin:-2%;width:auto;}
     .comment{padding:10px;}
 
     .my .avatar{border:none;position:relative;float:right;}
@@ -316,7 +316,7 @@ footer{background:none!important;padding:20px 0 30px;text-shadow: 0 1px 1px #FFF
     textarea{width:280px;}
 
     .tools .pull-right{float:left;margin:0 0 6px!important;display:block;white-space:nowrap;}
-    .title{margin:-5%;padding:10px 20px;}
+    .title{margin:-2%;padding:10px 20px;}
 }
 
 @media only screen and (max-width: 1024px) {
