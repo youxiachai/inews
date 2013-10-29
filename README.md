@@ -32,9 +32,6 @@ iNews是一套开源的极简社区程序，我们的目标是让开发者轻松
 - 前端界 - http://qianduan.us/
 - GitTags - http://gittags.com
 
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/Trimidea/inews/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
 #### 五、推荐服务器
 
 - DigitalOcean [https://www.digitalocean.com/?refcode=20e666a678c9](https://www.digitalocean.com/?refcode=20e666a678c9)
@@ -42,3 +39,5 @@ iNews是一套开源的极简社区程序，我们的目标是让开发者轻松
 
 > 使用我们的推荐链接购买可以帮助我们增加主机资金，这些主机主要用作开发。
 
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/Trimidea/inews/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
