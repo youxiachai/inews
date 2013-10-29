@@ -296,6 +296,7 @@ footer{background:none!important;padding:20px 0 30px;text-shadow: 0 1px 1px #FFF
     menu .topuser{display:none;}
 
     .news-item{padding:10px 20px;}
+    .news-item-latest .pull-right{display:none;}
     .user{background:#fffdd1;border:20px solid #fffdd1;padding-bottom:20px;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;border-bottom:1px solid #ccc;line-height:1.3;}
     .user, footer{text-align:center;}
     .stamp, .extra{display:none;}
