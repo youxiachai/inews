@@ -281,7 +281,7 @@ footer{background:none!important;padding:20px 0 30px;text-shadow: 0 1px 1px #FFF
 .tools .pull-right a:first-of-type{margin-left:0;}
 .tools.news .news-item:hover{border:none;padding-left:40px;background:none;}
 .tools input{border:none;background:none;border-radius:0;}
-.tools input:focus{background:none;}
+.tools input:focus{background:none;outline:none;}
 
 .title{background:#F8F8F8;border-bottom: 1px solid #eee;margin:-20px -40px 0;padding: 20px 40px 18px;}
 .typo .title{font-size:18px;}
