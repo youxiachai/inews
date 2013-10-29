@@ -1,6 +1,23 @@
 <span class="stamp fontello">TOP</span>
 
 <ul class="news typo">
+    <?php if ($latest_articles): foreach ($latest_articles as $item): ?>
+    <li class="news-item up news-item-latest">
+        <h4>
+            <small class="pull-right"><?php echo $item->created_at; ?></small>
+            <a href="<?php echo url($item->link()); ?>" <?php echo !$item->content ? 'target="_blank"' : '' ?>>
+                <?php echo !$item->content ? '<sup class="font font-export"></sup>' : '' ?><?php echo $item->title; ?>
+            </a>
+            <small class="up-content">
+                <span class="btn-up font font-thumbs-up <?php echo $user && $item->isDiggBy($user->id) ? 'on' : '' ?>"
+                      data-id="<?php echo $item->id ?>"
+                      data-user="<?php echo $user ? $user->id : ''; ?>"></span>
+                (<cite class="up-count"><?php echo $item->digg_count ?></cite>)
+            </small>
+        </h4>
+    </li>
+    <?php endforeach; endif; ?>
+
   <?php if(isset($kw)) { ?>
     <li class="news-item news-item-cap"><strong>Search result for: <span class="highlight"><?php echo e($kw); ?></span></strong></li>
   <?php } ?>

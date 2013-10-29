@@ -93,7 +93,7 @@ endif; ?>
                     ←拖到书签栏
                 </small>
                 <i class="font font-quote"></i>
-                <input type="text" name="kw" placeholder="type to search..." required/>
+                <input type="text" name="kw" autofocus placeholder="type to search..." required/>
             </form>
         </div>
     <?php } ?>
