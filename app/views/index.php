@@ -1,7 +1,7 @@
 <span class="stamp fontello">TOP</span>
 
 <ul class="news typo">
-    <?php if ($latest_articles): foreach ($latest_articles as $item): ?>
+    <?php if (!empty($latest_articles)): foreach ($latest_articles as $item): ?>
     <li class="news-item up news-item-latest">
         <h4>
             <small class="pull-right"><?php echo $item->created_at; ?></small>
