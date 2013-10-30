@@ -69,6 +69,7 @@
             <textarea name="text" required="required" rows="3" class="typo-p" disabled placeholder="Can not share mind, your account is not ok."></textarea>
             <button class="btn btn-grey">Can not comment</button>
             <?php else: ?>
+            <textarea name="text" required="required" rows="3" class="typo-p" placeholder="Some words..."></textarea>
             <input type="submit" class="btn" value="Share my mind" /> <small><a href="http://wowubuntu.com/markdown/" target="_blank">Markdown syntax is supported</a></small>
             <?php endif; ?>
         </form>
