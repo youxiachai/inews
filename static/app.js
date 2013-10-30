@@ -17,12 +17,12 @@ $.fn.digg = function() {
     };
 
     $.post('/api/digg', data).done(function(data) {
-      if (!data.success) return alert(data.message || 'Process digg error!');
+      if (!data.result) return alert(data.message || 'Process digg error!');
 
       var fn = self.hasClass('on') ? 'removeClass' : 'addClass';
       self[fn]('on');
       self.parent().find('.up-count').html(data['digg_count']);
-    }).error(function(data) {
+    }).error(function() {
       alert('Can\'t send your request, Sorry guy!');
     });
   })
