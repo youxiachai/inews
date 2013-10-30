@@ -30,12 +30,12 @@ class INewsMarkdownParser extends MarkdownExtraParser
     public function parserUser($text)
     {
         return preg_replace_callback('{
-                (?<!(?:\[|`))\s
+                (?<!(?:\[|`))\s?
                     @([\w]{1,20})
                 \s(?!(?:\]|`))
             }xs', function ($match) {
             if ($user = User::dispense()->where('name', $match[1])->find_one()) {
-                return '<a href="/u/' . $user->id . '">' . trim($match[0]) . '</a>';
+                return '<a href="/u/' . $user->id . '">' . trim($match[0]) . '</a> ';
             }
         }, $text);
     }
@@ -43,9 +43,9 @@ class INewsMarkdownParser extends MarkdownExtraParser
     public function parserUrl($text)
     {
         return preg_replace_callback("{
-                (?<!\(|\"|')
+                (?<!\(|\"|'|\[)
                     ((http|https|ftp)://(\S*?\.\S*?))(\s|\;|\)|\]|\[|\{|\}|,|\"|'|:|\<|$|\.\s)
-                (?!\)|\"|')
+                (?!\)|\"|'|\])
             }xs",
             function ($match) {
                 if (strpos($match[1], $_SERVER['HTTP_HOST'])) {
