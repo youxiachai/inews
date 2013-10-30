@@ -13,6 +13,10 @@ class Digg extends Api
 
     public function post()
     {
+        if (!$this->user->isOK()) {
+            $this->error('Your account is not ok.');
+        }
+
         $article = $this->loadArticle();
 
         if ($this->input->data('action') != 'cancel') {

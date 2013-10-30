@@ -26,5 +26,13 @@ function make_url($text) {
     <?php if ($user && $user->id == $author->id): ?>
         <a class="btn" href="<?php echo url('/account/edit'); ?>">Edit Profile</a>
     <?php endif; ?>
+
+    <?php if ($user && $user->isAdmin()): ?>
+        <?php if ($author->isSuspend()): ?>
+        <a class="btn" href="<?php echo url('/u/' . $user->id . '/op/active'); ?>">Active</a>
+        <?php elseif ($author->isOk()): ?>
+        <a class="btn" href="<?php echo url('/u/' . $user->id . '/op/suspend'); ?>">Suspend</a>
+        <?php endif; ?>
+    <?php endif; ?>
 </div>
 

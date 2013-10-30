@@ -163,7 +163,9 @@ body:not(:-moz-handler-blocked) .tag{line-height:20px;}
 .alert:hover, .tag:hover{background:#888;color:#fff!important;text-decoration:none;}
 
 .btn{cursor:pointer;-moz-box-shadow:inset 0px 1px 9px -9px #fff; -webkit-box-shadow:inset 0px 1px 9px -9px #fff; box-shadow:inset 0px 1px 9px -9px #fff; background-color:#08c; -moz-border-radius:6px; -webkit-border-radius:6px; border-radius:6px; border:1px solid #08c; display:inline-block; color:#fff; font-family:arial; font-size:14px; font-weight:bold; padding:6px 30px; text-decoration:none; text-shadow:1px 1px 0px #555}
+.btn-grey {background-color:#999;border-color:#999;}
 .btn:hover{background-color:#119bdb}
+.btn-grey:hover{background-color:#999}
 .btn:active{position:relative; top:1px}
 
 .tab .active{pointer-events:none;}
@@ -285,6 +287,8 @@ footer{background:none!important;padding:20px 0 30px;text-shadow: 0 1px 1px #FFF
 
 .title{background:#F8F8F8;border-bottom: 1px solid #eee;margin:-20px -40px 0;padding: 20px 40px 18px;}
 .typo .title{font-size:18px;}
+
+.user-not-ok {color:#999 !important;}
 
 
 @media screen and (max-width: 480px) {

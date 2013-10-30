@@ -10,7 +10,7 @@
             <div class="alert"><?php echo $alert ?></div>
         <?php endif; ?>
 
-        <form action="" method="POST">
+        <form id="share" action="" method="POST">
             <p><input type="text" autofocus name="title" placeholder="Title" value="<?php echo isset($article) ? $article->title : ''; ?>" required="required"/></p>
             <p><input type="url" data-aorb="a" name="link" placeholder="URL" required="required" value="<?php echo isset($article) ? $article->link : ''; ?>"/> <cite>or</cite></p>
             <textarea name="content" class="typo-p" data-aorb="b" placeholder="Content" required="required"><?php echo isset($article) ? $article->content : ''; ?></textarea>

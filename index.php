@@ -36,6 +36,7 @@ $app->all('/p/(:id)/destroy', '\Route\Web\Article\Destroy');
 $app->all('/p/(:id)/edit', '\Route\Web\Article\Edit');
 
 $app->get('/u/(:id)', '\Route\Web\User');
+$app->get('/u/(:id)/op/(:action)', '\Route\Web\UserOperate');
 
 $app->get('/my/posts', '\Route\Web\Account\Article');
 $app->get('/my/diggs', '\Route\Web\Account\Digg');

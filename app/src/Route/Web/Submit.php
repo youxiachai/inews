@@ -16,9 +16,13 @@ class Submit extends Web
     {
         $this->tpl = 'submit.php';
 
+        if (!$this->user->isOK()) {
+            $this->alert('Your account is not ok. Plz contact admin.');
+        }
+
         // 支持一下 url 发布
         $input = $this->input;
-        if (!$this->user->isUnVerified() && $input->query('title') && ($input->query('link') || $input->query('content'))) {
+        if ($this->user->isOK() && $input->query('title') && ($input->query('link') || $input->query('content'))) {
             $article = new \stdClass();
             $article->title = $input->query('title');
             $article->link = $input->query('link');
@@ -29,8 +33,8 @@ class Submit extends Web
 
     public function post()
     {
-        if ($this->user->isUnVerified()) {
-            $this->alert('Your account is not active now, plz check your mail and active.');
+        if (!$this->user->isOK()) {
+            $this->alert('Your account is not ok, plz check active or contact the admin.');
         }
 
         if (!$this->input->data('link') && !$this->input->data('content')) {
