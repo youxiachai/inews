@@ -62,9 +62,9 @@
     <div id="respond">
         <h3>Post a response: </h3>
         <form action="<?php echo url('/p/' . $article->id . '/comment'); ?>" method="POST">
-            <textarea name="text" required="required" rows="3" class="typo-p" <?php if (!$user){ echo 'disabled="disabled" placeholder="U want share? I want u!"'; };?> ></textarea>
+            <textarea name="text" required="required" rows="3" class="typo-p" <?php if (!$user){ echo 'disabled="disabled" placeholder="Please login to share."'; };?> ></textarea>
             <?php if (!$user): ?>
-            <a class="btn" href="<?php echo url('/account/login'); ?>">Login or Register to share mind</a> <small>Markdown syntax is supported</small>
+            <a class="btn" href="<?php echo url('/account/login'); ?>">Login/Register to share</a> <small>Markdown syntax is supported</small>
             <?php else: ?>
             <input type="submit" class="btn" value="Share my mind"/> <small><a href="http://wowubuntu.com/markdown/" target="_blank">Markdown syntax is supported</a></small>
             <?php endif; ?>
