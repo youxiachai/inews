@@ -89,7 +89,7 @@ $app->post('/test', function ($req, $res) {
  * 提交
  */
 $app->post('/setup', function ($req, $res) {
-    $default_config = array('debug' => true);
+    $default_config = array();
 
     $default_db = array(
         'type'     => 'mysql',
