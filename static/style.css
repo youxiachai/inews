@@ -305,7 +305,7 @@ footer{background:none!important;padding:20px 0 30px;text-shadow: 0 1px 1px #FFF
     #comments{margin:0 -30px;width:auto;}
     .comment{padding:10px;}
 
-    .my .avatar{border:none;position:relative;float:right;}
+    .my .avatar{border:none;right:10px;}
 
     .markall{position:relative;left:0;top:0;}
     #modal-shortcut{display:none;}
@@ -330,6 +330,7 @@ footer{background:none!important;padding:20px 0 30px;text-shadow: 0 1px 1px #FFF
     .list{border-top:1px solid #ccc;}
     .user, footer{text-align:center;}
     .stamp, .extra{display:none;}
+    .my .avatar{right:2%;left:auto;border:none;}
 }
 
 .admin-text {color:#f00 !important;}
