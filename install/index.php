@@ -13,7 +13,7 @@ $app->assisting();
 $app->get('/', function ($req, $res) {
     $checked = array();
 
-    if (preg_match('/PHP ([\w.]+) /', shell_exec('/usr/bin/env php -v'), $m)) {
+    if (preg_match('/PHP ([\w.]+)/', shell_exec('/usr/bin/env php -v'), $m)) {
         $PHP_VERSION_CLI = $m[1];
     } else {
         $PHP_VERSION_CLI = 'Not found';
