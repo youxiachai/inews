@@ -40,16 +40,6 @@ return array(
     'timezone'      => 'Asia/Shanghai',
 
     /**
-     * 默认的模板目录，一般不需要修改
-     */
-    'views'         => dirname(__DIR__) . '/views',
-
-    /**
-     * 自动加载路径，一般不需要修改
-     */
-    'autoload'      => dirname(__DIR__) . '/src',
-
-    /**
      * 密码种子
      */
     'password_salt' => 'D#FA#!#%Nz',
@@ -103,4 +93,5 @@ return array(
         'from'     => 'hfcorriez@gmail.com',
         'fromName' => 'iNews.io'
     )*/
+    'url_write'     => false
 );
