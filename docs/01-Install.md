@@ -33,6 +33,8 @@ export PAGON_ENV=production
 cd 程序根目录
 cp config/develop.php config/production.php
 vim config/production.php
+# 0.1.9起，支持通过env文件指定配置
+echo "production" > config/env
 ```
 
 > 具体说明可以参照 [配置说明](./02-Setup.md)
@@ -103,13 +105,9 @@ server {
 	}
 
 	location ~ \.php$ {
+	    # PHP的支持根据自己的情况进行配置
 		fastcgi_pass 127.0.0.1:9001;
-		fastcgi_index index.php;
 		include fastcgi_params;
-	}
-
-	location ~ /\.ht {
-		deny all;
 	}
 }
 ```
