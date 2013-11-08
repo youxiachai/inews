@@ -15,6 +15,9 @@ function make_url($text) {
 
     <img class="avatar" src="<?php echo \Helper\Html::gravatar($author->email); ?>"/>
     <ul>
+        <?php if ($author->id == $user->id || $user->isAdmin()): ?>
+        <li>Email: <?php echo $author->email; ?></li>
+        <?php endif; ?>
         <li>Username: <?php echo $author->name; ?></li>
         <li>Posts: <?php echo $author->articles()->count();?></li>
         <li>Comments: <?php echo $author->comments()->count();?></li>
