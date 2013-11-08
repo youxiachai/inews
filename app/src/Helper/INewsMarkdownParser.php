@@ -36,6 +36,8 @@ class INewsMarkdownParser extends MarkdownExtraParser
             }xs', function ($match) {
             if ($user = User::dispense()->where('name', $match[1])->find_one()) {
                 return '<a href="/u/' . $user->id . '">' . trim($match[0]) . '</a> ';
+            } else {
+                return $match[0];
             }
         }, $text);
     }
