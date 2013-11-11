@@ -8,6 +8,7 @@
 - Composer (MAC下`brew install composer`或去官网[composer](http://getcomposer.org))
 - Apache/Nginx
 - Mysql 5.1+
+- Git
 
 # 安装
 
@@ -18,7 +19,7 @@
 ```
 git clone git@github.com:trimidea/inews.git
 cd 程序根目录
-composer install
+composer install(composer设置好了才能执行这一步)
 ```
 
 ## 配置环境
@@ -46,7 +47,11 @@ echo "production" > config/env
 ./bin/task db:init
 ```
 
-> 用来初始化数据库
+> 用来初始化数据库  
+> 这步出问题：  
+> 首先检查你的mysql相关的东西都有没有装好  
+> 其次看看你的mysql有没有正常启动  
+> 最后看看你production.php文件里数据库的root用户密码有没有写对  
 
 ## 升级数据库
 
@@ -59,10 +64,16 @@ echo "production" > config/env
 ## 定时任务
 
 ```
+[root@localhost]#: crontab -e
+```
+> 把下面文字加到定时任务里。
+
+```
 */10 * * * * 程序根目录/bin/task job:point
 ```
 
 > 用来计算积分和排名
+
 
 ## 配置主机
 
@@ -70,7 +81,7 @@ echo "production" > config/env
 
 ```
 <VirtualHost *:80>
-    DocumentRoot "程序根目录/public"
+    DocumentRoot "程序根目录" #比如/usr/local/src/inews
     ServerName example.com
     SetEnv PAGON_ENV production
 
@@ -89,7 +100,7 @@ echo "production" > config/env
 server {
     listen 80;
 
-	root 程序根目录/public;
+	root 程序根目录; #比如/usr/local/src/inews
 	index index.php index.html index.htm;
 
 	server_name example.com;
@@ -106,7 +117,8 @@ server {
 
 	location ~ \.php$ {
 	    # PHP的支持根据自己的情况进行配置
-		fastcgi_pass 127.0.0.1:9001;
+	    # 9000是FPM的默认端口
+		fastcgi_pass 127.0.0.1:9000;
 		include fastcgi_params;
 	}
 }
