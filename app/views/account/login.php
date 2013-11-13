@@ -18,6 +18,9 @@
             <?php if (isset($passport['github'])): ?>
                 <a href="<?php echo url('/login/github'); ?>" class=""><i class="font font-github"></i> Github</a>
             <?php endif; ?>
+            <?php if (isset($passport['google'])): ?>
+                <a href="<?php echo url('/login/google'); ?>" class=""><i class="font font-gplus"></i> Google</a>
+            <?php endif; ?>
         </p>
     <?php endif; ?>
 </article>
