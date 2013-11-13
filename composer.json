@@ -23,7 +23,8 @@
     "suin/php-rss-writer": "1.2",
     "opauth/opauth": "0.4.4",
     "opauth/sinaweibo": "dev-master",
-    "opauth/github": "*"
+    "opauth/github": "*",
+    "opauth/google": "*"
   },
   "require-dev": {
     "electrolinux/phpquery": "0.9.6",

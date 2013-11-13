@@ -29,7 +29,13 @@ class Callback extends Web
                 if (!$user_id = $this->input->session('login')) {
                     // 没有用户创建一个
                     $user = Model::factory('User')->create();
-                    $user->name = $auth['info']['name'];
+                    $name = preg_replace('/\s/', '', $auth['info']['name']);
+
+                    if (Model::factory('User')->where('name', $name)->find_one()) {
+                        $name .= rand(100, 999);
+                    }
+
+                    $user->name = $name;
 
                     if (isset($auth['info']['description']) && ($bio = $auth['info']['description'])
                         || isset($auth['raw']['description']) && ($bio = $auth['raw']['description'])
@@ -50,7 +56,7 @@ class Callback extends Web
                 $passport = Model::factory('Passport')->create();
                 $passport->provider = $auth['provider'];
                 $passport->uid = $auth['uid'];
-                $passport->display_name = $auth['info']['nickname'];
+                $passport->display_name = isset($auth['info']['nickname']) ? $auth['info']['nickname'] : $auth['info']['name'];
                 $passport->access_token = $auth['credentials']['token'];
                 $passport->expired_at = !empty($auth['credentials']['expires']) ? $auth['credentials']['expires'] : null;
                 $passport->user_id = $user_id;
@@ -62,7 +68,7 @@ class Callback extends Web
                 }
             }
         } catch (\Exception $e) {
-            $this->alert("Create user error!");
+            $this->alert("Create user error: " . $e->getMessage());
         }
 
         $this->input->session('login', $passport->user_id);
