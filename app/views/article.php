@@ -78,7 +78,7 @@
     <div id="comments">
         <?php foreach ($comments as $comment): ?>
             <?php $author = $comment->user()->find_one(); ?>
-            <div class="comment" data-author="<?php echo $author->name; ?>" data-id="<?php echo $comment->id; ?>">
+            <div class="comment" id="comment_<?php echo $comment->id; ?>" data-author="<?php echo $author->name; ?>" data-id="<?php echo $comment->id; ?>">
                 <div class="identical">
                     <a href="<?php echo url('/u/' . $author->id); ?>" class="user-<?php echo $author->isOK() ? 'ok' : 'not-ok' ?>">
                         <img class="avatar" src="<?php echo \Helper\Html::gravatar($author->email, 30); ?>" />
