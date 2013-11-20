@@ -37,6 +37,8 @@ $app->all('/p/(:id)/edit', '\Route\Web\Article\Edit');
 
 $app->get('/u/(:id)', '\Route\Web\User');
 $app->get('/u/(:id)/op/(:action)', '\Route\Web\UserOperate');
+$app->get('/u/(:id)/posts', '\Route\Web\Account\Article');
+$app->get('/u/(:id)/comments', '\Route\Web\Account\Comment');
 
 $app->get('/my/posts', '\Route\Web\Account\Article');
 $app->get('/my/diggs', '\Route\Web\Account\Digg');

@@ -14,6 +14,10 @@ function make_url($text) {
     <?php if($user && $user->isUnVerified()): ?><span class="alert">Please verify your email!</span><?php endif; ?>
 
     <img class="avatar" src="<?php echo \Helper\Html::gravatar($author->email); ?>"/>
+    <p class="ref">
+        <a href="/u/<?php echo $author->id; ?>/posts">Posts</a>
+        <a href="/u/<?php echo $author->id; ?>/comments">Comments</a>
+    </p>
     <ul>
         <?php if ($user && ($author->id == $user->id || $user->isAdmin())): ?>
         <li>Email: <?php echo $author->email; ?></li>
