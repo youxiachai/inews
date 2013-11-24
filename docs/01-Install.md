@@ -17,7 +17,7 @@
 ## 获取源代码
 
 ```
-git clone git@github.com:trimidea/inews.git
+git clone git@github.com:Trimidea/inews.git
 cd 程序根目录
 composer install(composer设置好了才能执行这一步)
 ```
