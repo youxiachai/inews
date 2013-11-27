@@ -3,7 +3,7 @@
 /** @var $app \Pagon\App */
 $app = include __DIR__ . '/bootstrap.php';
 
-if (is_file(BASE_DIR . '/config/env')) {
+if (is_file(BASE_DIR . '/config/env') || getenv('PAGON_ENV')) {
     echo 'Application has been installed!';
     die();
 }
