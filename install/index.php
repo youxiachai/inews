@@ -10,7 +10,14 @@ if (is_file(BASE_DIR . '/config/env') || getenv('PAGON_ENV')) {
 
 $app->assisting();
 
-$app->get('/', function ($req, $res) {
+$app->get('/', function ($req, $res) use ($app) {
+    if (!function_exists('shell_exec')) {
+        $app->render('pagon/views/error.php', array(
+            'title'   => 'Can not install',
+            'message' => '"shell_exec" function has been disabled'
+        ));
+        $app->stop();
+    }
     $checked = array();
 
     if (preg_match('/PHP ([\w.]+)/', shell_exec('/usr/bin/env php -v'), $m)) {
