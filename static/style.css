@@ -202,7 +202,9 @@ menu .submit a:hover{text-decoration:none;background:rgba(0,0,0,0.5);}
 .news-item .meta a{color:#999;}
 .news-item h4{margin-bottom:-0.2em;}
 .news-item h4>a:visited{color:#666;}
-.news-item h4 sup{font-size:75%;color:#ddd;margin-left:-18px;display:inline-block;width:18px;}
+.news-item h4 sup{font-size:75%;color:#ddd;margin-left:8px;display:inline-block;width:18px;}
+.news-item .gravatar{float:left;margin-right:10px;}
+.news-item .gravatar img{position:relative;top:3px;-webkit-border-radius:3px;border-radius:3px;}
 .news-item-latest{padding:8px 40px;background:#ffffdf;border-left-color:transparent!important;font-size:0.8em;}
 .news-item-latest:nth-child(2n-1){background:#ffffee;}
 .news-item-latest h4 a{color:#888;}
