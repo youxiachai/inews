@@ -26,7 +26,7 @@ class Comment extends Api
             ->find_many();
 
         if (!$req->query('html')) {
-            $this->data = array_map(function ($item) {
+            $this->data['data'] = array_map(function ($item) {
                 return $item->as_array();
             }, $comments);
         } else {
@@ -83,6 +83,8 @@ class Comment extends Api
 
         if ($req->data('html')) {
             $this->data['html'] = $this->app->compile('blocks/comment.php', array('comment' => $comment, 'user' => $this->user))->render();
+        } else {
+            $this->data['data'] = $comment->as_array();
         }
     }
 
