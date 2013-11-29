@@ -117,7 +117,7 @@ $.fn.autoload = function () {
     })
   };
 
-  $(this).append('<div id="loading" class="loading" style="display:none;">loading...</div>');
+  $(this).append('<div id="loading" class="hide"></div>');
   load();
 
   $(window).scroll(function () {
