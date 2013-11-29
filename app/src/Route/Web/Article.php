@@ -24,7 +24,11 @@ class Article extends Web
             $this->alert('Article is not ready');
         }
 
-        $this->data['comments'] = $this->data['article']->comments()->order_by_desc('created_at')->find_many();
+        if ($this->is_robot) {
+            $this->data['comments'] = $this->data['article']->comments()->order_by_desc('created_at')->find_many();
+        }
+
+        $this->data['json']['pid'] = $this->input->params['id'];
 
         $this->title = $this->data['article']->title;
     }

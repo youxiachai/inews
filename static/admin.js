@@ -1,5 +1,5 @@
 if ($('#comments').length > 0) {
-  $('#comments .delete').click(function () {
+  $('#comments').on('click', '.delete', function () {
     var comment = $(this).closest('.comment');
 
     if (!comment.data('id')) {

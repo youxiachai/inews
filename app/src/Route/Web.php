@@ -39,6 +39,12 @@ class Web extends Rest
      */
     protected $title = 'Home';
 
+
+    /**
+     * @var bool Is robot or spider?
+     */
+    protected $is_robot = false;
+
     /**
      * Before logic
      */
@@ -56,9 +62,15 @@ class Web extends Rest
             $this->auth();
         }
 
+        // 检查搜索爬虫
+        if (preg_match('/robot|spider/i', $this->input->userAgent())) {
+            $this->is_robot = true;
+        }
+
         $this->data['user'] = $this->user;
         $this->data['id'] = strtolower(substr(get_called_class(), strlen('Route\Web') + 1));
         $this->data['title'] = & $this->title;
+        $this->data['json'] = array('robot' => $this->is_robot);
     }
 
     /**

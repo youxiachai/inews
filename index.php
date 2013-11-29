@@ -48,8 +48,13 @@ $app->all('/my/notice', '\Route\Web\Account\Notification');
 $app->post('/api/digg', '\Route\Api\Digg');
 $app->post('/api/notify/read', '\Route\Api\MarkRead');
 $app->get('/api/nick', '\Route\Api\Nick');
+$app->get('/api/comments', '\Route\Api\Comment');
+$app->post('/api/comments', '\Route\Api\Comment');
 $app->delete('/api/comments/:id', '\Route\Api\Comment');
 $app->get('/api/alfred/(:type)', '\Route\Api\Alfred');
+$app->all('^/api/.*$', function ($req, $res) {
+    $res->json(array('error' => 1, 'message' => 'API not found'));
+});
 
 $app->get('/feed', '\Route\Service\Feed');
 $app->get('/sitemap.xml', '\Route\Service\SiteMap');

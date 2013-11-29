@@ -19,6 +19,9 @@
             url('<?php echo assert_url('static/font/fontello.svg#fontello'); ?>') format('svg');
         }
     </style>
+    <script type="text/javascript">
+        var json = <?php echo json_encode($json); ?>;
+    </script>
 </head>
 <body>
 
