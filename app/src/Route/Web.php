@@ -63,7 +63,7 @@ class Web extends Rest
         }
 
         // 检查搜索爬虫
-        if (preg_match('/robot|spider/i', $this->input->userAgent())) {
+        if (preg_match('/bot|spider/i', $this->input->userAgent())) {
             $this->is_robot = true;
         }
 
