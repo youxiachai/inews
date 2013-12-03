@@ -67,5 +67,5 @@ return $app;
  */
 function buildDsn(array $config)
 {
-    return sprintf('%s:host=%s;port=%s;dbname=%s', $config['type'], $config['host'], $config['port'], $config['dbname']);
+    return sprintf('%s:host=%s;port=%s;dbname=%s;charset=%s', $config['type'], $config['host'], $config['port'], $config['dbname'], $config['charset'] ? $config['charset'] : 'utf8');
 }
