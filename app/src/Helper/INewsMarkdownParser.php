@@ -4,6 +4,7 @@ namespace Helper;
 
 use Model\User;
 use dflydev\markdown\MarkdownExtraParser;
+use Pagon\Url;
 
 class INewsMarkdownParser extends MarkdownExtraParser
 {
@@ -35,7 +36,7 @@ class INewsMarkdownParser extends MarkdownExtraParser
                 \s(?!(?:\]|`))
             }xs', function ($match) {
             if ($user = User::dispense()->where('name', $match[1])->find_one()) {
-                return '<a href="/u/' . $user->id . '">' . trim($match[0]) . '</a> ';
+                return '<a href="' . Url::to('/u/' . $user->id) . '">' . trim($match[0]) . '</a> ';
             } else {
                 return $match[0];
             }

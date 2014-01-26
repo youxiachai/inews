@@ -13,10 +13,9 @@
     <link rel="icon shortcut" href="<?php echo assert_url('/favicon.png'); ?>"/>
     <link rel="apple-touch-icon" href="<?php echo assert_url('/apple-touch-icon.png'); ?>"/>
     <style type="text/css">
-        @font-face {font-family: 'fontello';
-            src: url('<?php echo assert_url('static/font/fontello.woff'); ?>') format('woff'),
-            url('<?php echo assert_url('static/font/fontello.ttf'); ?>') format('truetype'),
-            url('<?php echo assert_url('static/font/fontello.svg#fontello'); ?>') format('svg');
+        @font-face {
+            font-family: 'fontello';
+            src: url('<?php echo assert_url('static/font/fontello.woff'); ?>') format('woff'), url('<?php echo assert_url('static/font/fontello.ttf'); ?>') format('truetype'), url('<?php echo assert_url('static/font/fontello.svg#fontello'); ?>') format('svg');
         }
     </style>
     <script type="text/javascript">
@@ -38,7 +37,8 @@
         } endif;
         ?>
         <li<?php if (!$focus): ?> class="on"<?php endif; ?>>
-            <a href="<?php echo url('/'); ?>"><i class="font font-monitor"></i> <?php echo $config['site']['title']; ?></a></li>
+            <a href="<?php echo url('/'); ?>"><i class="font font-monitor"></i> <?php echo $config['site']['title']; ?>
+            </a></li>
         <?php if ($menus): foreach ($menus as $i => $menu): ?>
             <li<?php if ($focus == $menu[1]): ?> class="on"<?php endif; ?>>
                 <a href="<?php echo url($menu[1]); ?>"<?php if ($i > 0) {
@@ -67,7 +67,7 @@ endif; ?>
 
 <div class="wrapper user">
     <?php if ($user):
-        $message = $user->isUnVerified() ? 'please <span class="highlight">verify</span> your <addr title="' . $user->email . '">email</addr>(<a href="/account/resend">resend</a>)' :
+        $message = $user->isUnVerified() ? 'please <span class="highlight">verify</span> your <addr title="' . $user->email . '">email</addr>(<a href="' . url('/account/resend') . '">resend</a>)' :
             'glad to see u'; ?>
         Hi <a href="<?php echo url('/u/' . $user->id); ?>"><?php echo $user->name; ?></a>
         <sup><a class="highlight-ok" title="it's not me" href="<?php echo url('/account/logout'); ?>">leave</a></sup>, <?php echo $message; ?>! Here is your

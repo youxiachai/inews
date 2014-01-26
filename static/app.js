@@ -23,7 +23,7 @@ $.fn.digg = function () {
     var id, action, data, self = $(this);
 
     // 让用户去登录
-    if (!self.data('user')) return window.location.href = "/account/login";
+    if (!self.data('user')) return window.location.href = json.site_prefix + "/account/login";
 
     id = self.data('id');
     action = self.hasClass('on') ? 'cancel' : 'digg';
@@ -32,7 +32,7 @@ $.fn.digg = function () {
       action: action
     };
 
-    $.post('/api/digg', data).done(function (data) {
+    $.post(json.site_prefix + '/api/digg', data).done(function (data) {
       if (!data.result) return alert(data.message || 'Process digg error!');
 
       var fn = self.hasClass('on') ? 'removeClass' : 'addClass';
@@ -86,7 +86,7 @@ $.fn.notify = function () {
       , badge = $('#notice')
       , count = +badge.html();
 
-    item.hasClass('on') && $.post('/api/notify/read', {id: id}).done(function () {
+    item.hasClass('on') && $.post(json.site_prefix + '/api/notify/read', {id: id}).done(function () {
       item.removeClass('on');
       badge.html(--count);
     })
@@ -105,7 +105,7 @@ $.fn.autoload = function () {
   var load = function () {
     loading = true;
     $('#loading').show();
-    $.get('/api/comments', {pid: json.pid, html: 1, page: page}, function (json) {
+    $.get(json.site_prefix + '/api/comments', {pid: json.pid, html: 1, page: page}, function (json) {
       if (!json.html) {
         canLoad = false;
       } else {
@@ -141,7 +141,7 @@ $.fn.create = function () {
     obj.html = 1;
     form.find(':submit').val('Sending...');
     form.find('textarea').attr('disabled', true);
-    $.post('/api/comments', obj, function (json) {
+    $.post(json.site_prefix + '/api/comments', obj, function (json) {
       Essage.show({message: json.message, status: json.error ? "error" : "success"}, 1000);
       if (!json.error && json.html) {
         form.find('textarea').val('');
@@ -181,15 +181,15 @@ $.fn.create = function () {
   }
 
   fn.share = function () {
-    window.location = '/submit';
+    window.location = json.site_prefix + '/submit';
   }
 
   fn.latest = function () {
-    window.location = '/latest';
+    window.location = json.site_prefix + '/latest';
   }
 
   fn.home = function () {
-    window.location = '/';
+    window.location = json.site_prefix;
   }
 
   fn.mark = function () {
@@ -202,7 +202,7 @@ $.fn.create = function () {
     if (!id) return;
     id = direction === 1 ? ++id : --id;
     id = Math.max(id, 1);
-    window.location = '/article/' + id;
+    window.location = json.site_prefix + '/article/' + id;
   }
 
   fn.next = function () {

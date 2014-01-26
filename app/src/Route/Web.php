@@ -70,7 +70,10 @@ class Web extends Rest
         $this->data['user'] = $this->user;
         $this->data['id'] = strtolower(substr(get_called_class(), strlen('Route\Web') + 1));
         $this->data['title'] = & $this->title;
-        $this->data['json'] = array('robot' => $this->is_robot);
+        $this->data['json'] = array(
+            'robot' => $this->is_robot,
+            'site_prefix' => Url::to('')
+        );
     }
 
     /**
@@ -80,8 +83,8 @@ class Web extends Rest
     {
         if (!$this->user) {
             $this->redirect(
-                '/account/login?continue=' .
-                ($this->input->is('get') ? $this->input->uri() : $this->input->refer())
+                Url::to('/account/login?continue=' .
+                ($this->input->is('get') ? $this->input->uri() : $this->input->refer()))
             );
         }
     }

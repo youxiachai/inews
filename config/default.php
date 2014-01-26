@@ -93,5 +93,5 @@ return array(
         'from'     => 'hfcorriez@gmail.com',
         'fromName' => 'iNews.io'
     )*/
-    'url_write'     => false
+    'url_rewrite'     => false
 );
