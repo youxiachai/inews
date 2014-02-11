@@ -72,7 +72,7 @@ class Web extends Rest
         $this->data['title'] = & $this->title;
         $this->data['json'] = array(
             'robot' => $this->is_robot,
-            'site_prefix' => Url::to('')
+            'site_prefix' => Url::to('', null, true)
         );
     }
 
