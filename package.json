@@ -1,0 +1,19 @@
+{
+  "name": "inews",
+  "version": "0.0.0",
+  "description": "```ruby\r     _ _   __                 \r    (_) | / /__ _      _______\r   / /  |/ / _ \\ | /| / / ___/\r  / / /|  /  __/ |/ |/ (__  ) \r /_/_/ |_/\\___/|__/|__/____/",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/youxiachai/inews.git"
+  },
+  "author": "youxiachai",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/youxiachai/inews/issues"
+  },
+  "homepage": "https://github.com/youxiachai/inews"
+}
