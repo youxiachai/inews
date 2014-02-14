@@ -68,6 +68,20 @@ function getArticle(params, done) {
         .error(handleError.bind({done : done}));
 }
 
+function getById (params, done) {
+
+  DB.Article.find(
+      {where : {id : params.id},
+     include: [{model: DB.User}]
+  }).success(function (article){
+          article.dataValues.user = article.user.dataValues;
+          delete  article.dataValues.user.password;
+          done(null,  article.dataValues);
+      })
+      .error(handleError.bind({done : done}));
+}
+
+exports.getById = getById;
 exports.getList = getList;
 
 //getList({}, function (err, result){

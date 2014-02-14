@@ -1,0 +1,41 @@
+<article class="typo wrapper-padding up hover">
+
+    <h2 class="title">{%=article.title%}
+        <small class="up-content">
+            <span data-user="{%=article.user_id%}" data-id="{%article.id%}" class="btn-up font font-thumbs-up "></span>
+            (<cite class="up-count">{%=article.digg_count%}</cite>)
+        </small>
+    </h2>
+
+    <div class="entry">
+        <div class="typo-p">
+            <p>{%=article.content%}</p>
+        </div>
+
+
+        <div class="identical">
+            <img src="http://www.gravatar.com/avatar/76ea1f62dc4f148613026779fdb8633e?s=30&amp;d=mm&amp;r=g"
+                 class="avatar">
+            created by <a href="/users/{%=article.user.id%}">{%=article.user.name%}</a> @
+            <small>{%=article.created_at%}3</small>
+        </div>
+
+
+
+    </div>
+
+    <div id="respond">
+        <h3>Post a response: </h3>
+
+        <form method="POST" action="/p/667/comment" novalidate="true">
+            <textarea placeholder="Some words..." class="typo-p" rows="3" required="required" name="text"
+                      style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 93px;"></textarea>
+            <input type="hidden" value="667" name="article_id">
+            <input type="submit" value="Share my mind" class="btn">
+            <small><a target="_blank" href="http://wowubuntu.com/markdown/">Markdown syntax is supported</a></small>
+        </form>
+    </div>
+
+    <div id="comments">
+    </div>
+</article>

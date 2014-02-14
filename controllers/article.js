@@ -13,4 +13,14 @@ module.exports = function (app) {
         })
     })
 
+    app.get('/api/v1/articles/:id', function (req, res){
+        DBServices.Article.getById(req.params, function (err, result){
+            res.json({data : result});
+        })
+    })
+
+    app.get('/api/v1/articles/:id/comments', function (req, res){
+
+    })
+
 }

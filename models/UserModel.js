@@ -43,8 +43,9 @@ function postSignIn (params, done) {
 
 function getById (params, done) {
 
-    DB.User.find({ where : {id : params.id},
-        attributes : ['name', 'posts_count', 'digged_count' ,'bio', 'created_at']})
+    DB.User.find({
+        where : {id : params.id},
+        attributes : ['id', 'name', 'posts_count', 'digged_count' ,'bio', 'created_at']})
         .done(done)
 
 }

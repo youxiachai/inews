@@ -23,16 +23,23 @@
 
            // users
            var users = /^\/users\/\d$/;
-
-            if(users.test(href)){
-
+           if(users.test(href)){
                 $.get('/templ/account/userinfo.ejs',  function(templ) {
                     ejs.open = '{%';
                     ejs.close = '%}';
                     var templHtml = ejs.render(templ, { userInfo: apiRes.data });
                     $('#pageContent').html(templHtml)
                 })
-            }
+            }else if(/^\/articles\/\d$/.test(href)){
+               console.log( apiRes.data)
+               $.get('/templ/article/article.ejs',  function(templ) {
+                   ejs.open = '{%';
+                   ejs.close = '%}';
+                   var templHtml = ejs.render(templ, { article: apiRes.data });
+                   console.log(templHtml)
+                   $('#pageContent').html(templHtml)
+               })
+           }
 
 
         })

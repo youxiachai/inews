@@ -31,9 +31,14 @@ var User = mysql.import(__dirname + '/user');
 
 var Article = mysql.import(__dirname + '/article');
 
+var Comment = mysql.import(__dirname + '/comment')
+
 User.hasMany(Article, {foreignKey : 'user_id'});
 
 Article.belongsTo(User, {foreignKey:  'user_id'});
+
+Comment.belongsTo(User, {foreignKey:  'user_id'});
+Comment.belongsTo(Article, {foreignKey:  'article_id'})
 
 exports.User = User;
 exports.Article = Article;
