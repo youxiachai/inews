@@ -1,0 +1,25 @@
+<article xmlns="http://www.w3.org/1999/html" class="typo wrapper-padding">
+    <script>
+        //handler register
+        $('#register').submit(function (e){
+            e.preventDefault();
+
+            console.log($(this).serialize())
+            $.post('/api/v1/signup',  $( "#register" ).serialize() , function (data){
+                console.log(data)
+            })
+
+
+        })
+
+    </script>
+
+    <h2>Signup as a user:</h2>
+    <form method="POST" action="" novalidate="true" id="register">
+        <p><input type="text" required="required" placeholder="User name ( 6-20 characters )" name="name" autofocus=""></p>
+        <p><input type="email" required="required" placeholder="Email" name="email"></p>
+        <p><input type="password" required="required" placeholder="Password" name="password"></p>
+        <textarea placeholder="[Optional] bio" class="typo-p" name="bio" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 67px;"></textarea>
+        <input type="submit" value="Register" class="btn">
+    </form>
+</article>

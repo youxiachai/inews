@@ -1,0 +1,60 @@
+<div class="tools news">
+    <form class="news-item" action="/inews/index.php/search" novalidate="true">
+        <small class="pull-right">
+            <a class="tag tag-ok"
+               href="javascript:(function(d,s){ window.site_url = 'http://localhost/inews/index.php'; s = d.createElement('script');s.src=document.location.protocol + '//dn-inews.qbox.me/bml.js';d.head.appendChild(s);})(document);">分享到iNews</a>
+            ←拖到书签栏
+        </small>
+        <i class="font font-quote"></i>
+        <input type="text" required="" placeholder="type to search..." autofocus="" name="kw" class="">
+    </form>
+</div>
+<span class="stamp fontello">TOP</span>
+
+<script id="newsListTempl" type="text/template">
+
+    {% if (typeof newsList != "undefined" && newsList.length) { %}
+    {%  newsList.forEach(function(newsItem){ %}
+
+    <li class="news-item up">
+        <a href="/users/{%=newsItem.user.id%}" class="gravatar"><img
+                src="http://www.gravatar.com/avatar/5e32cb7c39bdc287176f0bb2287776cb?s=36&amp;d=mm&amp;r=g"></a>
+        <h4>
+            <a href="/inews/index.php/p/2">
+                {%=newsItem.title%} </a>
+            <small class="up-content">
+                <span data-user="1" data-id="2" class="btn-up font font-thumbs-up "></span>
+                (<cite class="up-count">{%=newsItem.digg_count%}</cite>)
+            </small>
+        </h4>
+        <small class="meta">
+            <a href="/inews/index.php/p/2/#respond">discuss ({%=newsItem.comments_count%})</a> /
+            <a href="/inews/index.php/u/1">{%=newsItem.user.name%}</a> @  {%=newsItem.created_at%}
+        </small>
+
+
+    </li>
+    {% }) %}
+    {%  } %}
+</script>
+
+<script>
+    $.getJSON('/api/v1/articles', function (result) {
+        var newsList = $('#newsListTempl').html();
+         console.log(result)
+      //  console.log(newsList);
+        ejs.open = '{%';
+        ejs.close = '%}';
+        var html = ejs.render(newsList, { newsList: result.data });
+      //   console.log(html);
+        $('#newsList').html(html);
+    })
+
+</script>
+
+<ul class="news typo" id="newsList">
+
+    <li class="news-item up">
+        No contents found!
+    </li>
+</ul>

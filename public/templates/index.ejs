@@ -1,0 +1,68 @@
+<%include all/head %>
+<%include menu/header %>
+
+<%include account/users %>
+<div class="wrapper list" id="pageContent">
+
+    <%include index/page %>
+</div>
+
+<%include all/foot %>
+
+<script>
+
+    function routeHtml(path) {
+        $.get(path,  function(data) {
+            $('#pageContent').html(data)
+        })
+    }
+
+    function routeApi(href){
+
+        $.get('/api/v1' + href, function (apiRes){
+
+           // users
+           var users = /^\/users\/\d$/;
+
+            if(users.test(href)){
+
+                $.get('/templ/account/userinfo.ejs',  function(templ) {
+                    ejs.open = '{%';
+                    ejs.close = '%}';
+                    var templHtml = ejs.render(templ, { userInfo: apiRes.data });
+                    $('#pageContent').html(templHtml)
+                })
+            }
+
+
+        })
+    }
+
+    $('body').on('click', 'a', function (e){
+        e.preventDefault();
+
+        var target = $(this).attr('href');
+
+        switch (target){
+            case '#register':
+                routeHtml('/templ/account/register.ejs')
+                break;
+            case '#login':
+                routeHtml('/templ/account/login.ejs')
+                break;
+            case '#':
+                routeHtml('/templ/index/page.ejs')
+                break;
+
+            default :
+                routeApi(target)
+                break;
+        }
+
+
+
+        console.log($(this).attr('href'));
+//        console.log(e.currentTarget);
+    })
+
+</script>
