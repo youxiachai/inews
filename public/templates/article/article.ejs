@@ -2,7 +2,7 @@
 
     <h2 class="title">{%=article.title%}
         <small class="up-content">
-            <span data-user="{%=article.user_id%}" data-id="{%article.id%}" class="btn-up font font-thumbs-up "></span>
+            <span data-user="{%=article.user_id%}" data-id="{%=article.id%}" class="btn-up font font-thumbs-up "></span>
             (<cite class="up-count">{%=article.digg_count%}</cite>)
         </small>
     </h2>
@@ -30,12 +30,29 @@
         <form method="POST" action="/p/667/comment" novalidate="true">
             <textarea placeholder="Some words..." class="typo-p" rows="3" required="required" name="text"
                       style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 93px;"></textarea>
-            <input type="hidden" value="667" name="article_id">
+            <input type="hidden" value="{%=article.id%}" name="article_id">
             <input type="submit" value="Share my mind" class="btn">
             <small><a target="_blank" href="http://wowubuntu.com/markdown/">Markdown syntax is supported</a></small>
         </form>
     </div>
+    <script>
+        var path = '/api/v1/articles/{%=article.id%}/comments';
+       console.log(path);
+        $.get('/templ/article/commentsList.ejs', function (templ){
+
+            $.get(path, function (apiRes){
+                var templHtml = ejs.render(templ, { commentsList: apiRes.data });
+                console.log(templHtml)
+                $('#comments').html(templHtml)
+            })
+
+        })
+    </script>
 
     <div id="comments">
+
+
+
+
     </div>
 </article>

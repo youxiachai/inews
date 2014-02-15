@@ -13,10 +13,18 @@ console.log(crypto.createHash('sha1').update(pawwd).digest('hex'))
 //console.log(crypto.createHash('sha1').update('123456' + '$' + 'sdF!#$FDA').digest('hex'))
 var password = crypto.createHash('sha1').update('123456' + '$' + 'd#!AVFed').digest('hex')
 
-console.log(password)
+//console.log(password)
+//
+//
+//console.log(parseInt(100 / 50) + 1)
+//
+//var href = /^\/users\/\d$/
+//console.log(href.test('/users/1'));
 
+var atEx = /@(\w+)/g;
 
-console.log(parseInt(100 / 50) + 1)
+var xx1 = '@youxiachai x ';
 
-var href = /^\/users\/\d$/
-console.log(href.test('/users/1'));
+//console.log(atEx.match(xx1))
+
+console.log(xx1.match(atEx))

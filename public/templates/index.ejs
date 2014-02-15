@@ -1,7 +1,9 @@
 <%include all/head %>
 <%include menu/header %>
+<div class="wrapper user" id="userInfo">
+    <input type="hidden" id="userId" value="<%=user.id%>" />
+</div>
 
-<%include account/users %>
 <div class="wrapper list" id="pageContent">
 
     <%include index/page %>
@@ -39,6 +41,8 @@
                    console.log(templHtml)
                    $('#pageContent').html(templHtml)
                })
+           }else {
+               window.location = '/'
            }
 
 
@@ -71,5 +75,23 @@
         console.log($(this).attr('href'));
 //        console.log(e.currentTarget);
     })
+
+    var userId = $('#userId').val()
+
+    if(userId  && userId != 'undefined'){
+
+        $.get('/api/v1/users/' + userId, function (apiRes){
+            $.get('/templ/account/users.ejs', function (templ){
+                var templHtml = ejs.render(templ, { user: apiRes.data});
+                $('#userInfo').html(templHtml)
+            })
+        })
+    }else{
+        $.get('/templ/account/users.ejs', function (templ){
+            var templHtml = ejs.render(templ, { user: undefined});
+            $('#userInfo').html(templHtml)
+        })
+    }
+
 
 </script>

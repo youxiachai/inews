@@ -1,7 +1,31 @@
 <article class="typo wrapper-padding">
     <h2>Signin:</h2>
 
-    <form action="" method="POST">
+    <script>
+        $('#signin').on('submit', function (e) {
+            e.preventDefault();
+
+            $.post('/api/v1/signin', $(this).serialize(), function (apiRes){
+
+                $.get('/templ/account/users.ejs', function (templ){
+
+                    var templHtml = ejs.render(templ, { user: apiRes.data });
+                    $('#userInfo').html(templHtml)
+                    routeHtml('/templ/index/page.ejs')
+                })
+
+
+            }).fail(function (jqxhr){
+                        $('#pageContent').text(jqxhr.responseText);
+            })
+
+
+
+        })
+
+    </script>
+
+    <form action="" id="signin" method="POST">
         <p><input type="text" autofocus name="name" min="6" required="required" placeholder="User name/email"/></p>
 
         <p><input type="password" name="password" required="required" placeholder="Password"/></p>

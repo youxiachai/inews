@@ -51,7 +51,7 @@ function getArticle(params, done) {
     var offset =  params.page - 1 * limit;
 
     DB.Article.findAndCountAll({
-        include : [{model : DB.User}],
+        include : [{model : DB.User, attributes : ['name', 'created_at']}],
         order : 'article.created_at DESC',
         limit : limit,
         where : params.where,
@@ -61,7 +61,6 @@ function getArticle(params, done) {
         var rows =  articleList.rows;
         Async.map(rows, function (item, callback){
             item.dataValues.user = item.user.dataValues;
-            delete item.dataValues.user.password
             callback(null,  item.dataValues)
             }, done.bind({page : page, count : articleList.count}))
         })
@@ -81,13 +80,55 @@ function getById (params, done) {
       .error(handleError.bind({done : done}));
 }
 
+function getCommentsByArticle(params, done) {
+    var queryParams = {}
+
+    queryParams.where = {};
+    queryParams.where.article_id = params.id;
+
+    queryParams.page = params.page;
+
+    getComments(queryParams, done);
+}
+
+function getComments (params, done) {
+
+    var limit =  params.limit ? params.limit : 50;
+    var offset =  params.page - 1 * limit;
+
+    DB.Comment.findAndCountAll({
+        include : [{model : DB.User}],
+        order : 'comment.created_at DESC',
+        limit : limit,
+        where : params.where,
+        offset : offset
+    }).success(function (commentList){
+            var page = parseInt(commentList.count / limit) + 1;
+            var rows =  commentList.rows;
+            Async.map(rows, function (item, callback){
+                item.dataValues.user = item.user.dataValues;
+                callback(null,  item.dataValues)
+            }, done.bind({page : page, count : commentList.count}))
+        })
+        .error(handleError.bind({done : done}));
+
+
+}
+
 exports.getById = getById;
 exports.getList = getList;
+exports.getCommentsByArticle = getCommentsByArticle;
+
+
+//getCommentsByArticle({id : 2}, function (err, result){
+//    console.log(err);
+//    console.log(result);
+//})
 
 //getList({}, function (err, result){
 ////    console.log(err)
 //   console.log(this)
-////    console.log(result[0])
+//    console.log(result[0])
 //})
 
 //getDeleteList({}, function (err, result){

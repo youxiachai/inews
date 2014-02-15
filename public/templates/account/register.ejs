@@ -5,10 +5,16 @@
             e.preventDefault();
 
             console.log($(this).serialize())
-            $.post('/api/v1/signup',  $( "#register" ).serialize() , function (data){
-                console.log(data)
-            })
+            $.post('/api/v1/signup',  $( "#register" ).serialize() , function (apiRes){
+                $.get('/templ/account/users.ejs', function (templ){
 
+                    var templHtml = ejs.render(templ, { user: apiRes.data });
+                    $('#userInfo').html(templHtml)
+                    routeHtml('/templ/index/page.ejs')
+                })
+            }).fail(function (jqxhr){
+                        $('#pageContent').text(jqxhr.responseText);
+              })
 
         })
 

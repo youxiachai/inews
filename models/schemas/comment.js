@@ -8,7 +8,7 @@ module.exports = function (sequelize, DataType) {
         text : {type: DataType.TEXT},
         user_id : {type: DataType.INTEGER},
         article_id : {type: DataType.INTEGER},
-        comment_id : {type: DataType.INTEGER}
+        comment_id : {type: DataType.INTEGER, defaultValue : 0}
     },{
         timestamps : true,
         'createdAt' : 'created_at',

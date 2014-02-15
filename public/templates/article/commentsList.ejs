@@ -1,0 +1,13 @@
+{%  commentsList.forEach(function(comment){ %}
+<div data-id="{%=comment.id%}" data-author="{%=comment.user.name%}" id="comment_{%=comment.id%}" class="comment">
+    <div class="identical">
+        <a class="user-ok" href="/users/{%=comment.user_id%}">
+            <img src="http://www.gravatar.com/avatar/76ea1f62dc4f148613026779fdb8633e?s=30&amp;d=mm&amp;r=g" class="avatar">
+            {%=comment.user.name%}        </a>
+        <a class="identical-day" href="#comment_{%=comment.id%}"># {%=comment.created_at%}</a>
+        <a class="reply" href="#respond">reply</a>
+    </div>
+    <div class="typo-p"><p>{%=comment.text%}</p>
+    </div>
+</div>
+{% }) %}

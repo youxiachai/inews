@@ -1,4 +1,16 @@
-<div class="wrapper user">
+
+    {% if(typeof user != 'undefined') { %}
+
+    Hi <a href="/users/{%=user.id%}">{%=user.name%}</a>
+
+    <sup><a class="highlight-ok" title="it's not me" href="/users/logout">leave</a></sup>, glad to see u! Here is your
+    <a href="/inews/index.php/my/diggs">diggs</a>,
+    <a href="/inews/index.php/my/posts">posts</a>,
+    <a href="/inews/index.php/my/comments">comments</a>,
+    <a href="/inews/index.php/my/notice">notifications
+    </a>.
+
+    {%  } else { %}
     Hi there. u can <a href="#login">signin</a> with
     or <a href="#register">signup</a> as a member of the community.
-</div>
+    {% } %}

@@ -30,7 +30,7 @@ app.use('/templ' , express.static(__dirname + '/public/templates'));
 
 app.get('/', function (req, res){
 
-    res.render('index')
+    res.render('index', {user : req.session.user ? req.session.user : {}})
 })
 
 require('./controllers/account')(app)

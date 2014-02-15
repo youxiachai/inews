@@ -39,7 +39,18 @@ function postSignUp (params, done) {
  */
 function postSignIn (params, done) {
 
+    DB.User.find({
+        where : DB.mysql.and({password : makePassword(params.password)},
+        DB.mysql.or({name : params.name}, {email : params.name}))
+    }).done(done)
+
 }
+//postSignIn({name : 'youxiachai' , password : '1234567'}, function (err, reuslt){
+//      console.log(err)
+//
+//      console.log(reuslt)
+//})
+
 
 function getById (params, done) {
 
@@ -64,6 +75,19 @@ function getUserArticle (params, done) {
             console.log(result)
         })
 }
+
+function getDigg(params, done) {
+
+    DB.UserDigg.findAll({include: [{model: DB.User},{model : DB.Article}]})
+        .done(function (err, result){
+            console.log(err)
+            console.log(result)
+        })
+
+}
+
+//getDigg(null, null);
+
 exports.getById = getById;
 exports.postSignUp = postSignUp;
 exports.postSignIn = postSignIn;
