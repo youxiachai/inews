@@ -213,7 +213,7 @@ function postArticle(params, done) {
             user.id = article.user_id;
 //            user.isNewRecord = false;
             user.increment('posts_count', {by : 1})
-                .success(function (newUser){
+                .success(function (){
                     done(null, 'ok');
                 })
                 .error(done)

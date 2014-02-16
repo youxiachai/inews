@@ -96,6 +96,13 @@ module.exports = function (app) {
         DBServices.User.postArticle(req.body, sendData.bind(res));
     })
 
+    app.post('/api/v1/users/comments', function (req, res){
+        req.body.user_id = req.session.user.id;
+
+        DBServices.Comment.postComment(req.body,  sendData.bind(res))
+
+    })
+
 
     app.post('/api/v1/users/notifications/:id', function (req, res){
         req.params.user_id = req.session.user.id;

@@ -88,9 +88,13 @@
     }
 
     $('body').on('click', 'a', function (e){
-        e.preventDefault();
-
         var target = $(this).attr('href');
+
+        if(target === '#respond'){
+            return;
+        }
+
+        e.preventDefault();
 
         switch (target){
             case '#register':

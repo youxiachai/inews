@@ -12,9 +12,10 @@
     <script>
         $('#searchArticle').submit(function (e){
             e.preventDefault();
-            $.getJSON('/api/v1/articles?kw='+$('#searchKW').val(), function (result) {
+            var kw = $('#searchKW').val();
+            $.getJSON('/api/v1/articles?kw='+ kw, function (result) {
                 var newsList = $('#newsListTempl').html();
-                var html = ejs.render(newsList, { newsList: result.data });
+                var html = ejs.render(newsList, { newsList: result.data, kw : kw});
                 $('#newsList').html(html);
             })
         })
@@ -26,6 +27,11 @@
 <script id="newsListTempl" type="text/template">
 
     {% if (typeof newsList != "undefined" && newsList.length) { %}
+
+        {% if(typeof kw != "undefined") {%}
+    <li class="news-item news-item-cap"><strong>Search result for: <span class="highlight">{%=kw%}</span></strong></li>
+        {% } %}
+
     {%  newsList.forEach(function(newsItem){ %}
 
     <li class="news-item up">

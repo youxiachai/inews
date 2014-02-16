@@ -3,16 +3,13 @@
  */
 var DB = require('./schemas/index'),
     debug = require('debug')('services: comment'),
+    crypto = require('crypto'),
     Async = require('async');
 
-
-/**
- * 错误处理
- * @param err
- */
-function handleError(err) {
-    this.done(err);
+function makeGravatarURL(email){
+    return 'http://www.gravatar.com/avatar/' + crypto.createHash('md5').update(email).digest('hex');
 }
+
 
 function getComments (params, done) {
 
@@ -22,7 +19,7 @@ function getComments (params, done) {
     var include = [];
 
     if(params.where.article_id){
-       include.push({model : DB.User, attributes : ['name']});
+       include.push({model : DB.User, attributes : ['name','email']});
     }
 
     if(params.where.user_id){
@@ -42,6 +39,7 @@ function getComments (params, done) {
                 item.dataValues.text = item.text;
                 if(item.user){
                     item.dataValues.user = item.user.dataValues;
+                    item.dataValues.user.gravatar = makeGravatarURL(item.user.email);
                 }
                 if(item.article){
                     item.dataValues.article = item.article.dataValues;
@@ -49,7 +47,21 @@ function getComments (params, done) {
                 callback(null,  item.dataValues)
             }, done.bind({page : page, count : commentList.count}))
         })
-        .error(handleError.bind({done : done}));
+        .error(done);
+}
+
+function postComment(params, done) {
+    DB.Comment.create(params)
+        .success(function (comment){
+            DB.Article.build({
+                id :  comment.article_id
+            }).increment('comments_count', {by : 1})
+                .done(function (err) {
+                    done(err, 'ok');
+                });
+
+        })
+        .error(done);
 }
 
 
@@ -61,3 +73,4 @@ function getComments (params, done) {
 //})
 
 exports.getComments = getComments;
+exports.postComment = postComment;

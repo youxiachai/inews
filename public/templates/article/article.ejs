@@ -27,7 +27,7 @@
     <div id="respond">
         <h3>Post a response: </h3>
 
-        <form method="POST" action="/p/667/comment" novalidate="true">
+        <form method="POST" action="" id="articleComment" novalidate="true">
             <textarea placeholder="Some words..." class="typo-p" rows="3" required="required" name="text"
                       style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 93px;"></textarea>
             <input type="hidden" value="{%=article.id%}" name="article_id">
@@ -36,17 +36,33 @@
         </form>
     </div>
     <script>
-        var path = '/api/v1/articles/{%=article.id%}/comments';
-       console.log(path);
-        $.get('/templ/article/commentsList.ejs', function (templ){
 
-            $.get(path, function (apiRes){
-                var templHtml = ejs.render(templ, { commentsList: apiRes.data });
-                console.log(templHtml)
-                $('#comments').html(templHtml)
+        function loadComments(){
+            var path = '/api/v1/articles/{%=article.id%}/comments';
+            console.log(path);
+            $.get('/templ/article/commentsList.ejs', function (templ){
+
+                $.get(path, function (apiRes){
+                    var templHtml = ejs.render(templ, { commentsList: apiRes.data });
+                    console.log(templHtml)
+                    $('#comments').html(templHtml)
+                })
+
             })
+        }
+        $('#articleComment').submit(function (e){
+            e.preventDefault();
 
+            $.post('/api/v1/users/comments',$(this).serialize(), function (apiRes){
+                loadComments();
+            }).fail(function (jqxhr){
+                        $('#pageContent').text(jqxhr.responseText);
+                    })
         })
+
+
+        loadComments();
+
     </script>
 
     <div id="comments">
