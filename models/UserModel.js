@@ -66,8 +66,17 @@ function getById (params, done) {
         attributes : ['id', 'name','email', 'posts_count', 'digged_count' ,'bio', 'created_at']})
         .success(function (user){
             if(user){
-                user.dataValues.gravatar = makeGravatarURL(user.email);
-                done(null, user.dataValues);
+
+                DB.Comment.count({
+                    where : {user_id:user.id}
+                }).success(function (c){
+                        user.dataValues.comments_count = c;
+                        user.dataValues.gravatar = makeGravatarURL(user.email);
+                        done(null, user.dataValues);
+                    })
+                    .error(done)
+
+
             }else{
                 done(null, {});
             }
