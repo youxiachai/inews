@@ -4,11 +4,17 @@
 
 var Sequelize = require('sequelize');
 
-var option = {}
+var option = {};
+var DBAccess = {};
 
 
+process.env.NODE_ENV = 'production'
 if(process.env.NODE_ENV === 'production') {
     //my sql 配置
+//    option.user = 'root';
+//    option.pass = null;
+    DBAccess.user = 'root';
+    DBAccess.pass =  null;
     option=   {
         host: '127.0.0.1',
         port:  3306,
@@ -38,7 +44,7 @@ if(process.env.NODE_ENV === 'production') {
 }
 
 //如果是mysql 第一个为定义好的数据库名字.
-var mysql = new Sequelize('database',  option.user,  option.pass, option);
+var mysql = new Sequelize('inews-community',  DBAccess.user,  DBAccess.pass, option);
 
 var User = mysql.import(__dirname + '/user');
 

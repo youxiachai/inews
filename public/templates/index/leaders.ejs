@@ -1,0 +1,17 @@
+
+<span class="stamp fontello">TOP</span>
+
+<ul class="leaders clearfix typo wrapper-padding">
+
+     {% if(userList.length) {%}
+         {% userList.forEach(function(user){ %}
+    <li class="leader">
+        <div class="identical">
+            <img class="avatar" src="{%=user.gravatar%}?s=30&amp;d=mm&amp;r=g">
+            <a href="/public/users/{%=user.id%}">{%=user.name%}</a>
+            <small>{%=user.posts_count%} posts / {%=user.digged_count%} points</small>
+        </div>
+    </li>
+    {% })%}
+    {% } %}
+</ul>

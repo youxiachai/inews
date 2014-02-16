@@ -227,6 +227,31 @@ function postArticle(params, done) {
         .error(done)
 }
 
+/**
+ *
+ * @param params
+ * @param done
+ */
+function getList(params, done) {
+    var limit =  params.limit ? params.limit : 50;
+    var offset =  (params.page - 1) * limit;
+
+    DB.User.findAndCountAll({
+        limit : limit,
+        offset: offset,
+        attributes : ['id', 'name','email', 'posts_count', 'digged_count']
+    }).success(function (users){
+            var page = parseInt(users.count / limit) + 1;
+            var rows =  users.rows;
+
+          Async.map(rows, function (item, callback){
+              item.dataValues.gravatar = makeGravatarURL(item.email);
+              callback(null,  item.dataValues)
+          }, done.bind({page : page, count : users.count}));
+      })
+      .error(done);
+}
+
 //postArticle({
 //   user_id : 1,
 //   title : 'test',
@@ -259,7 +284,7 @@ function postArticle(params, done) {
 //})
 
 //getDigg(null, null);
-
+exports.getList = getList;
 exports.getDiggs = getDiggs;
 exports.getById = getById;
 exports.postSignUp = postSignUp;

@@ -111,7 +111,18 @@
                 }
                 break;
             case '#':
+            case '#latest':
                 routeHtml('/templ/index/page.ejs')
+                break;
+            case '#leaders':
+                $.get('/api/v1/public/users', function (apiRes){
+                    $.get('/templ/index/leaders.ejs',  function(templ) {
+                        var templHtml = ejs.render(templ, { userList: apiRes.data });
+                        console.log(templHtml)
+                        $('#pageContent').html(templHtml)
+                    })
+                })
+
                 break;
 
             default :

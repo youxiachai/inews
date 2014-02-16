@@ -109,7 +109,10 @@ module.exports = function (app) {
         DBServices.User.postRead(req.params, sendData.bind(res))
     })
 
+    app.get('/api/v1/public/users', function (req, res){
 
+        DBServices.User.getList(req.query, sendData.bind(res));
+    })
 
 
     app.get('/api/v1/public/users/:id', function (req, res){
