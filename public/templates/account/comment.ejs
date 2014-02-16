@@ -4,7 +4,7 @@
         {%  commentsList.forEach(function(comment){ %}
         <div class="comment">
             <div class="typo-small">
-                <a href="/article/{%=comment.article.id%}">{%=comment.article.title%}</a>
+                <a href="/articles/{%=comment.article.id%}">{%=comment.article.title%}</a>
                 <small>{%=comment.article.created_at%}</small>
             </div>
             <div class="typo-small">{%-comment.text%}</div>
