@@ -14,10 +14,10 @@
 
 
         <div class="identical">
-            <img src="http://www.gravatar.com/avatar/76ea1f62dc4f148613026779fdb8633e?s=30&amp;d=mm&amp;r=g"
+            <img src="{%=article.user.gravatar%}?s=30&amp;d=mm&amp;r=g"
                  class="avatar">
-            created by <a href="/users/{%=article.user.id%}">{%=article.user.name%}</a> @
-            <small>{%=article.created_at%}3</small>
+            created by <a href="/public/users/{%=article.user.id%}">{%=article.user.name%}</a> @
+            <small>{%=article.created_at%}</small>
         </div>
 
 

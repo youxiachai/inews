@@ -5,15 +5,14 @@
 var DB = require('./schemas/index'),
     DBServices = require('./index'),
     debug = require('debug')('services: article'),
-    Async = require('async');
+    Async = require('async'),
+    crypto = require('crypto');
 
-/**
- * 错误处理
- * @param err
- */
-function handleError(err) {
-    this.done(err);
+function makeGravatarURL(email){
+    return 'http://www.gravatar.com/avatar/' + crypto.createHash('md5').update(email).digest('hex');
 }
+
+
 
 function getDeleteList(params, done) {
     var queryParams = {}
@@ -35,7 +34,7 @@ function getList(params, done) {
     var queryParams = {}
 
     queryParams.where = {};
-    queryParams.where.status = {ne : -1}
+    queryParams.where.status = 1;
 
     if(params.user_id){
         queryParams.where.user_id = params.user_id
@@ -57,7 +56,7 @@ function getArticle(params, done) {
     var offset =  (params.page - 1) * limit;
 
     DB.Article.findAndCountAll({
-        include : [{model : DB.User, attributes : ['name', 'created_at']}],
+        include : [{model : DB.User, attributes : ['name', 'created_at', 'email']}],
         order : 'article.created_at DESC',
         limit : limit,
         where : params.where,
@@ -67,23 +66,24 @@ function getArticle(params, done) {
         var rows =  articleList.rows;
         Async.map(rows, function (item, callback){
             item.dataValues.user = item.user.dataValues;
+            item.dataValues.user.gravatar = makeGravatarURL(item.user.email);
             callback(null,  item.dataValues)
             }, done.bind({page : page, count : articleList.count}))
         })
-        .error(handleError.bind({done : done}));
+        .error(done);
 }
 
 function getById (params, done) {
 
   DB.Article.find(
       {where : {id : params.id},
-     include: [{model: DB.User}]
+     include: [{model: DB.User, attributes: ['name', 'email']}]
   }).success(function (article){
           article.dataValues.user = article.user.dataValues;
-          delete  article.dataValues.user.password;
+          article.dataValues.user.gravatar = makeGravatarURL(article.user.email);
           done(null,  article.dataValues);
       })
-      .error(handleError.bind({done : done}));
+      .error(done);
 }
 
 function getCommentsByArticle(params, done) {
@@ -98,12 +98,31 @@ function getCommentsByArticle(params, done) {
     DBServices.Comment.getComments(queryParams, done);
 }
 
+function getByKeyWords(params, done) {
+
+    var queryParams = {}
+
+    queryParams.where = ["title like ? OR content like ?", '%'+ params.kw + '%','%'+ params.kw + '%']
+
+    queryParams.page = params.page;
+    queryParams.limit = params.limit;
+
+    getArticle(queryParams, done);
+}
+
+//getByKeyWords({
+//    kw : 'test'
+//}, function (err, result){
+//    console.log(err)
+//    console.log(result);
+//})
 
 
 exports.getById = getById;
 exports.getList = getList;
 exports.getCommentsByArticle = getCommentsByArticle;
 exports.getArticle = getArticle;
+exports.getByKeyWords = getByKeyWords;
 
 
 //getCommentsByArticle({id : 2}, function (err, result){

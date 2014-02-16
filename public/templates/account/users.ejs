@@ -1,6 +1,6 @@
 
     {% if(typeof user != 'undefined') { %}
-
+    <input type="hidden" id="userId" value="{%=user.id%}" />
     Hi <a href="/public/users/{%=user.id%}">{%=user.name%}</a>
 
     <sup><a class="highlight-ok" title="it's not me" href="/users/logout">leave</a></sup>, glad to see u! Here is your
@@ -8,6 +8,7 @@
     <a href="/users/posts">posts</a>,
     <a href="/users/comments">comments</a>,
     <a href="/users/notifications">notifications
+        <span class="badge" id="notice" style="display: none">0</span>
     </a>.
 
 

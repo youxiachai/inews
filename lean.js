@@ -5,8 +5,8 @@ var crypto = require('crypto');
 
 var pawwd = '123456';
 
-console.log(crypto.createHash('md5').update(pawwd).digest('hex'))
-console.log(crypto.createHash('sha1').update(pawwd).digest('hex'))
+console.log(crypto.createHash('md5').update('youxiachai@gmail.com').digest('hex'))
+
 
 //  sdF!#$FDA
 //sha1($password . '$' . $key);
@@ -52,3 +52,12 @@ console.log(marked('I am using __markdown__. <script>alert("xss");</script>'));
 
 
 console.log(marked('## ook'));
+
+var test1 = '/users/notifications?status=1';
+
+console.log(test1.split('=')[1])
+var test2= '/users/notifications';
+console.log(test2.split('=')[1])
+
+console.log(!0)
+

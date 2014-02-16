@@ -1,13 +1,25 @@
 <div class="tools news">
-    <form class="news-item" action="/inews/index.php/search" novalidate="true">
+    <form class="news-item" action="" id="searchArticle" novalidate="true">
         <small class="pull-right">
             <a class="tag tag-ok"
                href="javascript:(function(d,s){ window.site_url = 'http://localhost/inews/index.php'; s = d.createElement('script');s.src=document.location.protocol + '//dn-inews.qbox.me/bml.js';d.head.appendChild(s);})(document);">分享到iNews</a>
             ←拖到书签栏
         </small>
         <i class="font font-quote"></i>
-        <input type="text" required="" placeholder="type to search..." autofocus="" name="kw" class="">
+        <input type="text" required="" id="searchKW"placeholder="type to search..." autofocus="" name="kw" class="">
     </form>
+
+    <script>
+        $('#searchArticle').submit(function (e){
+            e.preventDefault();
+            $.getJSON('/api/v1/articles?kw='+$('#searchKW').val(), function (result) {
+                var newsList = $('#newsListTempl').html();
+                var html = ejs.render(newsList, { newsList: result.data });
+                $('#newsList').html(html);
+            })
+        })
+
+    </script>
 </div>
 <span class="stamp fontello">TOP</span>
 
@@ -18,7 +30,7 @@
 
     <li class="news-item up">
         <a href="/public/users/{%=newsItem.user.id%}" class="gravatar"><img
-                src="http://www.gravatar.com/avatar/5e32cb7c39bdc287176f0bb2287776cb?s=36&amp;d=mm&amp;r=g"></a>
+                src="{%=newsItem.user.gravatar%}?s=36&d=mm&r=g"></a>
         <h4>
             <a href="/articles/{%=newsItem.id%}">
                 {%=newsItem.title%} </a>
@@ -35,7 +47,11 @@
 
     </li>
     {% }) %}
-    {%  } %}
+    {%  }else { %}
+    <li class="news-item up">
+        No contents found!
+    </li>
+    {%  }%}
 </script>
 
 <script>

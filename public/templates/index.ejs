@@ -32,7 +32,7 @@
                     var templHtml = ejs.render(templ, { userInfo: apiRes.data });
                     $('#pageContent').html(templHtml)
                 })
-            }else if(/^\/articles\/\d$/.test(href)){
+            }else if(/^\/articles\/\d*$/.test(href)){
                console.log( apiRes.data)
                $.get('/templ/article/article.ejs',  function(templ) {
                    ejs.open = '{%';
@@ -69,11 +69,17 @@
                $.get('/templ/account/notifiy.ejs',  function(templ) {
                    ejs.open = '{%';
                    ejs.close = '%}';
-                   var templHtml = ejs.render(templ, { commentsList: apiRes.data, type : 'Notify' });
-                   console.log(templHtml)
+                   var status =  parseInt(href.split('=')[1]);
+                   var templHtml = ejs.render(templ, { notifiyList: apiRes.data, type : 'Notify', is_read : status});
+                   if(!status && apiRes.data.length){
+                       $('#notice').text(apiRes.data.length).show();
+                   } else {
+                       $('#notice').text(apiRes.data.length).hide();
+                   }
+                   console.log(status)
                    $('#pageContent').html(templHtml)
                })
-           }else {
+           }  else {
                window.location = '/'
            }
 
@@ -93,6 +99,13 @@
             case '#login':
                 routeHtml('/templ/account/login.ejs')
                 break;
+            case '#shared':
+                if(checkLogin()){
+                    routeHtml('/templ/account/news.ejs')
+                } else {
+                    routeHtml('/templ/account/login.ejs')
+                }
+                break;
             case '#':
                 routeHtml('/templ/index/page.ejs')
                 break;
@@ -108,22 +121,30 @@
 //        console.log(e.currentTarget);
     })
 
-    var userId = $('#userId').val()
+    function checkLogin() {
+        var userId = $('#userId').val()
 
-    if(userId  && userId != 'undefined'){
+        if(userId  && userId != 'undefined'){
 
-        $.get('/api/v1/public/users/' + userId, function (apiRes){
+            $.get('/api/v1/public/users/' + userId, function (apiRes){
+                $.get('/templ/account/users.ejs', function (templ){
+                    var templHtml = ejs.render(templ, { user: apiRes.data});
+                    $('#userInfo').html(templHtml)
+                })
+            })
+
+            return true;
+        }else{
             $.get('/templ/account/users.ejs', function (templ){
-                var templHtml = ejs.render(templ, { user: apiRes.data});
+                var templHtml = ejs.render(templ, { user: undefined});
                 $('#userInfo').html(templHtml)
             })
-        })
-    }else{
-        $.get('/templ/account/users.ejs', function (templ){
-            var templHtml = ejs.render(templ, { user: undefined});
-            $('#userInfo').html(templHtml)
-        })
+
+            return false;
+        }
+
     }
+    checkLogin();
 
 
 </script>

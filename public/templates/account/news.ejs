@@ -1,0 +1,29 @@
+<article class="typo wrapper-padding smt">
+    <h2>Share a news:</h2>
+
+
+    <form method="POST" action="" id="shareNews" novalidate="true">
+        <p><input type="text" required="required" value="" placeholder="Title" name="title" autofocus="" class=""></p>
+        <p><input type="url" value="" required="required" placeholder="URL" name="link" data-aorb="a"> <cite>or</cite></p>
+        <textarea required="required" placeholder="Content" data-aorb="b" class="typo-p" name="content" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 67px;"></textarea>
+        <input type="submit" value="Send it" class="btn"> <small><a target="_blank" href="http://wowubuntu.com/markdown/">Markdown syntax is supported</a></small>
+    </form>
+
+    <script>
+        $('#shareNews').on('submit', function (e) {
+            e.preventDefault();
+
+            $.post('/api/v1/users/articles', $(this).serialize(), function (apiRes){
+
+                routeHtml('/templ/index/page.ejs')
+
+            }).fail(function (jqxhr){
+                        $('#pageContent').text(jqxhr.responseText);
+                    })
+
+
+
+        })
+
+    </script>
+</article>

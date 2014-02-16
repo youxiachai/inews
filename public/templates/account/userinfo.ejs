@@ -1,13 +1,13 @@
 <div class="typo wrapper-padding my">
-    <img src="http://www.gravatar.com/avatar/73f98d85baa7976075738595f758050b?s=80&amp;d=mm&amp;r=g" class="avatar">
+    <img src="{%=userInfo.gravatar%}?s=80&amp;d=mm&amp;r=g" class="avatar">
     <p class="ref">
-        <a href="/u/331/posts">{%=userInfo.posts_count%}</a>
-        <a href="/u/331/comments">Comments</a>
+        <a href="#">Posts</a>
+        <a href="#">Comments</a>
     </p>
     <ul>
         <li>Username: {%=userInfo.name%}</li>
         <li>Posts: {%=userInfo.posts_count%}</li>
-        <li>Comments: XXX</li>
+        <li>Comments: TODO comments</li>
         <li>Diggs: {%=userInfo.digged_count%}</li>
         <li>Created at: <small>{%=userInfo.created_at%}</small></li>
         <li>Bio: {%=userInfo.bio%}</li>

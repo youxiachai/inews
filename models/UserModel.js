@@ -13,9 +13,11 @@ function makePassword(password){
     return crypto.createHash('sha1').update(password + '$' + 'd#!AVFed').digest('hex');
 }
 
-function handleError(err) {
-    this.done(err);
+function makeGravatarURL(email){
+    return 'http://www.gravatar.com/avatar/' + crypto.createHash('md5').update(email).digest('hex');
 }
+
+
 
 /**
  *
@@ -61,9 +63,12 @@ function getById (params, done) {
 
     DB.User.find({
         where : {id : params.id},
-        attributes : ['id', 'name', 'posts_count', 'digged_count' ,'bio', 'created_at']})
-        .done(done)
-
+        attributes : ['id', 'name','email', 'posts_count', 'digged_count' ,'bio', 'created_at']})
+        .success(function (user){
+            user.dataValues.gravatar = makeGravatarURL(user.email);
+            done(null, user.dataValues);;
+        })
+        .error(done);
 }
 
 /**
@@ -109,7 +114,7 @@ function getDiggs(params, done) {
                 callback(null,  item.dataValues.article)
             },  done.bind({page : page, count : diggs.count}))
         })
-        .error(handleError.bind({done : done}));
+        .error(done);
 
 }
 
@@ -170,13 +175,63 @@ function getNotify(params, done) {
 
     queryParams.where = {};
     queryParams.where.user_id = params.id;
-    queryParams.where.status = params.status;
+    queryParams.where.status = params.status ?  params.status : 0;
 
     queryParams.page = params.page;
     queryParams.limit = params.limit;
 
     DBServices.Notify.getList(queryParams, done)
 }
+
+
+function postRead(params, done) {
+    var queryParams = {}
+    queryParams.where = {};
+
+    if(params.user_id){
+        queryParams.where.user_id = params.user_id;
+    }
+
+    if(params.id){
+        queryParams.where.id = params.id;
+    }
+
+    debug(JSON.stringify(queryParams))
+    DBServices.Notify.postMarkRead(queryParams, done)
+}
+
+/**
+ *
+ * @param params
+ * @param done
+ */
+function postArticle(params, done) {
+
+    DB.Article.create(params)
+        .success(function (article){
+            var user = DB.User.build();
+            user.id = article.user_id;
+//            user.isNewRecord = false;
+            user.increment('posts_count', {by : 1})
+                .success(function (newUser){
+                    done(null, 'ok');
+                })
+                .error(done)
+
+        })
+        .error(done)
+}
+
+//postArticle({
+//   user_id : 1,
+//   title : 'test',
+//    content : 'content'
+//}, function (err, result){
+//    console.log(
+//        err
+//    )
+//    console.log(result)
+//})
 
 //getNotify({
 //    id : 1,
@@ -207,3 +262,5 @@ exports.postSignIn = postSignIn;
 exports.getPosts = getPosts;
 exports.getNotify = getNotify;
 exports.getComments = getComments;
+exports.postRead  = postRead;
+exports.postArticle = postArticle;

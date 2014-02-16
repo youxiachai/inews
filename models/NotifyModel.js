@@ -6,13 +6,7 @@ var DB = require('./schemas/index'),
     debug = require('debug')('services: notify'),
     Async = require('async');
 
-/**
- * 错误处理
- * @param err
- */
-function handleError(err) {
-    this.done(err);
-}
+
 
 /**
  *  status 0 unread 1, read
@@ -49,7 +43,26 @@ function getList(params, done) {
                 callback(null,  item.dataValues)
             }, done.bind({page : page, count : commentList.count}))
         })
-        .error(handleError.bind({done : done}));
+        .error(done);
 }
 
+/**
+ * 设置消息已读
+ * @param params
+ * @param done
+ */
+function postMarkRead(params, done) {
+
+    DB.Notify.update({status : 1},params.where)
+        .done(done)
+}
+
+//postMarkRead({
+//    where : {id : 1}
+//}, function (err, affectRows){
+//    console.log(err)
+//    console.log(affectRows)
+//})
+
 exports.getList = getList;
+exports.postMarkRead = postMarkRead;

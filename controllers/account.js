@@ -84,6 +84,24 @@ module.exports = function (app) {
         DBServices.User.getNotify(req.query, sendData.bind(res));
     })
 
+    app.post('/api/v1/users/notifications', function (req, res){
+
+        DBServices.User.postRead({
+            user_id : req.session.user.id
+        }, sendData.bind(res))
+    })
+
+    app.post('/api/v1/users/articles', function (req, res){
+        req.body.user_id = req.session.user.id;
+        DBServices.User.postArticle(req.body, sendData.bind(res));
+    })
+
+
+    app.post('/api/v1/users/notifications/:id', function (req, res){
+        req.params.user_id = req.session.user.id;
+        DBServices.User.postRead(req.params, sendData.bind(res))
+    })
+
 
 
 
