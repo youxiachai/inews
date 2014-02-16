@@ -4,3 +4,5 @@
 
 exports.User = require('./UserModel');
 exports.Article = require('./ArticleModel');
+exports.Comment = require('./CommentModel');
+exports.Notify = require('./NotifyModel');

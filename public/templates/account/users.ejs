@@ -1,14 +1,15 @@
 
     {% if(typeof user != 'undefined') { %}
 
-    Hi <a href="/users/{%=user.id%}">{%=user.name%}</a>
+    Hi <a href="/public/users/{%=user.id%}">{%=user.name%}</a>
 
     <sup><a class="highlight-ok" title="it's not me" href="/users/logout">leave</a></sup>, glad to see u! Here is your
-    <a href="/inews/index.php/my/diggs">diggs</a>,
-    <a href="/inews/index.php/my/posts">posts</a>,
-    <a href="/inews/index.php/my/comments">comments</a>,
-    <a href="/inews/index.php/my/notice">notifications
+    <a href="/users/diggs">diggs</a>,
+    <a href="/users/posts">posts</a>,
+    <a href="/users/comments">comments</a>,
+    <a href="/users/notifications">notifications
     </a>.
+
 
     {%  } else { %}
     Hi there. u can <a href="#login">signin</a> with

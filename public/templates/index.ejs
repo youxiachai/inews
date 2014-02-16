@@ -22,9 +22,9 @@
     function routeApi(href){
 
         $.get('/api/v1' + href, function (apiRes){
-
+            console.log(apiRes);
            // users
-           var users = /^\/users\/\d$/;
+           var users = /^\/public\/users\/\d$/;
            if(users.test(href)){
                 $.get('/templ/account/userinfo.ejs',  function(templ) {
                     ejs.open = '{%';
@@ -38,6 +38,38 @@
                    ejs.open = '{%';
                    ejs.close = '%}';
                    var templHtml = ejs.render(templ, { article: apiRes.data });
+                   console.log(templHtml)
+                   $('#pageContent').html(templHtml)
+               })
+           }else if(/^\/users\/diggs/.test(href)){
+               $.get('/templ/index/newsList.ejs',  function(templ) {
+                   ejs.open = '{%';
+                   ejs.close = '%}';
+                   var templHtml = ejs.render(templ, { newsList: apiRes.data, type : 'Diggs' });
+                   console.log(templHtml)
+                   $('#pageContent').html(templHtml)
+               })
+           } else if(/^\/users\/posts/.test(href)){
+               $.get('/templ/index/newsList.ejs',  function(templ) {
+                   ejs.open = '{%';
+                   ejs.close = '%}';
+                   var templHtml = ejs.render(templ, { newsList: apiRes.data, type : 'Posts' });
+                   console.log(templHtml)
+                   $('#pageContent').html(templHtml)
+               })
+           }else if(/^\/users\/comments/.test(href)){
+               $.get('/templ/account/comment.ejs',  function(templ) {
+                   ejs.open = '{%';
+                   ejs.close = '%}';
+                   var templHtml = ejs.render(templ, { commentsList: apiRes.data, type : 'Said' });
+                   console.log(templHtml)
+                   $('#pageContent').html(templHtml)
+               })
+           }else if(/^\/users\/notifications/.test(href)){
+               $.get('/templ/account/notifiy.ejs',  function(templ) {
+                   ejs.open = '{%';
+                   ejs.close = '%}';
+                   var templHtml = ejs.render(templ, { commentsList: apiRes.data, type : 'Notify' });
                    console.log(templHtml)
                    $('#pageContent').html(templHtml)
                })
@@ -80,7 +112,7 @@
 
     if(userId  && userId != 'undefined'){
 
-        $.get('/api/v1/users/' + userId, function (apiRes){
+        $.get('/api/v1/public/users/' + userId, function (apiRes){
             $.get('/templ/account/users.ejs', function (templ){
                 var templHtml = ejs.render(templ, { user: apiRes.data});
                 $('#userInfo').html(templHtml)

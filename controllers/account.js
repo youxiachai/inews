@@ -5,6 +5,16 @@
 var DBServices = require('../models/index'),
     debug = require('debug')('api: account');
 
+function sendData(err, result){
+    if (err) {
+        return this.json(400, err);
+    }
+
+    this.json({
+        data : result
+    });
+}
+
 
 module.exports = function (app) {
 
@@ -41,6 +51,14 @@ module.exports = function (app) {
 
    })
 
+   app.all('/api/v1/users/*', function (req, res, next) {
+       if (req.session.user && req.session.user.id) {
+           req.query.id =  req.session.user.id;
+           return next();
+       }
+       res.send(401, 'should login');
+   })
+
    app.get('/api/v1/users/logout', function (req, res){
        req.session.user = {};
 
@@ -48,9 +66,28 @@ module.exports = function (app) {
 
    })
 
+    app.get('/api/v1/users/diggs', function (req, res){
+        debug(JSON.stringify(req.query));
+        DBServices.User.getDiggs(req.query, sendData.bind(res));
+    })
+
+    app.get('/api/v1/users/posts', function (req, res){
+        DBServices.User.getPosts(req.query, sendData.bind(res));
+    })
+
+    app.get('/api/v1/users/comments', function (req, res){
+        DBServices.User.getComments(req.query, sendData.bind(res));
+    })
+
+    app.get('/api/v1/users/notifications', function (req, res){
+
+        DBServices.User.getNotify(req.query, sendData.bind(res));
+    })
 
 
-   app.get('/api/v1/users/:id', function (req, res){
+
+
+    app.get('/api/v1/public/users/:id', function (req, res){
 
        DBServices.User.getById(req.params, function (err, result){
            console.log(err)

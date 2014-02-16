@@ -17,7 +17,7 @@
     {%  newsList.forEach(function(newsItem){ %}
 
     <li class="news-item up">
-        <a href="/users/{%=newsItem.user.id%}" class="gravatar"><img
+        <a href="/public/users/{%=newsItem.user.id%}" class="gravatar"><img
                 src="http://www.gravatar.com/avatar/5e32cb7c39bdc287176f0bb2287776cb?s=36&amp;d=mm&amp;r=g"></a>
         <h4>
             <a href="/articles/{%=newsItem.id%}">
@@ -29,7 +29,7 @@
         </h4>
         <small class="meta">
             <a href="/articles/{%=newsItem.id%}/comments#response">discuss ({%=newsItem.comments_count%})</a> /
-            <a href="/users/{%=newsItem.user.id%}">{%=newsItem.user.name%}</a> @  {%=newsItem.created_at%}
+            <a href="/public/users/{%=newsItem.user.id%}">{%=newsItem.user.name%}</a> @  {%=newsItem.created_at%}
         </small>
 
 

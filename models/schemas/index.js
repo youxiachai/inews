@@ -33,8 +33,9 @@ var Article = mysql.import(__dirname + '/article');
 
 var Comment = mysql.import(__dirname + '/comment');
 
-
 var UserDigg = mysql.import(__dirname + '/user_digg');
+
+var Notify = mysql.import(__dirname + '/notify');
 
 User.hasMany(Article, {foreignKey : 'user_id'});
 
@@ -43,6 +44,8 @@ Article.belongsTo(User, {foreignKey:  'user_id'});
 Comment.belongsTo(User, {foreignKey:  'user_id'});
 Comment.belongsTo(Article, {foreignKey:  'article_id'})
 
+Notify.belongsTo(User, {foreignKey:  'from_user_id'})
+      .belongsTo(Article, {foreignKey:  'object_id'});
 
 UserDigg
     .belongsTo(User, {foreignKey:  'user_id'})
@@ -53,4 +56,5 @@ exports.UserDigg = UserDigg;
 exports.User = User;
 exports.Article = Article;
 exports.Comment = Comment;
-exports.mysql = mysql
+exports.Notify = Notify;
+exports.mysql = mysql;

@@ -3,6 +3,7 @@
  */
 
 var DB = require('./schemas/index'),
+    DBServices = require('./index'),
     debug = require('debug')('services: article'),
     Async = require('async');
 
@@ -25,6 +26,11 @@ function getDeleteList(params, done) {
     getArticle(queryParams, done);
 }
 
+/**
+ *
+ * @param params
+ * @param done
+ */
 function getList(params, done) {
     var queryParams = {}
 
@@ -48,7 +54,7 @@ function getList(params, done) {
  */
 function getArticle(params, done) {
     var limit =  params.limit ? params.limit : 50;
-    var offset =  params.page - 1 * limit;
+    var offset =  (params.page - 1) * limit;
 
     DB.Article.findAndCountAll({
         include : [{model : DB.User, attributes : ['name', 'created_at']}],
@@ -87,37 +93,17 @@ function getCommentsByArticle(params, done) {
     queryParams.where.article_id = params.id;
 
     queryParams.page = params.page;
+    queryParams.limit = params.limit;
 
-    getComments(queryParams, done);
+    DBServices.Comment.getComments(queryParams, done);
 }
 
-function getComments (params, done) {
 
-    var limit =  params.limit ? params.limit : 50;
-    var offset =  params.page - 1 * limit;
-
-    DB.Comment.findAndCountAll({
-        include : [{model : DB.User}],
-        order : 'comment.created_at DESC',
-        limit : limit,
-        where : params.where,
-        offset : offset
-    }).success(function (commentList){
-            var page = parseInt(commentList.count / limit) + 1;
-            var rows =  commentList.rows;
-            Async.map(rows, function (item, callback){
-                item.dataValues.user = item.user.dataValues;
-                callback(null,  item.dataValues)
-            }, done.bind({page : page, count : commentList.count}))
-        })
-        .error(handleError.bind({done : done}));
-
-
-}
 
 exports.getById = getById;
 exports.getList = getList;
 exports.getCommentsByArticle = getCommentsByArticle;
+exports.getArticle = getArticle;
 
 
 //getCommentsByArticle({id : 2}, function (err, result){
