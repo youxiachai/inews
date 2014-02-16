@@ -7,7 +7,7 @@
         <a class="identical-day" href="#comment_{%=comment.id%}"># {%=comment.created_at%}</a>
         <a class="reply" href="#respond">reply</a>
     </div>
-    <div class="typo-p"><p>{%=comment.text%}</p>
+    <div class="typo-p"><p>{%-comment.text%}</p>
     </div>
 </div>
 {% }) %}

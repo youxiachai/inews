@@ -24,9 +24,9 @@ module.exports = function (sequelize, DataType) {
         content : {type: DataType.TEXT, get : function (){
             return marked(this.getDataValue('content'))
         }},
-        point : {type : DataType.FLOAT},
-        comments_count : {type: DataType.INTEGER},
-        digg_count : {type: DataType.INTEGER},
+        point : {type : DataType.FLOAT,  defaultValue : 0},
+        comments_count : {type: DataType.INTEGER,  defaultValue : 0},
+        digg_count : {type: DataType.INTEGER,  defaultValue : 0},
         status : {type: DataType.INTEGER, defaultValue : 1},
         user_id : {type: DataType.INTEGER}
     },{

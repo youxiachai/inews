@@ -6,11 +6,11 @@ module.exports = function (sequelize, DataType) {
         id: {type: DataType.INTEGER, primaryKey: true, autoIncrement: true},
         name : {type: DataType.STRING, comment:'用户名'},
         password: {type : DataType.STRING, comment:'密码'},
-        email : {type : DataType.STRING},
-        bio : {type : DataType.TEXT},
-        posts_count : {type : DataType.INTEGER} ,
-        digged_count : {type : DataType.INTEGER}  ,
-        status : {type :  DataType.INTEGER},
+        email : {type : DataType.STRING, defaultValue : ''},
+        bio : {type : DataType.TEXT, defaultValue : ''},
+        posts_count : {type : DataType.INTEGER,  defaultValue : 0} ,
+        digged_count : {type : DataType.INTEGER, defaultValue : 0}  ,
+        status : {type :  DataType.INTEGER, defaultValue : 1},
         create_passport_id : {type :  DataType.INTEGER}
     },{
         timestamps : true,

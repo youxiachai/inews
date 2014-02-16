@@ -4,28 +4,41 @@
 
 var Sequelize = require('sequelize');
 
-var mysqlConfig = {};
-mysqlConfig.user = 'root';
-mysqlConfig.pass = null;
-mysqlConfig.host = '127.0.0.1';
-mysqlConfig.port = '3306'
-mysqlConfig.logging = true;
+var option = {}
 
-var mysql = new Sequelize('inews-community',  mysqlConfig.user,  mysqlConfig.pass, {
-    host: mysqlConfig.host,
-    port:  mysqlConfig.port,
-    dialect: 'mysql',
-    logging: mysqlConfig.logging,
-    omitNull: true,
-    maxConcurrentQueries: 100,
-    define: {
+
+if(process.env.NODE_ENV === 'production') {
+    //my sql 配置
+    option=   {
+        host: '127.0.0.1',
+        port:  3306,
+        dialect: 'mysql',
+        logging: true,
+        omitNull: true,
+        maxConcurrentQueries: 100,
+        define: {
         timestamps: false,
-        freezeTableName: true,
-        charset: 'utf8',
-        collate: 'utf8_general_ci'
+            freezeTableName: true,
+            charset: 'utf8',
+            collate: 'utf8_general_ci'
     },
-    pool: { maxConnections: 50, maxIdleTime: 300}
-});
+        pool: { maxConnections: 50, maxIdleTime: 300}
+    }
+
+} else {
+  // sqlite3 配置
+    option = {
+        dialect: 'sqlite',
+        storage: __dirname + '/inews.sqlite',
+        define: {
+            timestamps: false,
+            freezeTableName: true
+        }
+    }
+}
+
+//如果是mysql 第一个为定义好的数据库名字.
+var mysql = new Sequelize('database',  option.user,  option.pass, option);
 
 var User = mysql.import(__dirname + '/user');
 
@@ -51,6 +64,10 @@ UserDigg
     .belongsTo(User, {foreignKey:  'user_id'})
     .belongsTo(Article, {foreignKey:  'article_id'});
 
+
+mysql.sync().error(function (err){
+    console.log(err);
+})
 
 exports.UserDigg = UserDigg;
 exports.User = User;

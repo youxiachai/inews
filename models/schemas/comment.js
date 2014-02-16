@@ -23,7 +23,7 @@ module.exports = function (sequelize, DataType) {
             return marked(this.getDataValue('text'))
         }},
         user_id : {type: DataType.INTEGER},
-        article_id : {type: DataType.INTEGER},
+        article_id : {type: DataType.INTEGER,  defaultValue : 0},
         comment_id : {type: DataType.INTEGER, defaultValue : 0}
     },{
         timestamps : true,

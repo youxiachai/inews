@@ -65,8 +65,13 @@ function getById (params, done) {
         where : {id : params.id},
         attributes : ['id', 'name','email', 'posts_count', 'digged_count' ,'bio', 'created_at']})
         .success(function (user){
-            user.dataValues.gravatar = makeGravatarURL(user.email);
-            done(null, user.dataValues);;
+            if(user){
+                user.dataValues.gravatar = makeGravatarURL(user.email);
+                done(null, user.dataValues);
+            }else{
+                done(null, {});
+            }
+
         })
         .error(done);
 }
