@@ -19,10 +19,14 @@ module.exports = function (sequelize, DataType) {
         id: {type: DataType.INTEGER, primaryKey: true, autoIncrement: true},
         title : {type: DataType.STRING, comment:'标题', get : function () {
             return xss(this.getDataValue('title'))
+        }, validate: {
+            notNull : true
         }},
         link : {type: DataType.STRING},
         content : {type: DataType.TEXT, get : function (){
             return marked(this.getDataValue('content'))
+        }, validate: {
+            notNull : true
         }},
         point : {type : DataType.FLOAT,  defaultValue : 0},
         comments_count : {type: DataType.INTEGER,  defaultValue : 0},

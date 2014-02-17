@@ -226,7 +226,8 @@ function postRead(params, done) {
  * @param done
  */
 function postArticle(params, done) {
-
+    params.title =  params.title.trim();
+    params.content =  params.content.trim();
     DB.Article.create(params)
         .success(function (article){
             var user = DB.User.build();
