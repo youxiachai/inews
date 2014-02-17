@@ -10,20 +10,28 @@
     </form>
 
     <script>
-        $('#shareNews').on('submit', function (e) {
-            e.preventDefault();
-
-            $.post('/api/v1/users/articles', $(this).serialize(), function (apiRes){
+        $('#shareNews').validator({
+            after :function (e, item){
+            $.post('/api/v1/users/articles', $(item).serialize(), function (){
 
                 routeHtml('/templ/index/page.ejs')
 
             }).fail(function (jqxhr){
                         $('#pageContent').text(jqxhr.responseText);
-                    })
+             })
+                return false;
+            }
+        });
+//        $('#shareNews').on('submit', function (e) {
+//            e.preventDefault();
+//
+//
+//
 
+//
+//
 
-
-        })
+//        })     ;
 
     </script>
 </article>
