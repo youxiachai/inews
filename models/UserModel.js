@@ -28,7 +28,7 @@ function postSignUp (params, done) {
     debug(JSON.stringify(params))
     var oneUser = DB.User.build();
 
-    oneUser.name = xss(params.name);
+    oneUser.name = xss(params.name.trim);
     oneUser.password = makePassword(params.password);
     oneUser.email =  xss(params.email ? params.email : '');
     oneUser.bio =  xss(params.bio ? params.bio : '');
@@ -37,7 +37,7 @@ function postSignUp (params, done) {
 }
 
 //postSignUp({
-//    name : 'xx',
+//    name : '   ',
 //    password : 123456,
 //    email : 'is@xmail.com',
 //    bio : undefined
