@@ -30,15 +30,21 @@ function postSignUp (params, done) {
 
     oneUser.name = xss(params.name);
     oneUser.password = makePassword(params.password);
-    oneUser.email =  xss(params.email);
-    oneUser.bio =  xss(params.bio);
-
+    oneUser.email =  xss(params.email ? params.email : '');
+    oneUser.bio =  xss(params.bio ? params.bio : '');
     oneUser.save()
         .done(done)
-
-
 }
 
+//postSignUp({
+//    name : 'xx',
+//    password : 123456,
+//    email : 'is@xmail.com',
+//    bio : undefined
+//}, function (err, result){
+//    console.log(err)
+//    console.log(result)
+//})
 /**
  *
  * @param params

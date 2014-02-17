@@ -61,3 +61,7 @@ console.log(test2.split('=')[1])
 
 console.log(!0)
 
+
+var validator = require('validator');
+
+console.log(validator.isNull(null))//=> true
