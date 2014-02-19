@@ -22,7 +22,7 @@ module.exports = function (app) {
 
      DBServices.User.postSignUp(req.body,  function (err, result){
          if (err || !result) {
-             return res.json(400, '用户已经存在')
+             return res.json(400, err ? err :'用户已经存在')
          }
          req.session.user = {id : result.id}
 
