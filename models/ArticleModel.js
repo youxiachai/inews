@@ -79,6 +79,8 @@ function getArticle(params, done) {
                         callback(null,  item.dataValues)
                     })
                     .error(callback)
+            } else {
+                callback(null,  item.dataValues)
             }
 
 
