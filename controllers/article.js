@@ -9,7 +9,7 @@ module.exports = function (app) {
 
     app.get('/api/v1/articles', function (req, res){
 
-        req.query.diggUserId = req.session.user.id ?  req.session.user.id : undefined;
+        req.query.diggUserId = req.session.user ?  req.session.user.id : undefined;
 
         if(req.query.kw){
             DBServices.Article.getByKeyWords(req.query, function (err, result){
