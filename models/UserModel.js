@@ -268,6 +268,35 @@ function getList(params, done) {
       .error(done);
 }
 
+/**
+ * 推荐内容
+ * @param paramd {user_id, article_id}
+ * @param done
+ */
+function postDigg(params, done) {
+
+   DB.UserDigg.findOrCreate({
+       user_id : params.user_id,
+       article_id : params.article_id
+   }).success(function (digg, created){
+
+       DBServices.Article.updateDiggCount({
+              digg : digg,
+              increment : created
+          }, done)
+
+
+   }).error(done)
+}
+
+//postDigg({
+//    user_id : 1,
+//    article_id : 4
+//}, function (err, result){
+//   console.log(err);
+//   console.log(result.dataValues)
+//})
+
 //postArticle({
 //   user_id : 1,
 //   title : 'test',
@@ -310,3 +339,4 @@ exports.getNotify = getNotify;
 exports.getComments = getComments;
 exports.postRead  = postRead;
 exports.postArticle = postArticle;
+exports.postDigg = postDigg;

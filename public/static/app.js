@@ -250,7 +250,7 @@ $.fn.create = function () {
 $(function () {
 
   // digg func
-  $('.btn-up').digg();
+ // $('.btn-up').digg();
 
   // form validator
   $('form').validator();

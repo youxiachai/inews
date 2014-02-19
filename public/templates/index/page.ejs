@@ -41,7 +41,7 @@
             <a href="/articles/{%=newsItem.id%}">
                 {%=newsItem.title%} </a>
             <small class="up-content">
-                <span data-user="1" data-id="2" class="btn-up font font-thumbs-up "></span>
+                <span data-id="{%=newsItem.id%}" class="btn-up font font-thumbs-up {%=newsItem.isDigg? 'on' : ''%}"></span>
                 (<cite class="up-count">{%=newsItem.digg_count%}</cite>)
             </small>
         </h4>
@@ -64,13 +64,43 @@
 <script>
     $.getJSON('/api/v1/articles', function (result) {
         var newsList = $('#newsListTempl').html();
-         console.log(result)
-      //  console.log(newsList);
-        ejs.open = '{%';
-        ejs.close = '%}';
+         console.log('api articles')
         var html = ejs.render(newsList, { newsList: result.data });
       //   console.log(html);
         $('#newsList').html(html);
+    })
+
+    // x, 这个 '.btn-up' 是 hardcore，jquery 不支持直接传 obj
+    document.oneClick = true;
+    $(document).on('click', 'span.btn-up', function () {
+        console.log($(this).data());
+        console.log($(this).data('id'))
+
+        var self =  $(this);
+
+        var articleId = self.data('id');
+
+        //  $(this).addClass('on')
+        //  console.log($(this).data('user'))
+        if(document.oneClick)  {
+            document.oneClick = false;
+            $.post('/api/v1/users/diggs/'+articleId, {}, function (result){
+                console.log(result);
+//            $(this).addClass('on')
+
+                var fn = self.hasClass('on') ? 'removeClass' : 'addClass';
+                self[fn]('on');
+                self.parent().find('.up-count').html(result.data.digg_count);
+
+                document.oneClick = true;
+            }).fail(function (jqxhr){
+                        $('#pageContent').text(jqxhr.responseText);
+                    })
+
+        }
+
+
+
     })
 
 </script>

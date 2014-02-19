@@ -66,6 +66,7 @@ Comment.belongsTo(Article, {foreignKey:  'article_id'})
 Notify.belongsTo(User, {foreignKey:  'from_user_id'})
       .belongsTo(Article, {foreignKey:  'object_id'});
 
+Article.hasMany(UserDigg, {foreignKey:  'article_id', as : 'user_digg'});
 UserDigg
     .belongsTo(User, {foreignKey:  'user_id'})
     .belongsTo(Article, {foreignKey:  'article_id'});

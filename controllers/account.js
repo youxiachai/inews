@@ -51,6 +51,7 @@ module.exports = function (app) {
 
    })
 
+    //用户接口需要seesion 认证
    app.all('/api/v1/users/*', function (req, res, next) {
        if (req.session.user && req.session.user.id) {
            req.query.id =  req.session.user.id;
@@ -107,6 +108,13 @@ module.exports = function (app) {
     app.post('/api/v1/users/notifications/:id', function (req, res){
         req.params.user_id = req.session.user.id;
         DBServices.User.postRead(req.params, sendData.bind(res))
+    })
+
+    app.post('/api/v1/users/diggs/:article_id', function (req, res){
+
+        req.params.user_id = req.session.user.id;
+
+        DBServices.User.postDigg(req.params, sendData.bind(res));
     })
 
     app.get('/api/v1/public/users', function (req, res){

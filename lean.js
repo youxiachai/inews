@@ -30,8 +30,9 @@ var xx1 = '@youxiachai x ';
 console.log(xx1.match(atEx))
 
 var xss = require('xss');
-var html = xss('<script>alert("xss");</script>');
+//var html = xss('<script>alert("xss");</script>');
 
+var html = xss('<img onerror="alert(1)" src="1">');
 var email = xss('youxachai@gameil.com')
 console.log(email)
 console.log(html);
@@ -65,3 +66,11 @@ console.log(!0)
 var validator = require('validator');
 
 console.log(validator.isNull(null))//=> true
+
+function testCall (one, two) {
+    console.log(this)
+    console.log(one)
+    console.log(two)
+}
+
+testCall.call({'xx' : 'xx'}, 'one', 'two')
