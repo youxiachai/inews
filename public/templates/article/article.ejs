@@ -2,14 +2,16 @@
 
     <h2 class="title">{%=article.title%}
         <small class="up-content">
-            <span data-user="{%=article.user_id%}" data-id="{%=article.id%}" class="btn-up font font-thumbs-up "></span>
+            <span data-user="{%=article.user_id%}" data-id="{%=article.id%}" class="btn-up font font-thumbs-up {%=article.isDigg? 'on' : ''%}"></span>
+
+
             (<cite class="up-count">{%=article.digg_count%}</cite>)
         </small>
     </h2>
 
     <div class="entry">
         <div class="typo-p">
-            <p>{%=article.content%}</p>
+            <p>{%-article.content%}</p>
         </div>
 
 
@@ -20,6 +22,13 @@
             <small>{%=article.created_at%}</small>
         </div>
 
+
+        {% if(article.isOwner) { %}
+        <div class="typo-p">
+            <a href="/users/articles/{%=article.id%}#delete" class="tag">delete</a>
+            <a  href="/articles/{%=article.id%}#edit" class="tag tag-ok">edit</a>
+        </div>
+        {% } %}
 
 
     </div>
@@ -61,9 +70,7 @@
                     })
         })
 
-
         loadComments();
-
     </script>
 
     <div id="comments">

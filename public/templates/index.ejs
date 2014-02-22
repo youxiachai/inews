@@ -19,72 +19,104 @@
         })
     }
 
-    function routeApi(href){
+    function routeApi(href, e){
 
-        $.get('/api/v1' + href, function (apiRes){
-            console.log(apiRes);
-           // users
-           var users = /^\/public\/users\/\d$/;
-           if(users.test(href)){
-                $.get('/templ/account/userinfo.ejs',  function(templ) {
-                    ejs.open = '{%';
-                    ejs.close = '%}';
-                    var templHtml = ejs.render(templ, { userInfo: apiRes.data });
+        //判断url 是否有http method
+
+        var checkMethod = href.split('#');
+
+
+        switch (checkMethod[checkMethod.length - 1]){
+            case 'delete' :
+                $.get('/templ/account/deleteok.ejs',  function(templ) {
+
+                    var templHtml = ejs.render(templ, { article: href });
                     $('#pageContent').html(templHtml)
                 })
-            }else if(/^\/articles\/\d*$/.test(href)){
-               console.log( apiRes.data)
-               $.get('/templ/article/article.ejs',  function(templ) {
-                   ejs.open = '{%';
-                   ejs.close = '%}';
-                   var templHtml = ejs.render(templ, { article: apiRes.data });
-                   console.log(templHtml)
-                   $('#pageContent').html(templHtml)
-               })
-           }else if(/^\/users\/diggs/.test(href)){
-               $.get('/templ/index/newsList.ejs',  function(templ) {
-                   ejs.open = '{%';
-                   ejs.close = '%}';
-                   var templHtml = ejs.render(templ, { newsList: apiRes.data, type : 'Diggs' });
-                   console.log(templHtml)
-                   $('#pageContent').html(templHtml)
-               })
-           } else if(/^\/users\/posts/.test(href)){
-               $.get('/templ/index/newsList.ejs',  function(templ) {
-                   ejs.open = '{%';
-                   ejs.close = '%}';
-                   var templHtml = ejs.render(templ, { newsList: apiRes.data, type : 'Posts' });
-                   console.log(templHtml)
-                   $('#pageContent').html(templHtml)
-               })
-           }else if(/^\/users\/comments/.test(href)){
-               $.get('/templ/account/comment.ejs',  function(templ) {
-                   ejs.open = '{%';
-                   ejs.close = '%}';
-                   var templHtml = ejs.render(templ, { commentsList: apiRes.data, type : 'Said' });
-                   console.log(templHtml)
-                   $('#pageContent').html(templHtml)
-               })
-           }else if(/^\/users\/notifications/.test(href)){
-               $.get('/templ/account/notifiy.ejs',  function(templ) {
-                   ejs.open = '{%';
-                   ejs.close = '%}';
-                   var status =  parseInt(href.split('=')[1]);
-                   var templHtml = ejs.render(templ, { notifiyList: apiRes.data, type : 'Notify', is_read : status});
-                   if(!status && apiRes.data.length){
-                       $('#notice').text(apiRes.data.length).show();
-                   } else {
-                       $('#notice').text(apiRes.data.length).hide();
-                   }
-                   console.log(status)
-                   $('#pageContent').html(templHtml)
-               })
-           }  else {
-               window.location = '/'
-           }
+
+                break;
+
+            default :
+                $.get('/api/v1' + href, function (apiRes){
+                    console.log(apiRes);
+                    // users
+                    var users = /^\/public\/users\/\d$/;
+                    if(users.test(href)){
+                        $.get('/templ/account/userinfo.ejs',  function(templ) {
+                            ejs.open = '{%';
+                            ejs.close = '%}';
+                            var templHtml = ejs.render(templ, { userInfo: apiRes.data });
+                            $('#pageContent').html(templHtml)
+                        })
+                    }else if(/^\/articles\/\d*/.test(href)){
+                        console.log( apiRes.data)
+                        var checkMethod = href.split('#');
+
+                        if(checkMethod.length && checkMethod[checkMethod.length - 1] === 'edit'){
+                                $.get('/templ/account/newsedit.ejs', function (templ){
+                                    var templHtml = ejs.render(templ, { article: apiRes.data});
+
+                                    $('#pageContent').html(templHtml)
+                                })
+                        } else {
+                            $.get('/templ/article/article.ejs',  function(templ) {
+                                var templHtml = ejs.render(templ, { article: apiRes.data});
+                                console.log(templHtml)
+                                $('#pageContent').html(templHtml)
+                            })
+                        }
 
 
-        })
+
+                    }else if(/^\/users\/diggs/.test(href)){
+                        $.get('/templ/index/newsList.ejs',  function(templ) {
+                            ejs.open = '{%';
+                            ejs.close = '%}';
+                            var templHtml = ejs.render(templ, { newsList: apiRes.data, type : 'Diggs' });
+                            console.log(templHtml)
+                            $('#pageContent').html(templHtml)
+                        })
+                    } else if(/^\/users\/posts/.test(href)){
+                        $.get('/templ/index/newsList.ejs',  function(templ) {
+                            ejs.open = '{%';
+                            ejs.close = '%}';
+                            var templHtml = ejs.render(templ, { newsList: apiRes.data, type : 'Posts' });
+                            console.log(templHtml)
+                            $('#pageContent').html(templHtml)
+                        })
+                    }else if(/^\/users\/comments/.test(href)){
+                        $.get('/templ/account/comment.ejs',  function(templ) {
+                            ejs.open = '{%';
+                            ejs.close = '%}';
+                            var templHtml = ejs.render(templ, { commentsList: apiRes.data, type : 'Said' });
+                            console.log(templHtml)
+                            $('#pageContent').html(templHtml)
+                        })
+                    }else if(/^\/users\/notifications/.test(href)){
+                        $.get('/templ/account/notifiy.ejs',  function(templ) {
+                            ejs.open = '{%';
+                            ejs.close = '%}';
+                            var status =  parseInt(href.split('=')[1]);
+                            var templHtml = ejs.render(templ, { notifiyList: apiRes.data, type : 'Notify', is_read : status});
+                            if(!status && apiRes.data.length){
+                                $('#notice').text(apiRes.data.length).show();
+                            } else {
+                                $('#notice').text(apiRes.data.length).hide();
+                            }
+                            console.log(status)
+                            $('#pageContent').html(templHtml)
+                        })
+                    }  else {
+                        window.location = '/'
+                    }
+
+
+                })
+                break;
+        }
+
+
+
     }
 
     $('body').on('click', 'a', function (e){
@@ -126,7 +158,7 @@
                 break;
 
             default :
-                routeApi(target)
+                routeApi(target, this)
                 break;
         }
 

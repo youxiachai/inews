@@ -49,6 +49,12 @@
             <a href="/articles/{%=newsItem.id%}/comments#response">discuss ({%=newsItem.comments_count%})</a> /
             <a href="/public/users/{%=newsItem.user.id%}">{%=newsItem.user.name%}</a> @  {%var currentDate = new Date(newsItem.created_at)%}
             {%=currentDate.getFullYear()%}-{%=currentDate.getMonth() + 1%}-{%=currentDate.getDate()%} {%=currentDate.getHours()%}:{%=currentDate.getMinutes()%}:{%=currentDate.getSeconds()%}
+
+            {% if(newsItem.isOwner) { %}
+            / <a class="highlight" href="/users/articles/{%=newsItem.id%}#delete">delete</a>
+            / <a class="highlight-ok" href="/articles/{%=newsItem.id%}#edit">edit</a>
+            {% } %}
+
         </small>
 
 

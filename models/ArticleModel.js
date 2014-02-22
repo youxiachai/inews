@@ -72,6 +72,11 @@ function getArticle(params, done) {
             item.dataValues.user.gravatar = makeGravatarURL(item.user.email);
             // 检查是否已经推荐过, 暂时这样,后边想一个更好的策略
             if(params.diggUserId){
+                // 判断文章是否是当前用户
+                if(item.dataValues.user_id === params.diggUserId){
+                    item.dataValues.isOwner = true;
+                }
+
                 DB.UserDigg.count({
                     where : {article_id : item.id, user_id: params.diggUserId}
                 }).success(function (c){
@@ -106,7 +111,24 @@ function getById (params, done) {
   }).success(function (article){
           article.dataValues.user = article.user.dataValues;
           article.dataValues.user.gravatar = makeGravatarURL(article.user.email);
-          done(null,  article.dataValues);
+
+          if(params.diggUserId){
+              // 判断文章是否是当前用户
+              if(article.dataValues.user_id === params.diggUserId){
+                  article.dataValues.isOwner = true;
+              }
+
+              DB.UserDigg.count({
+                  where : {article_id : article.id, user_id: params.diggUserId}
+              }).success(function (c){
+                      article.dataValues.isDigg = c;
+                      done(null,  article.dataValues)
+                  })
+                  .error(done)
+          } else {
+              done(null,  article.dataValues);
+          }
+
       })
       .error(done);
 }
@@ -177,12 +199,97 @@ function updateDiggCount(params, done) {
 
 }
 
+/**
+ *
+ * @param params id, user_id
+ * @param done
+ */
+function delArticle(params, done) {
+
+    DB.Article.find({
+        where : {id : params.id, user_id: params.user_id}
+    }).success(function (article){
+
+            if(article){
+                // 标为 -1 删除文章
+                article.updateAttributes({
+                    status : -1
+                }, ['modified_at', 'status']).done(done)
+            } else {
+                done('没有该文章');
+            }
+        })
+      .error(done)
+
+}
+
+
+/**
+ *
+ * @param params id, user_id, content or link
+ * @param done
+ */
+function putArticle(params, done) {
+    DB.Article.find({
+        include : [{model: DB.User, attributes: ['name', 'email']}],
+        where : {id : params.id, user_id: params.user_id}
+    }).success(function (article){
+
+            if(article){
+                // 改内容 和 title
+                var updateParams = {};
+
+                if(params.content){
+                    updateParams.content = params.content;
+                }
+
+                if(params.title){
+                    updateParams.title =   params.title;
+                }
+
+                if(params.link){
+                    updateParams.link = params.link;
+                }
+
+                var updateAttr = [];
+                // 遍历需要更新的字段
+                Object.keys(updateParams).forEach(function (item){
+                    debug(item);
+                    updateAttr.push(item);
+                })
+
+                debug(JSON.stringify(updateAttr));
+
+                article
+                    .updateAttributes(updateParams, ['modified_at'].concat(updateAttr))
+                    .done(done)
+            } else {
+                done('没有该文章');
+            }
+        })
+        .error(done)
+}
+
+
+//putArticle({
+//    id : 2,
+//    user_id : 1,
+//    content : 'put hello world' ,
+//    title : 'put title' ,
+//    link : 'put link'
+//}, function (err, reuslt){
+//    console.log(err)
+//    console.log(reuslt.dataValues)
+//})
+
 exports.updateDiggCount = updateDiggCount;
 exports.getById = getById;
 exports.getList = getList;
 exports.getCommentsByArticle = getCommentsByArticle;
 exports.getArticle = getArticle;
 exports.getByKeyWords = getByKeyWords;
+exports.delArticle = delArticle;
+exports.putArticle= putArticle;
 
 
 //getCommentsByArticle({id : 2}, function (err, result){

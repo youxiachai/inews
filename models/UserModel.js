@@ -289,6 +289,27 @@ function postDigg(params, done) {
    }).error(done)
 }
 
+/**
+ * 更新文章信息
+ * @param params
+ * @param done
+ */
+function putArticle(params, done) {
+
+    DBServices.Article.putArticle(params, done);
+}
+
+/**
+ *
+ * @param params id, user_id
+ * @param done
+ */
+function delArticle(params, done) {
+
+    DBServices.Article.delArticle(params, done);
+
+}
+
 //postDigg({
 //    user_id : 1,
 //    article_id : 4
@@ -340,3 +361,5 @@ exports.getComments = getComments;
 exports.postRead  = postRead;
 exports.postArticle = postArticle;
 exports.postDigg = postDigg;
+exports.delArticle = delArticle;
+exports.putArticle = putArticle;

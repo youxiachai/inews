@@ -1,0 +1,44 @@
+<article class="typo wrapper-padding smt">
+    <h2>Share a news:</h2>
+
+
+    <form method="POST" action="" id="{%=article.id%}" novalidate="true">
+        <p><input type="text" required="required" value="{%=article.title%}" placeholder="Title" name="title" autofocus="" class=""></p>
+        <p><input type="url" value="{%=article.link%}" required="required" placeholder="URL" name="link" data-aorb="a"> <cite>or</cite></p>
+        <textarea required="required" value="{%=article.content%}" placeholder="Content" data-aorb="b" class="typo-p" name="content" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 67px;"></textarea>
+        <input type="submit" value="Send it" class="btn"> <small><a target="_blank" href="http://wowubuntu.com/markdown/">Markdown syntax is supported</a></small>
+    </form>
+
+    <script>
+        $('#{%=article.id%}').validator({
+            after :function (e, item){
+            $.ajax({ url : '/api/v1/users/articles/' +{%=article.id%},
+                data :  $(item).serialize(),
+                type : 'PUT' })
+                .done(function (apiRes){
+
+                    $.get('/templ/article/article.ejs',  function(templ) {
+                        var templHtml = ejs.render(templ, { article: apiRes.data});
+                        $('#pageContent').html(templHtml)
+                    })
+
+                })
+                .fail(function (jqxhr){
+                        $('#pageContent').text(jqxhr.responseText);
+             })
+                return false;
+            }
+        });
+//        $('#shareNews').on('submit', function (e) {
+//            e.preventDefault();
+//
+//
+//
+
+//
+//
+
+//        })     ;
+
+    </script>
+</article>

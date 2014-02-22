@@ -97,6 +97,24 @@ module.exports = function (app) {
         DBServices.User.postArticle(req.body, sendData.bind(res));
     })
 
+    app.del('/api/v1/users/articles/:id', function (req, res){
+
+        DBServices.User.delArticle({
+               user_id : req.session.user.id,
+               id : req.params.id
+        }, sendData.bind(res));
+    })
+
+    app.put('/api/v1/users/articles/:id', function (req, res){
+
+        req.body.id =  req.params.id;
+        req.body.user_id =  req.session.user.id;
+
+        debug(JSON.stringify(req.body));
+
+        DBServices.User.putArticle(req.body, sendData.bind(res));
+    })
+
     app.post('/api/v1/users/comments', function (req, res){
         req.body.user_id = req.session.user.id;
 
