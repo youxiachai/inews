@@ -122,11 +122,11 @@ function getById (params, done) {
                   where : {article_id : article.id, user_id: params.diggUserId}
               }).success(function (c){
                       article.dataValues.isDigg = c;
-                      done(null,  article.dataValues)
+                      done(null,  article)
                   })
                   .error(done)
           } else {
-              done(null,  article.dataValues);
+              done(null,  article);
           }
 
       })
@@ -262,7 +262,11 @@ function putArticle(params, done) {
 
                 article
                     .updateAttributes(updateParams, ['modified_at'].concat(updateAttr))
-                    .done(done)
+                    .success(function (data){
+                        data.dataValues.isOwner = true;
+                        done(null, data);
+                    })
+                    .error(done)
             } else {
                 done('没有该文章');
             }
