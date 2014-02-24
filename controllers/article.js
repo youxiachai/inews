@@ -26,7 +26,7 @@ module.exports = function (app) {
 
     app.get('/api/v1/articles/:id', function (req, res){
 
-        req.params.diggUserId =  req.session.user.id;
+        req.params.diggUserId =   req.session.user ? req.session.user.id : undefined;
         DBServices.Article.getById(req.params, function (err, result){
 //            result.logid =
             res.json({data : result});
