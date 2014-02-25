@@ -4,6 +4,15 @@
 
 var DBServices = require('../models/index'),
     debug = require('debug')('api: article');
+function sendData(err, result){
+    if (err) {
+        return this.json(400, err);
+    }
+
+    this.json({
+        data : result
+    });
+}
 
 module.exports = function (app) {
 
@@ -12,13 +21,9 @@ module.exports = function (app) {
         req.query.diggUserId = req.session.user ?  req.session.user.id : undefined;
 
         if(req.query.kw){
-            DBServices.Article.getByKeyWords(req.query, function (err, result){
-                res.json({pageInfo : this , data : result});
-            })
+            DBServices.Article.getByKeyWords(req.query,sendData.bind(res))
         }else{
-            DBServices.Article.getList(req.query, function (err, result){
-                res.json({pageInfo : this , data : result});
-            })
+            DBServices.Article.getList(req.query, sendData.bind(res))
         }
 
 
@@ -36,9 +41,7 @@ module.exports = function (app) {
 
     app.get('/api/v1/articles/:id/comments', function (req, res){
 
-        DBServices.Article.getCommentsByArticle(req.params, function (err, result){
-            res.json({data : result});
-        })
+        DBServices.Article.getCommentsByArticle(req.params,  sendData.bind(res))
     })
 
 }

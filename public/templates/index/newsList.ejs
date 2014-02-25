@@ -32,7 +32,9 @@
 {% }) %}
 <div class="pagination">
     <ul>
-        <li class=" active  "><a href="/user/diggs?page=1">1</a></li>
+        {% for(var i=1; i < pageInfo.totalPage; i++){ %}
+        <li class=" active  "><a href="/articles?page={%=i+1%}">{%=i+1%}</a></li>
+        {% } %}
     </ul>
 </div>
 {%  } %}

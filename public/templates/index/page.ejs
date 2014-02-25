@@ -67,7 +67,11 @@
     {%  }%}
 
     <div class="pagination">
-        <ul><li class=" active  "><a href="/articles?page=1">1</a></li>
+        <ul>
+            {% for(var i=0; i < pageInfo.totalPage; i++){ %}
+            <li class=" active  "><a href="/articles?page={%=i+1%}">{%=i+1%}</a></li>
+            {% } %}
+        </ul>
     </div>
 </script>
 
@@ -75,7 +79,7 @@
     $.getJSON('/api/v1/articles', function (result) {
         var newsList = $('#newsListTempl').html();
          console.log('api articles')
-        var html = ejs.render(newsList, { newsList: result.data });
+        var html = ejs.render(newsList, { newsList: result.data.list, pageInfo : result.data.pageInfo });
       //   console.log(html);
         $('#newsList').html(html);
     })

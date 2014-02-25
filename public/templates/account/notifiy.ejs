@@ -53,5 +53,9 @@
     </div>
 </article>
 <div class="pagination">
-    <ul></ul>
+    <ul>
+        {% for(var i=0; i < pageInfo.totalPage; i++){ %}
+        <li class=" active  "><a href="/users/notifications?page={%=i+1%}">{%=i+1%}</a></li>
+        {% } %}
+    </ul>
 </div>

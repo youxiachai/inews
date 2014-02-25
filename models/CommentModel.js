@@ -14,7 +14,7 @@ function makeGravatarURL(email){
 function getComments (params, done) {
 
     var limit =  params.limit ? params.limit : 50;
-    var offset =  params.page - 1 * limit;
+    var offset =  (params.page - 1) * limit;
 
     var include = [];
 
@@ -33,7 +33,8 @@ function getComments (params, done) {
         where : params.where,
         offset : offset
     }).success(function (commentList){
-            var page = parseInt(commentList.count / limit) + 1;
+            var page = parseInt(offset / limit) + 1  ;
+            var totalPage =  parseInt(commentList.count / limit) + 1;
             var rows =  commentList.rows;
             Async.map(rows, function (item, callback){
                 item.dataValues.text = item.text;
@@ -45,7 +46,19 @@ function getComments (params, done) {
                     item.dataValues.article = item.article.dataValues;
                 }
                 callback(null,  item.dataValues)
-            }, done.bind({page : page, count : commentList.count}))
+            }, function (err, result){
+//                done.bind({page : page, count : commentList.count})
+
+                if(err) {
+                    return done(err)
+                }
+
+                done(null, {
+                    pageInfo : {page : page ? page : 1,
+                        totalPage : totalPage},
+                    list : result
+                });
+            })
         })
         .error(done);
 }

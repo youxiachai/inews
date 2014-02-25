@@ -13,3 +13,13 @@
     </div>
 </article>
 
+
+<div class="pagination">
+    <ul>
+        {% for(var i= 0; i < pageInfo.totalPage; i++){ %}
+        <li class=" active  "><a href="/users/comments?page={%=i+1%}">{%=i+1%}</a></li>
+        {% } %}
+    </ul>
+</div>
+
+

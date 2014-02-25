@@ -31,7 +31,8 @@ function getList(params, done) {
         where : params.where,
         offset : offset
     }).success(function (commentList){
-            var page = parseInt(commentList.count / limit) + 1;
+            var page = parseInt(offset / limit) + 1  ;
+            var totalPage =  parseInt(commentList.count / limit) + 1;
             var rows =  commentList.rows;
             Async.map(rows, function (item, callback){
                 if(item.user){
@@ -41,7 +42,17 @@ function getList(params, done) {
                     item.dataValues.article = item.article.dataValues;
                 }
                 callback(null,  item.dataValues)
-            }, done.bind({page : page, count : commentList.count}))
+            }, function (err, result){
+                if(err) {
+                    return done(err)
+                }
+
+                done(null, {
+                    pageInfo : {page : page ? page : 1,
+                        totalPage : totalPage},
+                    list : result
+                });
+            })
         })
         .error(done);
 }

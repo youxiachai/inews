@@ -75,7 +75,7 @@
                             ejs.close = '%}';
 
 
-                            var templHtml = ejs.render(templ, { newsList: apiRes.data, type : 'Diggs' });
+                            var templHtml = ejs.render(templ, { newsList: apiRes.data.list, type : 'Diggs', pageInfo : apiRes.data.pageInfo });
                             console.log(templHtml)
                             $('#pageContent').html(templHtml)
                         })
@@ -83,16 +83,15 @@
                         $.get('/templ/index/newsList.ejs',  function(templ) {
                             ejs.open = '{%';
                             ejs.close = '%}';
-                            var templHtml = ejs.render(templ, { newsList: apiRes.data, type : 'Posts' });
+                            var templHtml = ejs.render(templ, { newsList: apiRes.data.list, type : 'Posts', pageInfo : apiRes.data.pageInfo });
                             console.log(templHtml)
                             $('#pageContent').html(templHtml)
                         })
                     }else if(/^\/users\/comments/.test(href)){
                         $.get('/templ/account/comment.ejs',  function(templ) {
-                            ejs.open = '{%';
-                            ejs.close = '%}';
-                            var templHtml = ejs.render(templ, { commentsList: apiRes.data, type : 'Said' });
-                            console.log(templHtml)
+
+                            var templHtml = ejs.render(templ, { commentsList: apiRes.data.list, type : 'Said', pageInfo : apiRes.data.pageInfo });
+
                             $('#pageContent').html(templHtml)
                         })
                     }else if(/^\/users\/notifications/.test(href)){
@@ -100,7 +99,7 @@
                             ejs.open = '{%';
                             ejs.close = '%}';
                             var status =  parseInt(href.split('=')[1]);
-                            var templHtml = ejs.render(templ, { notifiyList: apiRes.data, type : 'Notify', is_read : status});
+                            var templHtml = ejs.render(templ, { notifiyList: apiRes.data.list, type : 'Notify', pageInfo : apiRes.data.pageInfo, is_read : status});
                             if(!status && apiRes.data.length){
                                 $('#notice').text(apiRes.data.length).show();
                             } else {

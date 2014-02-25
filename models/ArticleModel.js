@@ -65,7 +65,8 @@ function getArticle(params, done) {
         where : params.where,
         offset : offset
     }).success(function (articleList){
-        var page = parseInt(articleList.count / limit) + 1;
+        var page = parseInt(offset / limit) + 1  ;
+        var totalPage =  parseInt(articleList.count / limit) + 1;
         var rows =  articleList.rows;
         Async.map(rows, function (item, callback){
             item.dataValues.user = item.user.dataValues;
@@ -90,7 +91,18 @@ function getArticle(params, done) {
 
 
 
-            }, done.bind({page : page, count : articleList.count}))
+            }, function (err, result){
+            if(err) {
+                return done(err)
+            }
+
+            done(null, {
+                pageInfo : {page : page ? page : 1,
+                totalPage : totalPage},
+                list : result
+            });
+
+        })
         })
         .error(done);
 }
