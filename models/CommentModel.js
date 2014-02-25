@@ -49,21 +49,47 @@ function getComments (params, done) {
         })
         .error(done);
 }
-
+/**
+ *
+ * @param params
+ * @param done
+ */
 function postComment(params, done) {
-    DB.Comment.create(params)
-        .success(function (comment){
-            DB.Article.build({
-                id :  comment.article_id
-            }).increment('comments_count', {by : 1})
-                .done(function (err) {
-                    done(err, 'ok');
-                });
 
-        })
-        .error(done);
+    DB.Article.find({
+        where : {id : params.article_id}
+    }).done(function (err, article){
+            if(err || !article){
+                return done(err ? err : 'article not exist')
+            }
+
+            DB.Comment.create(params)
+                .success(function (comment){
+                    DB.Notify.create({
+                        message: comment.dataValues.text,
+                        from_user_id: comment.user_id,
+                        user_id: article.user_id,
+                        object_type: 'Article',
+                        object_id: article.id
+                    }).done(function (err) {
+                            //TODO 是否进行邮件提醒
+                            debug(JSON.stringify(err));
+                        })
+
+                    done(null, 'ok');
+                })
+                .error(done)
+       })
 }
 
+//postComment({
+//   text : 'ok',
+//    user_id: 1,
+//    article_id : 1
+//}, function (err, result){
+//    console.log(err)
+//    console.log(result)
+//})
 
 
 //getComments({
