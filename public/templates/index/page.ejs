@@ -52,7 +52,7 @@
 
             {% if(newsItem.isOwner) { %}
             / <a class="highlight" href="/users/articles/{%=newsItem.id%}#delete">delete</a>
-            / <a class="highlight-ok" href="/articles/{%=newsItem.id%}#edit">edit</a>
+            / <a class="highlight-ok" href="/articles/{%=newsItem.id%}?edit=true#edit">edit</a>
             {% } %}
 
         </small>

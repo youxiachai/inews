@@ -26,7 +26,7 @@
         {% if(article.isOwner) { %}
         <div class="typo-p">
             <a href="/users/articles/{%=article.id%}#delete" class="tag">delete</a>
-            <a  href="/articles/{%=article.id%}#edit" class="tag tag-ok">edit</a>
+            <a  href="/articles/{%=article.id%}?edit=true#edit" class="tag tag-ok">edit</a>
         </div>
         {% } %}
 

@@ -112,6 +112,10 @@ function getById (params, done) {
           article.dataValues.user = article.user.dataValues;
           article.dataValues.user.gravatar = makeGravatarURL(article.user.email);
 
+          if(!params.isEdit){
+              article.dataValues.content = article.content;
+          }
+
           if(params.diggUserId){
               // 判断文章是否是当前用户
               if(article.dataValues.user_id === params.diggUserId){
@@ -122,11 +126,11 @@ function getById (params, done) {
                   where : {article_id : article.id, user_id: params.diggUserId}
               }).success(function (c){
                       article.dataValues.isDigg = c;
-                      done(null,  article)
+                      done(null,  article.dataValues)
                   })
                   .error(done)
           } else {
-              done(null,  article);
+              done(null,  article.dataValues);
           }
 
       })
