@@ -53,7 +53,7 @@
             $.get('/templ/article/commentsList.ejs', function (templ){
 
                 $.get(path, function (apiRes){
-                    var templHtml = ejs.render(templ, { commentsList: apiRes.data });
+                    var templHtml = ejs.render(templ, { commentsList: apiRes.data.list, pageInfo : apiRes.data.pageInfo });
 
                     $('#comments').html(templHtml)
                 })
