@@ -11,3 +11,37 @@
     </div>
 </div>
 {% }) %}
+
+<script>
+
+
+     var form = $('#respond')
+             , reply;
+
+     reply = function () {
+         var cmt = $(this).closest('.comment')
+                 , au = cmt.data('author')
+         //, id = cmt.data('id')
+                 , sel = document.getSelection() + ''
+                 , textarea = form.find('textarea')
+                 , text;
+
+         sel = sel ? ('> QUOTE: ' + sel + '\n\n') : '';
+         text = sel + '@' + au + ' ';
+
+         cmt.append(form);
+
+         textarea.val(text);
+         textarea[0].selectionStart = text.length;
+         textarea[0].selectionEnd = text.length;
+
+         textarea.focus();
+
+         return false;
+     }
+
+//     this.on('click', '.reply', reply);
+
+    $(document).on('click', '.reply', reply);
+
+</script>

@@ -54,7 +54,7 @@
 
                 $.get(path, function (apiRes){
                     var templHtml = ejs.render(templ, { commentsList: apiRes.data });
-                    console.log(templHtml)
+
                     $('#comments').html(templHtml)
                 })
 
@@ -64,6 +64,10 @@
             e.preventDefault();
 
             $.post('/api/v1/users/comments',$(this).serialize(), function (apiRes){
+                Essage.show({
+                    message : 'comment ok',
+                    status : 'success'
+                }, 2000);
                 loadComments();
             }).fail(function (jqxhr){
                         $('#pageContent').text(jqxhr.responseText);

@@ -62,7 +62,7 @@ $.fn.reply = function () {
     text = sel + '@' + au + ' ';
 
     cmt.append(form);
-
+    console.log('xxxxxxxxxxxx')
     textarea.val(text);
     textarea[0].selectionStart = text.length;
     textarea[0].selectionEnd = text.length;

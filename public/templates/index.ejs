@@ -15,6 +15,7 @@
 
     function routeHtml(path) {
         $.get(path,  function(data) {
+
             $('#pageContent').html(data)
         })
     }
@@ -72,6 +73,8 @@
                         $.get('/templ/index/newsList.ejs',  function(templ) {
                             ejs.open = '{%';
                             ejs.close = '%}';
+
+
                             var templHtml = ejs.render(templ, { newsList: apiRes.data, type : 'Diggs' });
                             console.log(templHtml)
                             $('#pageContent').html(templHtml)
