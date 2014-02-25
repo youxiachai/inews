@@ -108,7 +108,7 @@ module.exports = function (app) {
     app.put('/api/v1/users/articles/:id', function (req, res){
 
         req.body.id =  req.params.id;
-        req.body.user_id =  req.session.user.ixd;
+        req.body.user_id =  req.session.user.id;
 
         debug(JSON.stringify(req.body));
 
