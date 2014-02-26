@@ -50,6 +50,7 @@
                             $('#pageContent').html(templHtml)
                         })
                     }else if(/^\/articles\/\d*/.test(href)){
+                        console.log('article-->' + href);
                         console.log( apiRes.data)
                         var checkMethod = href.split('#');
 

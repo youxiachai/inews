@@ -46,7 +46,7 @@
             </small>
         </h4>
         <small class="meta">
-            <a href="/articles/{%=newsItem.id%}/comments#response">discuss ({%=newsItem.comments_count%})</a> /
+            <a href="/articles/{%=newsItem.id%}#response">discuss ({%=newsItem.comments_count%})</a> /
             <a href="/public/users/{%=newsItem.user.id%}">{%=newsItem.user.name%}</a> @  {%var currentDate = new Date(newsItem.created_at)%}
             {%=currentDate.getFullYear()%}-{%=currentDate.getMonth() + 1%}-{%=currentDate.getDate()%} {%=currentDate.getHours()%}:{%=currentDate.getMinutes()%}:{%=currentDate.getSeconds()%}
 
