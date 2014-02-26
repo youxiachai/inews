@@ -78,16 +78,28 @@ function postComment(params, done) {
 
             DB.Comment.create(params)
                 .success(function (comment){
-                    DB.Notify.create({
-                        message: comment.dataValues.text,
-                        from_user_id: comment.user_id,
-                        user_id: article.user_id,
-                        object_type: 'Article',
-                        object_id: article.id
-                    }).done(function (err) {
-                            //TODO 是否进行邮件提醒
-                            debug(JSON.stringify(err));
-                        })
+
+                    Async.parallel([
+                       function (callback) {
+                            // 添加提醒
+                           DB.Notify.create({
+                               message: comment.dataValues.text,
+                               from_user_id: comment.user_id,
+                               user_id: article.user_id,
+                               object_type: 'Article',
+                               object_id: article.id
+                           }).done(callback);
+                       },
+                        function (callback){
+                            article.increment('comments_count', {by:1})
+                                .done(callback);
+                        }
+                    ], function (err){
+                        //TODO 异常处理
+                        debug(JSON.stringify(err));
+                    })
+
+
 
                     done(null, 'ok');
                 })
