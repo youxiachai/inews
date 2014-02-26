@@ -74,9 +74,9 @@
                             ejs.open = '{%';
                             ejs.close = '%}';
 
-
+                            // console.log(apiRes.data)
                             var templHtml = ejs.render(templ, { newsList: apiRes.data.list, type : 'Diggs', pageInfo : apiRes.data.pageInfo });
-                            console.log(templHtml)
+                            console.log(apiRes.data.list)
                             $('#pageContent').html(templHtml)
                         })
                     } else if(/^\/users\/posts/.test(href)){

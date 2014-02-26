@@ -126,13 +126,26 @@ function getDiggs(params, done) {
         where : {user_id : params.id},
         offset : offset})
         .success(function (diggs){
-            var page = parseInt(diggs.count / limit) + 1;
+            var page = parseInt(offset / limit) + 1  ;
+            var totalPage =  parseInt(diggs.count / limit) + 1;
             var rows =  diggs.rows;
             Async.map(rows, function (item, callback){
                 item.dataValues.article =  item.article.dataValues;
                 item.dataValues.article.user =  item.article.user.dataValues;
                 callback(null,  item.dataValues.article)
-            },  done.bind({page : page, count : diggs.count}))
+            },  function (err, result){
+//                done.bind({page : page, count : commentList.count})
+
+                if(err) {
+                    return done(err)
+                }
+
+                done(null, {
+                    pageInfo : {page : page ? page : 1,
+                        totalPage : totalPage},
+                    list : result
+                });
+            })
         })
         .error(done);
 
