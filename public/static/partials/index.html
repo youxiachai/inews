@@ -1,0 +1,41 @@
+<div class="tools news">
+    <form class="news-item" action="" id="searchArticle" novalidate="true">
+        <i class="font font-quote"></i>
+        <input type="text" required="" id="searchKW"placeholder="type to search..." autofocus="" name="kw" class="">
+    </form>
+</div>
+<span class="stamp fontello">TOP</span>
+
+<ul class="news typo" id="newsList">
+    <li ng-show="search.result" class="news-item news-item-cap"><strong>Search result for: <span class="highlight">{{search.kw}}</span></strong></li>
+
+    <li ng-show="articles.length == 0" class="news-item up">
+        No contents found!
+    </li>
+
+    <li class="news-item up"   ng-repeat="article in articles">
+        <a href="#/public/users/{{article.user.id}}" class="gravatar"><img
+                ng-src="{{article.user.gravatar}}?s=36&d=mm&r=g"></a>
+        <h4>
+            <a href="#/articles/{{article.id}}">
+                {{article.title}} </a>
+            <small class="up-content">
+                <span data-id="{{article.id}}" class="btn-up font font-thumbs-up {{article|checkdiggs}}"></span>
+                (<cite class="up-count">{{article.digg_count}}</cite>)
+            </small>
+        </h4>
+        <small class="meta">
+            <a href="#/articles/{{article.id}}#response">discuss ({{article.comments_count}})</a> /
+            <a href="#/public/users/{{article.user.id}}">{{article.user.name}}</a> @ {{article.created_at | date:'yyyy-MM-dd HH:mm:ss Z'}}
+            <a ng-show="article.isOwner" class="highlight" href="#/users/articles/{{article.id}}#delete">  / delete</a>
+            <a  ng-show="article.isOwner" class="highlight-ok" href="#/articles/{{article.id}}?edit=true#edit"> / edit</a>
+        </small>
+    </li>
+
+
+    <div class="pagination">
+        <ul>
+            <li class="{{page|pageactive:$index}}" ng-repeat="index in totalPage"><a href="#/articles?page={{index+1}}">{{index+1}}</a></li>
+        </ul>
+    </div>
+</ul>

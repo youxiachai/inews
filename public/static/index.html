@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html ng-app="inews">
+<head>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/essage.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <script type="text/javascript" src="lib/jquery-1.9.1.min.js"></script>
+
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+
+
+    <script src="js/app.js" ></script>
+    <script src="js/controllers.js" ></script>
+    <script src="js/services.js" ></script>
+    <script src="js/directives.js"></script>
+    <script src="js/filters.js"></script>
+
+    <style type="text/css">
+        @font-face {
+            font-family: 'fontello';
+            src: url('/font/fontello.woff') format('woff'), url('/font/fontello.ttf') format('truetype'), url('/font/fontello.svg#fontello') format('svg');
+        }
+    </style>
+
+
+</head>
+<body>
+
+<div class="topmenu"></div>
+
+<div class="wrapper list" id="pageContent">
+
+<ng-view />
+
+</div>
+
+<footer class="wrapper">
+    I am footer
+</footer>
+
+
+<!--<script type="text/javascript" src="/mouse.js"></script>-->
+<!--<script type="text/javascript" src="/jquery.autosize-min.js"></script>-->
+<!--<script type="text/javascript" src="/bootstrap.js"></script>-->
+<!--<script type="text/javascript" src="/validator.js"></script>-->
+<!--<script type="text/javascript" src="/essage.js"></script>-->
+<!--<script type="text/javascript" src="/app.js"></script>-->
+
+</body>
+</html>

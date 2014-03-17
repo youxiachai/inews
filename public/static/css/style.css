@@ -233,7 +233,7 @@ tag.verify{text-shadow:none;}
 
 #respond{margin-bottom:30px;}
 #comments{background:#f8f8f8;margin:0 -40px;}
-#comments #loading{text-align:center;background:url(ajax-loader.gif) no-repeat center center;height:32px;text-indent:-9999em;}
+#comments #loading{text-align:center;background:url(../ajax-loader.gif) no-repeat center center;height:32px;text-indent:-9999em;}
 
 .comment{padding:15px 40px 10px;}
 .comment:nth-child(even){background:#fff;}

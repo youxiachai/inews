@@ -8,7 +8,7 @@ var http = require('http'),
 
 app.set('port', 4001);
 
-//app.use(express.logger('dev'));
+app.use(express.logger('dev'));
 // cookie support
 // cookie support
 app.use(express.cookieParser('testInews'));
@@ -28,10 +28,10 @@ app.use(express.static(__dirname + '/public/static'));
 app.use('/templ' , express.static(__dirname + '/public/templates'));
 
 
-app.get('/', function (req, res){
-
-    res.render('index', {user : req.session.user ? req.session.user : {}})
-})
+//app.get('/', function (req, res){
+//
+//    res.redirect('index.html');
+//})
 
 require('./controllers/account')(app)
 require('./controllers/article')(app)

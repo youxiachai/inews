@@ -1,0 +1,69 @@
+<article class="typo wrapper-padding up hover">
+
+    <h2 class="title">{{article.title}}
+        <small class="up-content">
+            <span data-user="{{article.user_id}}" data-id="{{article.id}}" class="btn-up font font-thumbs-up {{article||{}|checkdiggs}}"></span>
+
+
+            (<cite class="up-count">{{article.digg_count}}</cite>)
+        </small>
+    </h2>
+
+    <div class="entry">
+        <div class="typo-p">
+            <p>{{article.content}}</p>
+        </div>
+
+
+        <div class="identical">
+            <img ng-src="{{article.user.gravatar}}?s=30&amp;d=mm&amp;r=g"
+                 class="avatar">
+            created by <a href="#/public/users/{{article.user.id}}">{{article.user.name}}</a> @
+            <small>{{article.created_at | date:'yyyy-MM-dd HH:mm:ss Z'}}</small>
+        </div>
+
+
+
+        <div class="typo-p" ng-show="article.isOwner">
+            <a href="#/users/articles/{{article.id}}#delete" class="tag">delete</a>
+            <a  href="#/articles/{{article.id}}?edit=true#edit" class="tag tag-ok">edit</a>
+        </div>
+
+
+
+    </div>
+
+    <div id="respond" ng-show="article.isLogin">
+        <h3>Post a response: </h3>
+
+        <form method="POST" action="" id="articleComment" novalidate="true">
+            <textarea placeholder="Some words..." class="typo-p" rows="3" required="required" name="text"
+                      style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 93px;"></textarea>
+            <input type="hidden" value="{{article.id}}" name="article_id">
+            <input type="submit" value="Share my mind" class="btn">
+            <small><a target="_blank" href="http://wowubuntu.com/markdown/">Markdown syntax is supported</a></small>
+        </form>
+    </div>
+ 
+
+    <div id="comments">
+        <div ng-repeat="comment in comments" data-id="{{comment.id}}" data-author="{{comment.user.name}}" id="comment_{{comment.id}}" class="comment">
+            <div class="identical">
+                <a class="user-ok" href="#/users/{{comment.user_id}}">
+                    <img ng-src="{{comment.user.gravatar}}?s=30&amp;d=mm&amp;r=g" class="avatar">
+                    {{comment.user.name}}        </a>
+                <a class="identical-day" href="#comment_{{comment.id}}"># {{comment.created_at}}</a>
+                <a class="reply" href="#respond">reply</a>
+            </div>
+            <div class="typo-p"><p>{{comment.text}}</p>
+            </div>
+        </div>
+        <div class="pagination">
+            <ul>
+                <li class="{{page|pageactive:$index}}" ng-repeat="index in totalPage"><a href="#/articles?page={{index+1}}">{{index+1}}</a></li>
+            </ul>
+        </div>
+
+
+    </div>
+</article>
