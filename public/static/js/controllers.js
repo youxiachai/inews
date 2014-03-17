@@ -6,13 +6,8 @@
 var inewsControllers = angular.module('inews.controllers', []);
 
 inewsControllers.controller('indexCtrl', ['$scope', 'Article', function ($scope, Article){
-     console.log('helloworld');
-     $scope.hi = 'ok'
 
-//    $scope.search = {
-//        result : false,
-//        kw : 'hello world'
-//    }
+
      Article.list.get({limit : '2'})
          .$promise.then(function(data) {
              console.log(data);
@@ -36,16 +31,11 @@ inewsControllers.controller('articleCtrl',['$scope',  '$routeParams','Article','
 
     Article.list.get($routeParams)
         .$promise.then(function(result) {
-            console.log(result);
             $scope.article = result.data;
-
-
-
         });
 
     Comment.list.get($routeParams)
         .$promise.then(function(result) {
-            console.log(result);
             var  comments =  result.data;
             $scope.comments = comments.list;
             $scope.page =  comments.pageInfo.page;
