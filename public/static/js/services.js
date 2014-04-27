@@ -8,20 +8,15 @@ var inewsServices = angular.module('inews.services', ['ngResource']);
 //获取文章
 inewsServices.service('Article', ['$resource', function ($resource){
 
-    this.list =  $resource('/api/v1/articles/:id');
+//    this.list =  $resource('/api/v1/articles/:id');
 
-//    return {
-//        list : $resource('/api/v1/articles/:id')
-//
-//    }
+    return  $resource('/api/v1/articles/:id', {id : '@id'});
 }])
 
 // 获取评论
 inewsServices.factory('Comment', ['$resource', function ($resource) {
-     return {
-         list : $resource('/api/v1/articles/:id/comments')
+     return  $resource('/api/v1/articles/:id/comments', {id : '@id'})
 
-     }
 }])
 
 inewsServices.factory('Notify', ['$resource', function ($resource) {

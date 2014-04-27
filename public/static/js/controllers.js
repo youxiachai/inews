@@ -3,21 +3,28 @@
  */
 
 
-var inewsControllers = angular.module('inews.controllers', []);
+var inewsControllers = angular.module('inews.controllers', ['ngRoute']);
 
-inewsControllers.controller('indexCtrl', ['$scope', 'Article', function ($scope, Article){
+inewsControllers.controller('indexCtrl', ['$scope', 'Article','$routeParams', function ($scope, Article, $routeParams){
+
+//    $routeParams.limit = 2;
+//    console.log($routeParams);
+     Article.get($routeParams, function (data) {
+         var articles = data.data;
+         $scope.articles = articles.list;
+         $scope.page = articles.pageInfo.page;
+         $scope.totalPage = [];
+         for(var i = 0 ; i < articles.pageInfo.totalPage; i++){
+             $scope.totalPage.push(i);
+         }
 
 
-     Article.list.get({limit : '2'})
-         .$promise.then(function(data) {
-             console.log(data);
-             var articles = data.data;
-             $scope.articles = articles.list;
-             console.log(articles);
-             $scope.page = articles.pageInfo.page;
-             $scope.totalPage = new Array(articles.pageInfo.totalPage);
-
-         });
+//         console.log( $scope.totalPage.length)
+//         console.log(articles.pageInfo.totalPage)
+     }, function (err){
+         console.log(err);
+         alert('err');
+     });
 
     $scope.signin = function () {
         console.log('sigin');
@@ -29,18 +36,17 @@ inewsControllers.controller('articleCtrl',['$scope',  '$routeParams','Article','
     console.log('article')
     console.log($routeParams)
 
-    Article.list.get($routeParams)
-        .$promise.then(function(result) {
-            $scope.article = result.data;
-        });
+    Article.get($routeParams, function (result){
+        $scope.article = result.data;
+    });
 
-    Comment.list.get($routeParams)
-        .$promise.then(function(result) {
-            var  comments =  result.data;
-            $scope.comments = comments.list;
-            $scope.page =  comments.pageInfo.page;
-            $scope.totalPage = new Array(comments.pageInfo.totalPage);
-        });
+    Comment.get($routeParams, function(result) {
+        var  comments =  result.data;
+        $scope.comments = comments.list;
+        $scope.page =  comments.pageInfo.page;
+        $scope.totalPage = new Array(comments.pageInfo.totalPage);
+    });
+
 
 
 }])

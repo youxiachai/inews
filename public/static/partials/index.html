@@ -35,7 +35,7 @@
 
     <div class="pagination">
         <ul>
-            <li class="{{page|pageactive:$index}}" ng-repeat="index in totalPage"><a href="#/articles?page={{index+1}}">{{index+1}}</a></li>
+            <li class="{{page|pageactive:$index}}" ng-repeat="index in totalPage"><a href="#/?page={{index+1}}">{{index+1}}</a></li>
         </ul>
     </div>
 </ul>

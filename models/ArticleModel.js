@@ -40,6 +40,7 @@ function getList(params, done) {
     }
 
     queryParams.page = params.page;
+    queryParams.limit = params.limit;
 
     queryParams.diggUserId = params.diggUserId;
 
