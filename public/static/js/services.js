@@ -6,11 +6,14 @@
 var inewsServices = angular.module('inews.services', ['ngResource']);
 
 //获取文章
-inewsServices.factory('Article', ['$resource', function ($resource){
-    return {
-        list : $resource('/api/v1/articles/:id')
+inewsServices.service('Article', ['$resource', function ($resource){
 
-    }
+    this.list =  $resource('/api/v1/articles/:id');
+
+//    return {
+//        list : $resource('/api/v1/articles/:id')
+//
+//    }
 }])
 
 // 获取评论

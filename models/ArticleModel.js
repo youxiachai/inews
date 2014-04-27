@@ -328,16 +328,16 @@ function putArticle(params, done) {
 }
 
 
-putArticle({
-    id : 2,
-    user_id : 1,
-    content : 'put hello wcorld' ,
-    title : 'put title' ,
-    link : 'put link'
-}, function (err, reuslt){
-    console.log(err)
-    console.log(JSON.stringify(reuslt))
-})
+//putArticle({
+//    id : 2,
+//    user_id : 1,
+//    content : 'put hello wcorld' ,
+//    title : 'put title' ,
+//    link : 'put link'
+//}, function (err, reuslt){
+//    console.log(err)
+//    console.log(JSON.stringify(reuslt))
+//})
 
 exports.updateDiggCount = updateDiggCount;
 exports.getById = getById;
