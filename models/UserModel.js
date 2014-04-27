@@ -9,14 +9,13 @@ var DB = require('./schemas/index'),
     xss = require('xss'),
     crypto = require('crypto');
 
-function makePassword(password){
+function makePassword(password) {
     return crypto.createHash('sha1').update(password + '$' + 'd#!AVFed').digest('hex');
 }
 
-function makeGravatarURL(email){
+function makeGravatarURL(email) {
     return 'http://www.gravatar.com/avatar/' + crypto.createHash('md5').update(email).digest('hex');
 }
-
 
 
 /**
@@ -24,14 +23,14 @@ function makeGravatarURL(email){
  * @param params
  * @param done
  */
-function postSignUp (params, done) {
+function postSignUp(params, done) {
     debug(JSON.stringify(params))
     var oneUser = DB.User.build();
 
     oneUser.name = xss(params.name.trim());
     oneUser.password = makePassword(params.password);
-    oneUser.email =  xss(params.email ? params.email : '');
-    oneUser.bio =  xss(params.bio ? params.bio : '');
+    oneUser.email = xss(params.email ? params.email : '');
+    oneUser.bio = xss(params.bio ? params.bio : '');
     oneUser.save()
         .done(done)
 }
@@ -50,11 +49,11 @@ function postSignUp (params, done) {
  * @param params
  * @param done
  */
-function postSignIn (params, done) {
+function postSignIn(params, done) {
 
     DB.User.find({
-        where : DB.mysql.and({password : makePassword(params.password)},
-        DB.mysql.or({name : params.name}, {email : params.name}))
+        where: DB.mysql.and({password: makePassword(params.password)},
+            DB.mysql.or({name: params.name}, {email: params.name}))
     }).done(done)
 
 }
@@ -65,17 +64,17 @@ function postSignIn (params, done) {
 //})
 
 
-function getById (params, done) {
+function getById(params, done) {
 
     DB.User.find({
-        where : {id : params.id},
-        attributes : ['id', 'name','email', 'posts_count', 'digged_count' ,'bio', 'created_at']})
-        .success(function (user){
-            if(user){
+        where: {id: params.id},
+        attributes: ['id', 'name', 'email', 'posts_count', 'digged_count' , 'bio', 'created_at']})
+        .success(function (user) {
+            if (user) {
 
                 DB.Comment.count({
-                    where : {user_id:user.id}
-                }).success(function (c){
+                    where: {user_id: user.id}
+                }).success(function (c) {
                         user.dataValues.comments_count = c;
                         user.dataValues.gravatar = makeGravatarURL(user.email);
                         done(null, user.dataValues);
@@ -83,7 +82,7 @@ function getById (params, done) {
                     .error(done)
 
 
-            }else{
+            } else {
                 done(null, {});
             }
 
@@ -96,11 +95,13 @@ function getById (params, done) {
  * @param params
  * @param done
  */
-function getUserArticle (params, done) {
+function getUserArticle(params, done) {
     DB.User.findAll({
-        include : [{model: DB.Article}] ,
-        where : {id : params.id}
-    }).done(function (err, result){
+        include: [
+            {model: DB.Article}
+        ],
+        where: {id: params.id}
+    }).done(function (err, result) {
             console.log(err)
             console.log(result)
         })
@@ -113,37 +114,39 @@ function getUserArticle (params, done) {
  */
 function getDiggs(params, done) {
 
-    var limit =  params.limit ? params.limit : 50;
-    var offset =  (params.page - 1) * limit;
+    var limit = params.limit ? params.limit : 50;
+    var offset = (params.page - 1) * limit;
 
     DB.UserDigg.findAndCountAll({
         include: [
-            {model : DB.Article,
-             include: [ {model : DB.User, attributes: ['name']}]}
+            {model: DB.Article,
+                include: [
+                    {model: DB.User, attributes: ['name']}
+                ]}
         ],
-        limit : limit,
-        order : 'article.created_at DESC',
-        where : {user_id : params.id},
-        offset : offset})
-        .success(function (diggs){
-            var page = parseInt(offset / limit) + 1  ;
-            var totalPage =  parseInt(diggs.count / limit) + 1;
-            var rows =  diggs.rows;
-            Async.map(rows, function (item, callback){
-                item.dataValues.article =  item.article.dataValues;
-                item.dataValues.article.user =  item.article.user.dataValues;
-                callback(null,  item.dataValues.article)
-            },  function (err, result){
+        limit: limit,
+        order: 'article.created_at DESC',
+        where: {user_id: params.id},
+        offset: offset})
+        .success(function (diggs) {
+            var page = parseInt(offset / limit) + 1;
+            var totalPage = parseInt(diggs.count / limit) + 1;
+            var rows = diggs.rows;
+            Async.map(rows, function (item, callback) {
+                item.dataValues.article = item.article.dataValues;
+                item.dataValues.article.user = item.article.user.dataValues;
+                callback(null, item.dataValues.article)
+            }, function (err, result) {
 //                done.bind({page : page, count : commentList.count})
 
-                if(err) {
+                if (err) {
                     return done(err)
                 }
 
                 done(null, {
-                    pageInfo : {page : page ? page : 1,
-                        totalPage : totalPage},
-                    list : result
+                    pageInfo: {page: page ? page : 1,
+                        totalPage: totalPage},
+                    list: result
                 });
             })
         })
@@ -167,7 +170,7 @@ function getPosts(params, done) {
     queryParams.limit = params.limit;
 
 
-  DBServices.Article.getArticle(queryParams, done)
+    DBServices.Article.getArticle(queryParams, done)
 
 
 }
@@ -193,7 +196,7 @@ function getComments(params, done) {
     queryParams.page = params.page;
     queryParams.limit = params.limit;
 
-    DBServices.Comment.getComments(queryParams , done);
+    DBServices.Comment.getComments(queryParams, done);
 }
 
 
@@ -208,7 +211,7 @@ function getNotify(params, done) {
 
     queryParams.where = {};
     queryParams.where.user_id = params.id;
-    queryParams.where.status = params.status ?  params.status : 0;
+    queryParams.where.status = params.status ? params.status : 0;
 
     queryParams.page = params.page;
     queryParams.limit = params.limit;
@@ -221,11 +224,11 @@ function postRead(params, done) {
     var queryParams = {}
     queryParams.where = {};
 
-    if(params.user_id){
+    if (params.user_id) {
         queryParams.where.user_id = params.user_id;
     }
 
-    if(params.id){
+    if (params.id) {
         queryParams.where.id = params.id;
     }
 
@@ -239,15 +242,15 @@ function postRead(params, done) {
  * @param done
  */
 function postArticle(params, done) {
-    params.title =  params.title.trim();
-    params.content =  params.content.trim();
+    params.title = params.title.trim();
+    params.content = params.content.trim();
     DB.Article.create(params)
-        .success(function (article){
+        .success(function (article) {
             var user = DB.User.build();
             user.id = article.user_id;
 //            user.isNewRecord = false;
-            user.increment('posts_count', {by : 1})
-                .success(function (){
+            user.increment('posts_count', {by: 1})
+                .success(function () {
                     done(null, 'ok');
                 })
                 .error(done)
@@ -262,23 +265,23 @@ function postArticle(params, done) {
  * @param done
  */
 function getList(params, done) {
-    var limit =  params.limit ? params.limit : 50;
-    var offset =  (params.page - 1) * limit;
+    var limit = params.limit ? params.limit : 50;
+    var offset = (params.page - 1) * limit;
 
     DB.User.findAndCountAll({
-        limit : limit,
+        limit: limit,
         offset: offset,
-        attributes : ['id', 'name','email', 'posts_count', 'digged_count']
-    }).success(function (users){
+        attributes: ['id', 'name', 'email', 'posts_count', 'digged_count']
+    }).success(function (users) {
             var page = parseInt(users.count / limit) + 1;
-            var rows =  users.rows;
+            var rows = users.rows;
 
-          Async.map(rows, function (item, callback){
-              item.dataValues.gravatar = makeGravatarURL(item.email);
-              callback(null,  item.dataValues)
-          }, done.bind({page : page, count : users.count}));
-      })
-      .error(done);
+            Async.map(rows, function (item, callback) {
+                item.dataValues.gravatar = makeGravatarURL(item.email);
+                callback(null, item.dataValues)
+            }, done.bind({page: page, count: users.count}));
+        })
+        .error(done);
 }
 
 /**
@@ -287,19 +290,47 @@ function getList(params, done) {
  * @param done
  */
 function postDigg(params, done) {
+    //创建推荐记录
+    DB.UserDigg
+        .findOrCreate({
+            user_id: params.user_id,
+            article_id: params.article_id
+        })
+        .spread(function (digg, created) {
+            //查找推荐内容的文章
+            var article = DB.Article.find({
+                where: {id: digg.article_id },
+                attributes: ['digg_count', 'id']
+            });
 
-   DB.UserDigg.findOrCreate({
-       user_id : params.user_id,
-       article_id : params.article_id
-   }).success(function (digg, created){
 
-       DBServices.Article.updateDiggCount({
-              digg : digg,
-              increment : created
-          }, done)
+            if (created) {
+                return [article];
+            } else {
+                return [article, digg];
+            }
 
 
-   }).error(done)
+        })
+        .spread(function (currentArtiscle, digg) {
+
+            //没有推荐过的该文章推荐数 +1
+            if (!digg) {
+                return currentArtiscle.increment('digg_count', {by: 1});
+            }
+
+            //已经推荐过,现在取消推荐 -1;
+            return digg
+                .destroy()
+                .then(function () {
+                    return currentArtiscle.decrement('digg_count', {by: 1});
+                })
+        })
+        .then(function (newArticle) {
+            done(null, newArticle.dataValues);
+        })
+        .catch(done);
+
 }
 
 /**
@@ -322,13 +353,13 @@ function delArticle(params, done) {
     DBServices.Article.delArticle(params, done);
 
 }
-
+//
 //postDigg({
 //    user_id : 1,
 //    article_id : 4
 //}, function (err, result){
 //   console.log(err);
-//   console.log(result.dataValues)
+//   console.log(result)
 //})
 
 //postArticle({
@@ -371,7 +402,7 @@ exports.postSignIn = postSignIn;
 exports.getPosts = getPosts;
 exports.getNotify = getNotify;
 exports.getComments = getComments;
-exports.postRead  = postRead;
+exports.postRead = postRead;
 exports.postArticle = postArticle;
 exports.postDigg = postDigg;
 exports.delArticle = delArticle;

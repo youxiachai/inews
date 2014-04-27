@@ -88,3 +88,6 @@ var xx1 =  '/articles/1222';
 //conso.log(xx1.lastIndexOf('#'))
 var xx2 =   xx1.split('#');
 console.log(xx2[xx2.length - 1]);
+
+
+

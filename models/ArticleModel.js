@@ -8,10 +8,9 @@ var DB = require('./schemas/index'),
     Async = require('async'),
     crypto = require('crypto');
 
-function makeGravatarURL(email){
+function makeGravatarURL(email) {
     return 'http://www.gravatar.com/avatar/' + crypto.createHash('md5').update(email).digest('hex');
 }
-
 
 
 function getDeleteList(params, done) {
@@ -36,7 +35,7 @@ function getList(params, done) {
     queryParams.where = {};
     queryParams.where.status = 1;
 
-    if(params.user_id){
+    if (params.user_id) {
         queryParams.where.user_id = params.user_id
     }
 
@@ -54,55 +53,56 @@ function getList(params, done) {
  * @param done
  */
 function getArticle(params, done) {
-    var limit =  params.limit ? params.limit : 50;
-    var offset =  (params.page - 1) * limit;
+    var limit = params.limit ? params.limit : 50;
+    var offset = (params.page - 1) * limit;
 
 
     DB.Article.findAndCountAll({
-        include : [{model : DB.User, attributes : ['name', 'created_at', 'email']}],
-        order : 'article.created_at DESC',
-        limit : limit,
-        where : params.where,
-        offset : offset
-    }).success(function (articleList){
-        var page = parseInt(offset / limit) + 1  ;
-        var totalPage =  parseInt(articleList.count / limit) + 1;
-        var rows =  articleList.rows;
-        Async.map(rows, function (item, callback){
-            item.dataValues.user = item.user.dataValues;
-            item.dataValues.user.gravatar = makeGravatarURL(item.user.email);
-            // 检查是否已经推荐过, 暂时这样,后边想一个更好的策略
-            if(params.diggUserId){
-                // 判断文章是否是当前用户
-                if(item.dataValues.user_id === params.diggUserId){
-                    item.dataValues.isOwner = true;
+        include: [
+            {model: DB.User, attributes: ['name', 'created_at', 'email']}
+        ],
+        order: 'article.created_at DESC',
+        limit: limit,
+        where: params.where,
+        offset: offset
+    }).success(function (articleList) {
+            var page = parseInt(offset / limit) + 1;
+            var totalPage = parseInt(articleList.count / limit) + 1;
+            var rows = articleList.rows;
+            Async.map(rows, function (item, callback) {
+                item.dataValues.user = item.user.dataValues;
+                item.dataValues.user.gravatar = makeGravatarURL(item.user.email);
+                // 检查是否已经推荐过, 暂时这样,后边想一个更好的策略
+                if (params.diggUserId) {
+                    // 判断文章是否是当前用户
+                    if (item.dataValues.user_id === params.diggUserId) {
+                        item.dataValues.isOwner = true;
+                    }
+
+                    DB.UserDigg.count({
+                        where: {article_id: item.id, user_id: params.diggUserId}
+                    }).success(function (c) {
+                            item.dataValues.isDigg = c;
+                            callback(null, item.dataValues)
+                        })
+                        .error(callback)
+                } else {
+                    callback(null, item.dataValues)
                 }
 
-                DB.UserDigg.count({
-                    where : {article_id : item.id, user_id: params.diggUserId}
-                }).success(function (c){
-                        item.dataValues.isDigg = c;
-                        callback(null,  item.dataValues)
-                    })
-                    .error(callback)
-            } else {
-                callback(null,  item.dataValues)
-            }
 
+            }, function (err, result) {
+                if (err) {
+                    return done(err)
+                }
 
+                done(null, {
+                    pageInfo: {page: page ? page : 1,
+                        totalPage: totalPage},
+                    list: result
+                });
 
-            }, function (err, result){
-            if(err) {
-                return done(err)
-            }
-
-            done(null, {
-                pageInfo : {page : page ? page : 1,
-                totalPage : totalPage},
-                list : result
-            });
-
-        })
+            })
         })
         .error(done);
 }
@@ -115,38 +115,40 @@ function getArticle(params, done) {
 //    console.log(result)
 //})
 
-function getById (params, done) {
+function getById(params, done) {
 
-  DB.Article.find(
-      {where : {id : params.id},
-     include: [{model: DB.User, attributes: ['name', 'email']}]
-  }).success(function (article){
-          article.dataValues.user = article.user.dataValues;
-          article.dataValues.user.gravatar = makeGravatarURL(article.user.email);
+    DB.Article.find(
+        {where: {id: params.id},
+            include: [
+                {model: DB.User, attributes: ['name', 'email']}
+            ]
+        }).success(function (article) {
+            article.dataValues.user = article.user.dataValues;
+            article.dataValues.user.gravatar = makeGravatarURL(article.user.email);
 
-          if(!params.isEdit){
-              article.dataValues.content = article.content;
-          }
+            if (!params.isEdit) {
+                article.dataValues.content = article.content;
+            }
 
-          if(params.diggUserId){
-              // 判断文章是否是当前用户
-              if(article.dataValues.user_id === params.diggUserId){
-                  article.dataValues.isOwner = true;
-              }
+            if (params.diggUserId) {
+                // 判断文章是否是当前用户
+                if (article.dataValues.user_id === params.diggUserId) {
+                    article.dataValues.isOwner = true;
+                }
 
-              DB.UserDigg.count({
-                  where : {article_id : article.id, user_id: params.diggUserId}
-              }).success(function (c){
-                      article.dataValues.isDigg = c;
-                      done(null,  article.dataValues)
-                  })
-                  .error(done)
-          } else {
-              done(null,  article.dataValues);
-          }
+                DB.UserDigg.count({
+                    where: {article_id: article.id, user_id: params.diggUserId}
+                }).success(function (c) {
+                        article.dataValues.isDigg = c;
+                        done(null, article.dataValues)
+                    })
+                    .error(done)
+            } else {
+                done(null, article.dataValues);
+            }
 
-      })
-      .error(done);
+        })
+        .error(done);
 }
 
 function getCommentsByArticle(params, done) {
@@ -165,7 +167,7 @@ function getByKeyWords(params, done) {
 
     var queryParams = {}
 
-    queryParams.where = ["title like ? OR content like ?", '%'+ params.kw + '%','%'+ params.kw + '%']
+    queryParams.where = ["title like ? OR content like ?", '%' + params.kw + '%', '%' + params.kw + '%']
 
     queryParams.page = params.page;
     queryParams.limit = params.limit;
@@ -188,21 +190,21 @@ function getByKeyWords(params, done) {
 function updateDiggCount(params, done) {
 
     DB.Article.find({
-        where: {id :params.digg.article_id },
-        attributes:['digg_count', 'id']
-    }).success(function (artcile){
-            if(params.increment){
-                artcile.increment('digg_count', {by : 1})
-                    .success(function (inArticle){
+        where: {id: params.digg.article_id },
+        attributes: ['digg_count', 'id']
+    }).success(function (artcile) {
+            if (params.increment) {
+                artcile.increment('digg_count', {by: 1})
+                    .success(function (inArticle) {
                         inArticle.digg_count = inArticle.digg_count + 1;
                         done(null, inArticle.dataValues)
                     })
                     .error(done)
-            }else{
+            } else {
                 params.digg.destroy()
-                    .success(function (){
-                        artcile.decrement('digg_count', {by : 1})
-                            .success(function (deArticle){
+                    .success(function () {
+                        artcile.decrement('digg_count', {by: 1})
+                            .success(function (deArticle) {
                                 deArticle.digg_count = deArticle.digg_count - 1;
                                 done(null, deArticle.dataValues)
                             })
@@ -215,6 +217,40 @@ function updateDiggCount(params, done) {
 
 }
 
+
+function updateDiggCountPromise(params, done) {
+
+    DB.Article.find({
+        where: {id: params.digg.article_id },
+        attributes: ['digg_count', 'id']
+    }).then(function (artcile) {
+
+            if (params.increment) {
+                return artcile.increment('digg_count', {by: 1})
+                    .then(function (inArtcile) {
+                        return inArtcile;
+                    });
+            } else {
+                return params
+                    .digg
+                    .destroy()
+                    .then(function () {
+                        return artcile.decrement('digg_count', {by: 1})
+                            .then(function (deArticle) {
+                                return deArticle;
+                            })
+                    })
+
+            }
+
+        })
+        .then(function (currentArtiscle) {
+            done(null, currentArtiscle.dataValues);
+        })
+        .catch(done);
+
+}
+
 /**
  *
  * @param params id, user_id
@@ -223,19 +259,19 @@ function updateDiggCount(params, done) {
 function delArticle(params, done) {
 
     DB.Article.find({
-        where : {id : params.id, user_id: params.user_id}
-    }).success(function (article){
+        where: {id: params.id, user_id: params.user_id}
+    }).success(function (article) {
 
-            if(article){
+            if (article) {
                 // 标为 -1 删除文章
                 article.updateAttributes({
-                    status : -1
+                    status: -1
                 }, ['modified_at', 'status']).done(done)
             } else {
                 done('没有该文章');
             }
         })
-      .error(done)
+        .error(done)
 
 }
 
@@ -246,48 +282,92 @@ function delArticle(params, done) {
  * @param done
  */
 function putArticle(params, done) {
-    DB.Article.find({
-        include : [{model: DB.User, attributes: ['name', 'email']}],
-        where : {id : params.id, user_id: params.user_id}
-    }).success(function (article){
 
-            if(article){
-                // 改内容 和 title
-                var updateParams = {};
-
-                if(params.content){
-                    updateParams.content = params.content;
-                }
-
-                if(params.title){
-                    updateParams.title =   params.title;
-                }
-
-                if(params.link){
-                    updateParams.link = params.link;
-                }
-
-                var updateAttr = [];
-                // 遍历需要更新的字段
-                Object.keys(updateParams).forEach(function (item){
-                    debug(item);
-                    updateAttr.push(item);
-                })
-
-                debug(JSON.stringify(updateAttr));
-
-                article
-                    .updateAttributes(updateParams, ['modified_at'].concat(updateAttr))
-                    .success(function (data){
-                        data.dataValues.isOwner = true;
-                        done(null, data);
-                    })
-                    .error(done)
-            } else {
-                done('没有该文章');
+    DB.Article
+        .find({
+            include: [
+                {model: DB.User, attributes: ['name', 'email']}
+            ],
+            where: {id: params.id, user_id: params.user_id}})
+        .then(function (article) {
+            if (!article) {
+                throw new Error('没有文章 id ' + params.id)
             }
+
+            // 改内容 和 title
+            var updateParams = {};
+
+            if (params.content) {
+                updateParams.content = params.content;
+            }
+
+            if (params.title) {
+                updateParams.title = params.title;
+            }
+
+            if (params.link) {
+                updateParams.link = params.link;
+            }
+
+            var updateArray = Object.keys(updateParams);
+
+            if (updateArray.length > 0) {
+                return article
+                    .updateAttributes(updateParams, ['modified_at'].concat(updateArray));
+            } else {
+                throw new Error('文章 id ' + params.id + '不需要更新');
+            }
+
+
         })
-        .error(done)
+        .then(function (article){
+            article.dataValues.isOwner = true;
+            done(null, article.dataValues);;
+        })
+        .catch(done);
+
+
+//    DB.Article.find({
+//        include : [{model: DB.User, attributes: ['name', 'email']}],
+//        where : {id : params.id, user_id: params.user_id}
+//    }).success(function (article){
+//
+//            if(article){
+//                // 改内容 和 title
+//                var updateParams = {};
+//
+//                if(params.content){
+//                    updateParams.content = params.content;
+//                }
+//
+//                if(params.title){
+//                    updateParams.title =   params.title;
+//                }
+//
+//                if(params.link){
+//                    updateParams.link = params.link;
+//                }
+//
+//                var updateArray = Object.keys(updateParams);
+//
+//                if(updateArray.length >0 ){
+//                    article
+//                        .updateAttributes(updateParams, ['modified_at'].concat(   ))
+//                        .success(function (data){
+//                            data.dataValues.isOwner = true;
+//                            done(null, data);
+//                        })
+//                        .error(done)
+//                }else{
+//                    done('不需要更新');
+//                }
+//
+//
+//            } else {
+//                done('没有该文章');
+//            }
+//        })
+//        .error(done)
 }
 
 
@@ -309,7 +389,7 @@ exports.getCommentsByArticle = getCommentsByArticle;
 exports.getArticle = getArticle;
 exports.getByKeyWords = getByKeyWords;
 exports.delArticle = delArticle;
-exports.putArticle= putArticle;
+exports.putArticle = putArticle;
 
 
 //getCommentsByArticle({id : 2}, function (err, result){
