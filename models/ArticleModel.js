@@ -288,6 +288,7 @@ function putArticle(params, done) {
             include: [
                 {model: DB.User, attributes: ['name', 'email']}
             ],
+            attributes : ['content' , 'title', 'link', 'id'],
             where: {id: params.id, user_id: params.user_id}})
         .then(function (article) {
             if (!article) {
@@ -296,24 +297,22 @@ function putArticle(params, done) {
 
             // 改内容 和 title
             var updateParams = {};
+            //省事第一....
+            Object.keys(article.dataValues).forEach(function (item){
+                if(item === 'id' || item === 'user'){
+                    return;
+                }
+                if(params[item] && article.dataValues[item] !== params[item]){
+                    updateParams[item] = params[item];
+                }
+            })
 
-            if (params.content) {
-                updateParams.content = params.content;
-            }
-
-            if (params.title) {
-                updateParams.title = params.title;
-            }
-
-            if (params.link) {
-                updateParams.link = params.link;
-            }
 
             var updateArray = Object.keys(updateParams);
 
             if (updateArray.length > 0) {
                 return article
-                    .updateAttributes(updateParams, ['modified_at'].concat(updateArray));
+                    .updateAttributes(updateParams, updateArray);
             } else {
                 throw new Error('文章 id ' + params.id + '不需要更新');
             }
@@ -326,61 +325,19 @@ function putArticle(params, done) {
         })
         .catch(done);
 
-
-//    DB.Article.find({
-//        include : [{model: DB.User, attributes: ['name', 'email']}],
-//        where : {id : params.id, user_id: params.user_id}
-//    }).success(function (article){
-//
-//            if(article){
-//                // 改内容 和 title
-//                var updateParams = {};
-//
-//                if(params.content){
-//                    updateParams.content = params.content;
-//                }
-//
-//                if(params.title){
-//                    updateParams.title =   params.title;
-//                }
-//
-//                if(params.link){
-//                    updateParams.link = params.link;
-//                }
-//
-//                var updateArray = Object.keys(updateParams);
-//
-//                if(updateArray.length >0 ){
-//                    article
-//                        .updateAttributes(updateParams, ['modified_at'].concat(   ))
-//                        .success(function (data){
-//                            data.dataValues.isOwner = true;
-//                            done(null, data);
-//                        })
-//                        .error(done)
-//                }else{
-//                    done('不需要更新');
-//                }
-//
-//
-//            } else {
-//                done('没有该文章');
-//            }
-//        })
-//        .error(done)
 }
 
 
-//putArticle({
-//    id : 2,
-//    user_id : 1,
-//    content : 'put hello world' ,
-//    title : 'put title' ,
-//    link : 'put link'
-//}, function (err, reuslt){
-//    console.log(err)
-//    console.log(reuslt.dataValues)
-//})
+putArticle({
+    id : 2,
+    user_id : 1,
+    content : 'put hello wcorld' ,
+    title : 'put title' ,
+    link : 'put link'
+}, function (err, reuslt){
+    console.log(err)
+    console.log(JSON.stringify(reuslt))
+})
 
 exports.updateDiggCount = updateDiggCount;
 exports.getById = getById;
